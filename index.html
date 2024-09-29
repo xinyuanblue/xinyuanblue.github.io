@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="数据新闻, 新闻传播, 就业, 招聘数据, 新传专业" />
+    <meta name="description" content="“新闻传播是天坑”？769640条招聘数据告诉你是否真的如此" />
+    <title>“新闻传播是天坑”？769640条招聘数据告诉你是否真的如此</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/logo.svg">
+<!--    如有logo-->
+    <script src="js/always.js"></script>
+    <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
+    <script src="js/scrollama.min.js"></script>
+</head>
+<body>
+    <div id="loading">
+        <div id="loading-logo">
+            <img src="img/logo.svg" alt="">
+        </div>
+        <img src="img/logo.svg" alt="">
+        <div id="progress-track">
+            <div id="progress-bar"></div>
+        </div>
+        <p>0%</p>
+    </div>
+    <div class="header">
+<!--        导航栏-->
+<!--        <div class="nav">-->
+<!--            <a href="#cover">-->
+<!--                <img src="img/logo.svg" alt="">-->
+<!--            </a>-->
+<!--            <a href="#anchor0" id="nav1">-->
+<!--                <p>舆情之问</p>-->
+<!--            </a>-->
+<!--            <a href="#anchor1" id="nav2">-->
+<!--                <p>岗位需求</p>-->
+<!--            </a>-->
+<!--            <a href="#anchor2" id="nav3">-->
+<!--                <p>专业需求</p>-->
+<!--            </a>-->
+<!--            <a href="#anchor3" id="nav4">-->
+<!--                <p>技能需求</p>-->
+<!--            </a>-->
+<!--            <a href="#anchor4" id="nav5">-->
+<!--                <p>实践需求</p>-->
+<!--            </a>-->
+<!--            <a href="#anchor5" id="nav6">-->
+<!--                <p>是否值得</p>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        标题-->
+        <div class="banner">
+<!--            <img src="img/cover.gif" id="cover">-->
+            <img src="img/cover.png" id="cover" alt="封面">
+<!--            <div id="headline">-->
+<!--                <h1>“新闻传播是天坑”？</h1>-->
+<!--                <h1>769640条招聘数据告诉你是否真的如此</h1>-->
+<!--                <img src="img/headline.png" alt="">-->
+<!--            </div>-->
+        </div>
+    </div>
+    <div class="container">
+        <div class="anchor" id="anchor0"></div>
+        <div class="parts">
+            <div class="twi-column twi-column28">
+                <div><img src="img/zxf.png" alt=""></div>
+                <p class="text-part drop-cap">近期张雪峰在为一位刚高考完的学生提供专业填报建议时这样说：
+                    <span class="citing">“不得不承认，学新闻传播的学生中有80%是没有从事本行业的，新闻传播在曾经是很好的专业，现在每个人都是自媒体。”</span>
+                    以上观点一出，便有部分新闻传播学业界人士提出反对并抨击。</p>
+            </div>
+            <p class="text-part">有人认为“未来的社会对传播人才的需求会一直旺盛”“虽然很多做自媒体的人并不是新闻传播专业，但这并不影响未来想做自媒体的同学，选择在本科学习新闻传播”……双方的观点在网络进一步发酵，引起了各类人士的大量讨论。</p>
+            <p class="text-part">
+                <span class="highlight">
+                    而在这些讨论声的背后，当前新闻传播就业的真实情况究竟是怎样的？为什么会有人认为新闻传播专业是天坑？新闻传播专业在当下还值不值得学习？这些问题值得更加深刻的思考和探索……
+                </span>
+            </p>
+            <p class="text-part">基于这些问题，我们从就业市场中与新闻传播类相关的近百万则全样本招聘广告中提取了
+                <span class="data">769640</span>
+                条有效数据，利用数据挖掘技术和统计分析方法，并结合对多位新闻传播学业界人士的深度访谈进行分析，以期从客观数据和主观人物故事中揭开新闻传播专业本科生就业现状的面纱。</p>
+        </div>
+    </div>
+        <script>
+            document.getElementById('progress-bar').style.width = '20%';
+            document.querySelector('#loading>p').innerHTML = '20%';
+        </script>
+    <div class="anchor" id="anchor1"></div>
+    <div class="banner-gif">
+        <img src="img/banner%201after.png" alt="">
+    </div>
+    <div class="container">
+        <div class="parts">
+<!--            <img src="img/subtitle1.png" alt="">-->
+<!--            <h2 class="subtitle">Part1学新闻传播专业，就是当记者？</h2>-->
+            <p class="text-part drop-cap">
+                作为一名本硕 7 年新闻传播专业的学子，面对互联网上普遍不看好新闻与传播就业前景的热潮，小红书网友
+                <span class="user-name">@喵一棵大树</span>
+                提出了自己的思考：<span class="citing">「</span><span class="citing-content">很多人说新传就业难，但任何脱离社会背景、学历背景、实践经验下的结论，都是不准确的。</span><span class="citing">」</span>
+
+                <span class="user-name">@喵一棵大树</span>
+                也分享了自己身边同学的毕业去向，除了考公考编，就职电视台、融媒体中心、报社等传统媒体以外，更多同学毕业后选择了互联网行业和广告行业，还有人毕业后选择了创业。</p>
+            <p class="text-part">随着传播技术的突飞猛进，各种新媒体层出不穷，颠覆了人们生存、生活、生产的传统环境，闻风而动的市场自然也就对新闻传播学子提供了不同以往的职业可能。互联网的飞速发展使其成为了人们获取信息的主要来源，“酒香不怕巷子深”的时代已经悄然过去。
+                <span class="highlight">
+                在新闻传播类专业的本科毕业生就业市场中，除了专业对口的传媒行业以外，各行各业均需要新闻传播专业的人才，尤其是一些市场活跃度较高的行业更需要新闻传播人才的加入，以帮助其进行传播。
+                </span>
+            </p>
+            <p class="text-part">
+                通过对新闻传播就业市场的总体行业分布进行频数统计和频率分析，我们发现以下事实。
+            </p>
+            <p class="text-part">
+                从行业角度看，以
+                <span class="data">文字媒体/出版 </span>为代表的传统行业的用人需求仅占市场总需求的
+                <span class="data">1.42%</span>且排名在第
+                <span class="data">19</span>
+                位，<span class="highlight">传统媒体在互联网和新媒体的冲击下逐渐式微，其招聘人数在整个行业中相对较少。</span>
+            </p>
+            <p class="text-part">
+                同时，从下图可以看出，<span class="highlight">在用人需求排名前10位的行业中，与新闻传播密切相关的行业仅包含排名第 2 的影视/媒体/艺术/文化传播，以及排名第 4 的广告，其余的均为对国民经济贡献较高的行业。</span>
+                一方面是由于这些“头部”非传媒行业的<span class="data">企业规模较大</span>，用人需求量大，另一方面是因为这些行业的<span class="data">人员流动性较大</span>，招聘频率也较高。
+            </p>
+            <div class="twi-column twi-column28">
+                <div>
+                    <p class="text-part">
+                        从岗位角度看，<span class="highlight">与行业分布不同的是，与新闻传播专业对口的职能岗位需要大量的本专业毕业生</span>，市场占比排名前
+                        <span class="data">10</span>
+                        的职能岗位中，有
+                        <span class="data">7</span>
+                        个与新闻传播专业非常对口，累计市场占比约为
+                        <span class="data">55%</span>。
+                    </p>
+                    <p class="text-part">而与行业分布相似的是，<span class="highlight">在就业市场中，绝大部分的新闻传播人才需求集中在职能岗位数量占比的“头部区域”</span>，在全部的
+                        <span class="data">72</span>
+                        种职能岗位中，排名前
+                        <span class="data">15</span>
+                        的职能岗位数量占比接近市场总需求的
+                        <span class="data">80%</span>。
+                    </p>
+                </div>
+                <div>
+                    <img src="img/butterfly.png" alt="新闻传播类专业就业市场中的行业（左）和岗位（右）分布" class="image">
+                </div>
+            </div>
+            <p class="text-part">
+                另外，<span class="highlight">除了与新闻传播专业非常对口的职能岗位外，新闻传播人才的需求还存在于大量非对口专业的职能岗位中</span>，例如：销售人员（ 7.69% ）、行政/后勤（3.59%）、休闲娱乐（2.41%）、人力资源（2.24%）、教师（2.16%）、销售管理（2.02%）等岗位。
+            </p>
+            <p class="text-part">
+                <span class="highlight">在互联网和新媒体的冲击下，传统媒体不可避免地走向没落，在这样的社会背景下，新闻传播学子选择其他热门行业也是应时之举。在从新闻传播到公共传播的趋势下，多元化的就业市场也欢迎新闻传播学子在其他行业中发光发热。</span>
+            </p>
+
+            <p class="text-part">
+                新闻传播科班出身但正在某快消品行业打工的 mkt（市场营销）职场人
+                <span class="user-name">@爱吃甜食的修狗</span>
+                这样评价自己的就职体验：<span class="citing">「</span><span class="citing-content">从专业和实践角度来讲，新闻传播人是非常适合做 marketing（市场营销）的。</span><span class="citing">」</span>
+            </p>
+            <p class="text-part">在讲到自己在快消品公司品牌营销岗的工作经验时，她认为在这个岗位所需的大部分技能都是本科新闻与传播类毕业生已经学习过的：<span class="citing">「</span><span class="citing-content">作为一个 mkter（市场营销岗位工作者），无论是做品牌还是产品，都绕不开一些新 tvc（电视广告） 和 kv （主视觉设计）的拍摄。对于身经百战做作业的新闻传播人，更知道怎么把握节奏和配乐以及画面镜头转换。</span><span class="citing">」</span>另外她还提到，<span class="citing">「</span><span class="citing-content">本科学习期间少不了的是各种文章的撰写和论文，以及很多同学都有做文案和编辑的实习经历，这是很有竞争力的。</span><span class="citing">」</span>
+                <span class="user-name">@爱吃甜食的修狗</span>
+                很看好新闻传播专业的本科生进入快消品行业就业的竞争力，对于自己目前跨行工作的前景也充满自信，这或许也是她当初选择快消品行业的底气和勇气来源。
+            </p>
+            <p class="text-part">
+                如此，<span class="highlight">“学新闻传播的学生中有80%是没有从事本行业的”这句话，不仅不意味着新闻传播就业市场的式微，反倒说明了新媒体的发展拓宽了新闻传播类学子的职业边界。</span>
+            </p>
+        </div>
+    </div>
+        <div class="anchor" id="anchor2"></div>
+        <div class="banner-gif">
+            <img src="img/banner%202after.png" alt="">
+        </div>
+        <script>
+            document.getElementById('progress-bar').style.width = '40%';
+            document.querySelector('#loading>p').innerHTML = '40%';
+        </script>
+    <div class="container">
+        <div class="parts">
+<!--            <h2 class="subtitle">Part2新闻传播就业，还需要和其他专业的人“卷”起来</h2>-->
+            <p class="text-part drop-cap">拥有十年以上新媒体从业经历的王女士这样说道：<span class="citing">「</span><span class="citing-content">我的专业并不是新闻传播类专业，据我所知，我的很多同事也都不是新闻专业毕业。</span><span class="citing">」</span>十年间，她先后在楚天都市报、荆楚网任职，从“刚来的时候不太清楚新闻怎么写”逐渐历练到到如今的脚力、眼力、脑力、笔力俱佳。
+            </p>
+            <p class="text-part">在聊到新闻传播岗位招聘时，她表示<span class="highlight">很多媒体招聘人才时并没有要求应聘者一定是新闻专业的学生</span>，特别是有一些专业性比较强的媒体，比如财经类媒体和面向普通市民的媒体的财经板块，这些媒体往往愿意招收经济专业的人才……
+                <span class="highlight">在专业性较强的领域，对口专业的毕业生同样可以胜任这些岗位。</span>
+            </p>
+            <p class="text-part">能够胜任新闻传播岗位的往往不只有科班出身的人才，其他专业的人也可以利用自己的专业优势对接新闻传播相应内容类型的岗位，王女士所说的这种情况在新闻传播行业一直存在。</p>
+            <p class="text-part">
+                <span class="highlight">传统媒体时期新闻内容涉及社会各个领域，工作中往往需要“新闻+”的知识储备， 即除了新闻传播方面的专业技能之外，还应有所在领域的相关知识。随着互联网的发展和融媒体时代到来，不仅其他行业需要传播，新闻传播本行业也发生了技术的革新和形式的丰富。这进一步促进了这种人才需求趋势的进一步发展</span>：新闻传播岗位需要的人才所涉及的专业从<span class="data">中文、英语、财经、体育</span>，进一步扩展到对<span class="data">理工科人才尤其是计算机类人才</span>的需求。
+            </p>
+        </div>
+    </div>
+
+    <section id="scrollo" class="scroll">
+        <figure id="co-occurrence">
+            <img src="img/co-occurrence1.png" alt="" class="fake">
+            <img src="img/co-occurrence2.png" alt="" class="fake">
+            <img src="img/co-occurrence3.png" alt="" class="fake">
+        </figure>
+
+        <article>
+            <div class="step" data-step="1">
+                <p class="text-part">数据显示，<span class="highlight">从专业类别上看</span>，新闻传播类专业的就业市场共现文学、艺术学、管理学等 12 个大类专业， 61 个细分专业的本科毕业生提供工作岗位。<span class="highlight">当今就业市场对人才的需求，不再只是专注于某一个特定专业。</span>同一个工作岗位不仅需要<span class="highlight">对口专业</span>，还可能需要<span class="highlight">相近专业</span>，如<span class="data">汉语言文学、影视、设计</span>等，甚至还需要<span class="highlight">跨度较大的专业</span>，如<span class="data">计算机、统计学</span>等。</p>
+            </div>
+            <div class="step" data-step="2">
+                <p class="text-part"><span class="highlight">从专业数量上看</span>，除了研究对象新闻传播类专业外，<span class="highlight">人才需求量最大的专业</span>是同为文学大类的中<span class="data">语言文学专业</span>，其次为工学的<span class="data">计算机专业</span>、经济学的<span class="data">经济学专业</span>、管理学的<span class="data">电子商务专业</span>、艺术学的<span class="data">设计学专业和戏剧与影视学专业等</span>。对应到<span class="highlight">大类专业</span>，岗位需求中提及最多的大类专业是<span class="data">文学</span>(汉语、英语等)、<span class="data">管理学</span>(电商、旅游、物流等)和<span class="data">艺术学</span>(影视、设计、美术、音乐等)等。</p>
+            </div>
+            <div class="step" data-step="3">
+                <p class="text-part"><span class="highlight">从专业关系上看</span>，新闻学、传播学、广告学、编辑出版学、网络与新媒体均与语言文学距离较近，意味着<span class="highlight">绝大部分新闻传播类的就业岗位同样适合于语言文学专业的毕业生</span>，而这一点在业界早已是公认的普遍现象。而新闻传播专业中的<span class="highlight">广播电视学则与编导、动画、摄影、视觉传达等艺术学专业密切相关</span>。此外，<span class="data">摄影、经济学类、心理学类、体育学类专业</span>在就业市场中与<span class="highlight">新闻传播专业</span>的关联度较大，<span class="data">计算机专业</span>则与<span class="highlight">传播学</span>在就业市场中的关联度较大。</p>
+            </div>
+        </article>
+    </section>
+    <script>
+        // using d3 for convenience
+        var main = d3.select("body");
+        var scrollo = d3.select("#scrollo");
+        var figure = scrollo.select("figure");
+        var article = scrollo.select("article");
+        var step = article.selectAll(".step");
+
+        // initialize the scrollama
+        var scroller = scrollama();
+
+        // generic window resize listener event
+        function handleResize() {
+            // 1. update height of step elements
+
+            var figureHeight = 0.5625*window.innerWidth;
+            var figureMarginTop = -figureHeight/15;
+            step.style("height", figureHeight + "px");
+
+            figure
+                .style("height", figureHeight + "px")
+                .style("top", figureMarginTop + "px");
+
+            // 3. tell scrollama to update new element dimensions
+            scroller.resize();
+        }
+
+        // scrollama event handlers
+        function handleStepEnter(response) {
+            // response = { element, direction, index }
+
+            // add color to current step only
+            step.classed("is-active", function (d, i) {
+                return i === response.index;
+            });
+
+            // update graphic based on step
+            document.getElementById('co-occurrence').style.backgroundImage = `url('img/co-occurrence${response.index + 1}.png')`;
+        }
+
+        function init() {
+
+            // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+            handleResize();
+
+            // 2. setup the scroller passing options
+            // 		this will also initialize trigger observations
+            // 3. bind scrollama event handlers (this can be chained like below)
+            scroller
+                .setup({
+                    step: "#scrollo article .step",
+                    offset: 0.9,
+                    debug: false
+                })
+                .onStepEnter(handleStepEnter);
+        }
+
+        // kick things off
+        init();
+    </script>
+
+    <div class="container">
+        <div class="parts">
+            <p class="text-part">所以，在争取新闻传播的岗位时，科班出身的人才不仅需要和同专业的同学竞争，还要和其他专业的人才一起挤在新闻传播就业的这座独木桥上。
+                <span class="highlight">
+                    除此之外，这种激烈的岗位竞争也存在于新闻与传播类专业内部的下级专业之间。新闻传播类专业内部，各专业之间的就业方向存在界限不明显的情况。
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <section id="scrolld" class="scroll">
+        <figure id="demand">
+            <img src="img/demand1.png" alt="" class="fake">
+            <img src="img/demand2.png" alt="" class="fake">
+            <img src="img/demand3.png" alt="" class="fake">
+            <img src="img/demand4.png" alt="" class="fake">
+<!--            <div style="background-image: url('img/demand1.png')" class="fake"></div>-->
+<!--            <div style="background-image: url('img/demand2.png')" class="fake"></div>-->
+<!--            <div style="background-image: url('img/demand3.png')" class="fake"></div>-->
+<!--            <div style="background-image: url('img/demand4.png')" class="fake"></div>-->
+        </figure>
+
+        <article>
+            <div class="step" data-step="1">
+            </div>
+            <div class="step" data-step="2">
+                <p class="text-part">从图中可以看出，新闻传播类的十个专业中，<span class="highlight">就业方向与其他专业区分度较大的</span>仅有<span class="data">编辑出版学、网络与新媒体和播音主持与艺术</span>三个专业，它们分别在<span class="data">编辑出版（46.07%）、运营（24.06%）和其他（35.43%）</span>岗位占比较高。其中编辑出版和运营岗位都是和相应专业联系紧密的岗位。</p>
+            </div>
+            <div class="step" data-step="3">
+                <p class="text-part"><span class="data">而新闻学、传播学、广告学</span>三个专业，它们的<span class="highlight">就业范围相对来讲更加广泛</span>，在市场、广告、编辑出版、运营、影视/媒体、公关/媒介等岗位占比都不低，但相应地，专业的就业去向均<span class="highlight">没有很强的针对性</span>，且专业之间的<span class="highlight">就业区分度低</span>。</p>
+            </div>
+            <div class="step" data-step="4">
+                <p class="text-part">另外，<span class="data">广播电视学、广播电视编导、动画、摄影</span>四个专业也存在<span class="highlight">就业区分度十分相似</span>的情况。四个专业的主要去向均集中在<span class="data">影视/媒体</span>岗位，竞争激烈。</p>
+            </div>
+        </article>
+    </section>
+    <script>
+        // using d3 for convenience
+        var main = d3.select("body");
+        var scrolld = d3.select("#scrolld");
+        var figure = scrolld.select("figure");
+        var article = scrolld.select("article");
+        var step = article.selectAll(".step");
+
+        // initialize the scrollama
+        var scroller = scrollama();
+
+        // generic window resize listener event
+        function handleResize() {
+            // 1. update height of step elements
+
+            var figureHeight = 0.33*window.innerWidth;
+            var figureMarginTop = (window.innerHeight - figureHeight)/2;
+            step.style("height", figureHeight + "px");
+
+            figure
+                .style("height", figureHeight + "px")
+                .style("top", figureMarginTop + "px");
+
+            // 3. tell scrollama to update new element dimensions
+            scroller.resize();
+        }
+
+        // scrollama event handlers
+        function handleStepEnter(response) {
+            // response = { element, direction, index }
+
+            // add color to current step only
+            step.classed("is-active", function (d, i) {
+                return i === response.index;
+            });
+
+            // update graphic based on step
+            document.getElementById('demand').style.backgroundImage = `url('img/demand${response.index + 1}.png')`;
+        }
+
+        function init() {
+
+            // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+            handleResize();
+
+            // 2. setup the scroller passing options
+            // 		this will also initialize trigger observations
+            // 3. bind scrollama event handlers (this can be chained like below)
+            scroller
+                .setup({
+                    step: "#scrolld article .step",
+                    offset: 0.9,
+                    debug: false
+                })
+                .onStepEnter(handleStepEnter);
+        }
+
+        // kick things off
+        init();
+    </script>
+
+    <div class="container">
+        <div class="parts">
+            <p class="text-part"><span class="highlight">可见，尽管传播学、新闻学、广告学这些新闻传播类专业之间的学术渊源不同，人才培养的目标和方式也不尽相同，但从就业的角度来看，这种差异就变得模糊起来。这背后体现了新闻传播教育并没有很好地根据市场的岗位需求进行人才的针对性培养。</span>
+                不过，新闻传播行业是讲究实践的，新闻传播类院校的培养方式如果针对市场划分过细、在某个领域钻研过深，会忽略其他方面，更适合学术而非市场，
+                <span class="highlight">
+                    这仿佛形成了一种悖论：
+                </span>
+            </p>
+            <p class="text-part parallelism">播音、动画、摄影专业的学生<span class="data">是否</span>就不需要学习新闻稿件写作？
+            </p>
+            <p class="text-part parallelism">新闻学专业的学生<span class="data">是否</span>就不需要学习摄影？
+            </p>
+            <p class="text-part parallelism">本科教育<span class="data">如何</span>更好地<span class="data">平衡</span>通识和专业教育？
+            </p>
+            <p class="text-part parallelism">人才的教育和培养<span class="data">是否应当完全</span>为市场的需求服务？
+            </p>
+            <p class="text-part parallelism">这些都有待进一步思考。
+            </p>
+        </div>
+    </div>
+        <div class="anchor" id="anchor3"></div>
+        <div class="banner-gif">
+            <img src="img/banner%203after.png" alt="">
+        </div>
+        <script>
+            document.getElementById('progress-bar').style.width = '60%';
+            document.querySelector('#loading>p').innerHTML = '60%';
+        </script>
+    <div class="container">
+        <div class="parts">
+<!--            <h2 class="subtitle">Part 3 不能只会码字，新闻传播就业越来越需要六边形战士</h2>-->
+            <p class="text-part">
+                <span class="highlight">这么看来，什么专业都可以来新闻传播就业，是就业的门槛变低了吗？</span></p>
+            <p class="text-part drop-cap spot">「虽<span class="citing-content">然新闻传播专业的学生不求各方面精通，但是各方面要都大致接触过。</span><span class="citing">」</span>童先生在传媒领域从业近二十年，他认为，触类旁通、知识面广，是职场对新闻传播学生的职场期待。作为新闻传播学的人才需求方，就业市场既需要从业者的专业能力，也需要他们具备相当的个人素养。</p>
+            <p class="text-part">在新闻传播行业，“新闻+其他领域”的工作模式一直存在，同时我们通过数据发现，
+                <span class="highlight">
+                    市场现在越来越喜欢六边形战士，对人才的技能要求变得更高，所以“门槛低”往往是并没有真正了解新闻传播就业现状的人的说法。
+                </span>
+            </p>
+            <p class="text-part">
+                <span class="highlight">新闻传播业界需要从业者具备哪些技能？</span></p>
+            <p class="text-part">如下图所示，我们基于Guo和Volz提出的分类体系以及已有的研究文献和海量数据，将新闻传播从业者的技能分为 2 个大类、4 个中类和 31 个小类。</p>
+            <div class="twi-column pieBox">
+                <div id="pieDiv">
+                    <p class="caption" id="notice">▼ 鼠标悬停查看对应技能描述</p>
+                    <div>
+                        <img src="img/pie.png" alt="就业市场中的人才技能结构需求" class="image" id="pie">
+                    </div>
+                </div>
+                <div id="pieText">
+                    <p class="text-part">
+                        <span class="highlight">
+                        在技能大类层级，常规型技能和适应型技能分别体现“硬实力”和“软实力”，从数据上看，两者在人才技能结构中的占比势均力敌。</span>新闻传播类就业市场既强调从业者“硬核”的<span class="data">专业能力</span>，同时也需要他们具备相当的<span class="data">个人素养</span>。
+<!--                        </span>-->
+                    </p>
+                    <p class="text-part">
+                        <!--                        <span class="highlight">-->
+                        在技能中类层级，传统类技能、创新类技能、个体类技能和交互类技能分别占比<span class="data no-stop">13.32%、36.04%、32.68%、17.96%</span> 。
+                    </p>
+                </div>
+            </div>
+<!--     鼠标悬停效果：覆盖一个一样大的图，色块全部设为透明       -->
+            <script>
+                const img=document.getElementById("pie")
+                const width = img.clientWidth
+                const outerR = 0.2875 * width
+                const innerR = 0.1925 * width
+                const svg = d3.select("#pieDiv").append("svg").attr("id", "pieSvg")
+                    .attr('width', width)
+                    .attr("height", width)
+                    .attr("fill", "#000000")
+
+                const arcPath = d3.arc()
+                    .innerRadius(innerR)
+                    .outerRadius(outerR);
+                console.log(arcPath)
+
+                async function drawPie(url) {
+                    const data = await d3.csv(url);
+                    const arcs = d3.pie().sort((a, b) => d3.ascending(parseInt(a.index), parseInt(b.index))).value((d) => parseFloat(d.percentage.split("%")[0])).startAngle(0)(data);
+
+                    svg.selectAll("path")
+                        .data(arcs)
+                        .enter()
+                        .append("path")
+                        .attr("d",function(d){
+                            return arcPath(d); })
+                        .attr("transform", `translate(${width/2}, ${width/2})`)
+                        .attr("fill", "rgba(0,0,0,0)")
+                        // .attr("stroke-width", '0.5px')
+                        // .attr("stroke", "white")
+                        // .attr("opacity", 0)
+                        .on("mouseover", function(d){
+                            d3.selectAll(".ability-decription").remove();
+                            const description = d.data.description;
+                            const index = d.data.index;
+                            let x = 0.1 * width;
+                            let color = "#48597f";
+                            if(index<20){
+                                x = 0.7 * width;
+                                color = "#c04440";
+                            }
+                            const g = svg.append("g")
+                                        .attr("id", `ability-description${index}`)
+                                        .attr("class", "ability-description");
+                            g.append("text")
+                            .text(description)
+                            .attr("text-anchor", "center")
+                            .attr("text-align", "center")
+                            .attr("x", x)
+                            .attr("y", 0.15*width)
+                            .transition()
+                            .duration(500)
+                            .attr("fill", color)
+                            g.append("text")
+                            .text(d.data.percentage)
+                            .attr("x", x)
+                            .attr("y", 0.15*width+20)
+                        })
+                        .on("mouseout", function (d){
+                            d3.select(`#ability-description${d.data.index}`)
+                                .attr("fill", "none")
+                                .remove();
+                        });
+                }
+
+                drawPie("data/tech-abilities.csv");
+            </script>
+            <p class="text-part">
+                <span class="highlight">“硬实力”中的创新类技能在技能结构中的占比是传统类技能的近三倍，</span>
+                不可否认，传媒行业“采、写、编、评”等“传统手艺”固然重要，但技术手段快速更迭，媒介形态日新月异，新闻传播的业态和招聘人才的需求也发生着深刻的变化；
+                <span class="highlight">而在“软实力”中，个体类技能的需求近乎于交互类技能需求的两倍，</span>
+                因此，新闻传播人才除了需要拥有良好的沟通交流能力以外，更需强调自身的知识储备。
+            </p>
+            <p class="text-part">
+                <span class="highlight">
+                创新类技能中的内容策略，个体类技能中的个人素养和交互类技能中的市场营销在人才技能结构中占比明显高于其他技能。
+                </span>
+                我们分别将其所在的招聘语句进行了统计和呈现，将业界的技能期待具体化。
+            </p>
+
+            <div class="twi-column twi-column55 wordcloud-description">
+                <div>
+                    <p class="text-part">如词云所示，最能代表内容策略的合理关键词是<span class="data">“策划”、“宣传”、“内容”</span>等。尽管近年来，不同的媒介形态层出不穷，让人眼花缭乱，但在“内容为王”的年代，真正能够吸引用户，打动用户的依然是优质的内容，因而就业市场更加需要这一类优秀的新闻传播人才。</p>
+                    <img src="img/wordcloud2.png" alt="高需求技能的词云分析" class="image">
+                    <p class="text-part">市场营销则强调个体与市场之间的交互能力，主要包括<span class="data">“市场销售”、“品牌营销”、“客户管理”、“电子商务”</span>等方面。许多用人单位的工作职责中包括<span class="data">“品牌推广”、“营销策划”</span>等内容，而这正是“广告”专业教学的重要组成部分，因此，在其专业诉求中特意强调需要广告专业的求职者。此外，新闻传播类专业的学生普遍具有良好的<span class="data">“文案策划”和“沟通交流”</span>的能力，因而不少对市场营销能力有要求的岗位也会同时招聘“新闻学”、“传播学”等专业的毕业生。</p>
+                </div>
+                <div>
+                    <img src="img/wordcloud1.png" alt="高需求技能的词云分析" class="image">
+                    <p class="text-part">个人素养主要包含求职者的性格和特质，在整个市场的技能结构中占比最高，<span class="data">“思维活跃”、“善于分析”、“执行力强”且富有高度“责任心”和“团队精神”</span>的求职者更受用人单位的青睐。这一类技能往往不与特定的任务属性和应用场景相关联，因而有利于求职者适应不同的就业岗位和工作环境，从长远的眼光看待个体的职业发展，个人素养这一技能应是业界反复提到的且新闻传播学子所缺乏的“后劲”。</p>
+                    <img src="img/wordcloud3.png" alt="高需求技能的词云分析" class="image">
+                </div>
+            </div>
+
+            <p class="text-part">在就业市场中，用人单位对求职者的要求往往是多方面的。在绝大部分的岗位职责描述中，强调熟练或掌握一项技能的同时，也会要求求职者具备其他方面的知识储备或技术能力，这时被提及的技能就组成了一个个技能组合。</p>
+            <p class="text-part">
+                <span class="highlight">
+                    新闻传播就业招聘中最核心的技能是哪些？
+                </span>
+            </p>
+            <p class="text-part">
+                借助“共现矩阵”的概念，我们计算任意两项技能共同出现的概率，探求不同技能之间的紧密程度和处于中心地位的技能。了解这些有助于让我们了解不同技能之间的联系，从而找到能够胜任更多岗位的应聘者最重要的优势点在哪里。</p>
+        </div>
+    </div>
+
+    <section id="scrollm" class="scroll">
+        <figure id="market">
+            <img src="img/market1.png" alt="" class="fake">
+            <img src="img/market2.png" alt="" class="fake">
+            <img src="img/market3.png" alt="" class="fake">
+            <img src="img/market4.png" alt="" class="fake">
+        </figure>
+
+        <article>
+            <div class="step" data-step="1">
+                <p class="text-part">从图中我们可以看出，按照<span class="data">技能点的紧密程度</span>，我们可以将它们分成<span class="data">外、中、内三层</span>。其中，从外到内技能之间的连线也大都变得更粗，这说明<span class="highlight">越靠近中心的技能，其他技能对它的依赖就越强，并且它与其他技能的关系也更紧密，也就更核心</span>。</p>
+            </div>
+            <div class="step" data-step="2">
+                <p class="text-part">从不同的技能类型来看，<span class="data">市场营销、组织技能、学科知识和个人素养</span>这四个适应型技能占据了<span class="data">内层技能的大部分</span>，这与人们平时所认为的“‘硬实力’才是真本事”的观点恰恰相反，<span class="data">想要在新闻传播市场拥有竞争力，拥有较强的“软实力”才是核心。</span></p>
+            </div>
+            <div class="step" data-step="3">
+                <p class="text-part">接着看到<span class="highlight">常规型技能的传统类技能</span>，它们大部分位于<span class="data">中层区域</span>，其中<span class="data">新闻报道、播音播报、编辑排版、新闻敏感、写作能力</span>这 5 个位于中层的技能<span class="highlight">与核心的内层技能具有更紧密的关系</span>。</p>
+            </div>
+            <div class="step" data-step="4">
+                <p class="text-part">而<span class="highlight">常规型技能的创新类技能</span>中，<span class="data">除内容策略位于内层核心位置，其他技能</span>则更多位于<span class="data">外层</span>，对应聘者来说更多地起到<span class="highlight">锦上添花</span>的作用。</p>
+            </div>
+        </article>
+    </section>
+    <script>
+        // using d3 for convenience
+        var main = d3.select("body");
+        var scrollm = d3.select("#scrollm");
+        var figure = scrollm.select("figure");
+        var article = scrollm.select("article");
+        var step = article.selectAll(".step");
+
+        // initialize the scrollama
+        var scroller = scrollama();
+
+        // generic window resize listener event
+        function handleResize() {
+            // 1. update height of step elements
+            var figureHeight = 0.57*window.innerWidth;
+            var figureMarginTop = 0;
+            step.style("height", figureHeight + "px");
+
+            figure
+                .style("height", figureHeight + "px")
+                .style("top", figureMarginTop + "px");
+
+            // 3. tell scrollama to update new element dimensions
+            scroller.resize();
+        }
+
+        // scrollama event handlers
+        function handleStepEnter(response) {
+            // response = { element, direction, index }
+
+            // add color to current step only
+            step.classed("is-active", function (d, i) {
+                return i === response.index;
+            });
+
+            // update graphic based on step
+            document.getElementById('market').style.backgroundImage = `url('img/market${response.index + 1}.png')`;
+        }
+
+        function init() {
+
+            // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+            handleResize();
+
+            // 2. setup the scroller passing options
+            // 		this will also initialize trigger observations
+            // 3. bind scrollama event handlers (this can be chained like below)
+            scroller
+                .setup({
+                    step: "#scrollm article .step",
+                    offset: 0.9,
+                    debug: false
+                })
+                .onStepEnter(handleStepEnter);
+        }
+
+        // kick things off
+        init();
+    </script>
+
+
+
+    <div class="container">
+        <div class="parts">
+            <p class="text-part">
+                <span class="highlight">
+                由此可见，新闻传播的招聘者需要具备以软实力为核心，贯通传统类技能，再将创新类技能为点缀的“复合型”技能结构。
+                </span>
+            </p>
+            <p class="text-part">
+                <span class="highlight">
+                那么大概需要掌握多少技能才可以呢？
+                </span>
+            </p>
+            <p class="text-part">
+                我们按照 招聘类平台前程无忧官方 给出的岗位分类标准整理出不同工作岗位对应的招聘广告，再根据招聘广告中的职位描述分别统计不同工作岗位的技能需求。由于在新闻传播学类的就业市场中，岗位工种的数量高达 <span class="data">72</span> 个，我们选取岗位数量占比排名<span class="data">前 15 </span>的工作岗位作为样本，呈现就业市场中不同工作岗位的技能需求。
+            </p>
+        </div>
+    </div>
+
+    <section id="scrolls" class="scroll" style="width: 66vw">
+        <figure id="skill">
+            <img src="img/skill1.png" alt="" class="fake">
+            <img src="img/skill2.png" alt="" class="fake">
+            <img src="img/skill3.png" alt="" class="fake">
+            <img src="img/skill4.png" alt="" class="fake">
+            <img src="img/skill5.png" alt="" class="fake">
+        </figure>
+
+        <article>
+            <div class="step" data-step="1">
+                <p class="text-part">从<span class="highlight">技能需求的角度</span>出发，极少数的技能在不同工作岗位之间具有通用性，<span class="highlight">绝大部分技能则仅适用于部分特定的工作岗位</span>。仅有<span class="data">个人素养</span>这一适应型技能在 <span class="data">14</span> 个工作岗位中是<span class="data">必须得掌握</span>的技能，在唯一将其列为一般性技能的编辑出版中占比也高达 <span class="data">9.98% </span>，充分说明了这一技能的通用性。</p>
+            </div>
+            <div class="step" data-step="2">
+                <p class="text-part">此外，即便是在就业市场中占比前三的<span class="data">内容策略和市场营销</span>两项技能也<span class="highlight">不是所有工作岗位的必备技能</span>，例如，教师对内容策略的技能需求<span class="data">仅为 4.23%</span> ，属于最好能掌握的技能，而影视/媒体、行政/后勤、休闲娱乐、人力资源、教师等岗位对市场营销的技能需求<span class="data">均低于 5% </span>。考虑到不同技能需求层级的比例，还有<span class="data">写作能力</span>和<span class="data">组织技能</span>具有一定的岗位通用性。</p>
+            </div>
+            <div class="step" data-step="3">
+                <p class="text-part">除了以上提及的五项技能，<span class="data">视觉设计、摄影摄像、产品管理、技术素养等 9 项常规型技能</span>和<span class="data">职业道德、学科知识、交际能力、关系管理等 6 项适应型技能</span><span class="highlight">在一些密切相关的工作岗位中需求层级较高，甚至非常突出</span>，例如艺术/设计岗位对视觉设计这一技能的需求高达 29.27% ，销售人员和销售管理岗位对关系管理这一技能的需求分别为 13.82% 和 10.42% 。</p>
+            </div>
+            <div class="step" data-step="4">
+                <p class="text-part"><span class="data">新闻敏感、抗压能力、外语能力等技能</span>在任一岗位中的<span class="highlight">需求层级均较弱</span>，其主要原因是在新闻传播类专业的就业市场中，由于<span class="reason">招聘渠道的单一以及专业背景的限制</span>等问题，包含这些技能的<span class="reason">工作岗位数量略少且分布较散</span>。</p>
+            </div>
+            <div class="step" data-step="5">
+                <p class="text-part">从<span class="highlight">岗位需求的角度</span>出发，<span class="highlight">几乎所有的工作岗位均要求应聘者“一专多能”，一半左右的工作岗位甚至要求“多专多能”。</span>其中，岗位<span class="data">必备技能、一般技能</span>的平均个数分别为 <span class="data">2.6 ，3.5</span> ，即新闻传播类专业的求职者要胜任某一工作岗位，<span class="data">至少需要</span>熟练掌握 <span class="data">6.1</span> 个技能，其中 <span class="data">2.6</span> 个是<span class="data">必须</span>得掌握的技能，且根据不同岗位职责最好掌握部分可选技能。</p>
+            </div>
+        </article>
+    </section>
+    <script>
+        // using d3 for convenience
+        var main = d3.select("body");
+        var scrolls = d3.select("#scrolls");
+        var figure = scrolls.select("figure");
+        var article = scrolls.select("article");
+        var step = article.selectAll(".step");
+
+        // initialize the scrollama
+        var scroller = scrollama();
+
+        // generic window resize listener event
+        function handleResize() {
+            // 1. update height of step elements
+            var figureHeight = 0.6765*window.innerWidth;
+            var figureMarginTop = -figureHeight/8.5;
+            step.style("height", figureHeight + "px");
+
+            figure
+                .style("height", figureHeight + "px")
+                .style("top", figureMarginTop + "px");
+
+            // 3. tell scrollama to update new element dimensions
+            scroller.resize();
+        }
+
+        // scrollama event handlers
+        function handleStepEnter(response) {
+            // response = { element, direction, index }
+
+            // add color to current step only
+            step.classed("is-active", function (d, i) {
+                return i === response.index;
+            });
+
+            // update graphic based on step
+            document.getElementById('skill').style.backgroundImage = `url('img/skill${response.index + 1}.png')`;
+        }
+
+        function init() {
+
+            // 1. force a resize on load to ensure proper dimensions are sent to scrollama
+            handleResize();
+
+            // 2. setup the scroller passing options
+            // 		this will also initialize trigger observations
+            // 3. bind scrollama event handlers (this can be chained like below)
+            scroller
+                .setup({
+                    step: "#scrolls article .step",
+                    offset: 0.85,
+                    debug: false
+                })
+                .onStepEnter(handleStepEnter);
+        }
+
+        // kick things off
+        init();
+    </script>
+    <div class="container">
+        <div class="parts">
+            <p class="text-part">
+                <span class="highlight">
+                由此可见，比起专才，目前新闻传播的就业市场更喜欢六边形战士，面对并没有降低反而是变得更高的就业门槛，其实也是对新闻传播教育提出了更高的要求。
+                </span>如何让新闻传播学子在本科学习中掌握核心技能，扩展技能体系，在日后步入职场时发挥出科班出身的优势，童先生认为，
+                <span class="highlight">
+                “让行业中的人参与课程设置非常重要，但是不要被行业牵着鼻子走，较为纯粹的专业知识仍需学校教给学生，新传行业是讲究实践的，首先是没有短板，不要让学生因为过早地针对工作而变得势利。”
+                </span>
+                新闻传播专业的就业市场更青睐具备适应型技能的“通才”，提高自己的知识面和人文底蕴，则能够使得新闻传播专业毕业生有更为长远的业界前景。
+            </p>
+        </div>
+    </div>
+        <div class="anchor" id="anchor4"></div>
+        <div class="banner-gif">
+            <img src="img/banner%204after.png" alt="">
+        </div>
+        <script>
+            document.getElementById('progress-bar').style.width = '80%';
+            document.querySelector('#loading>p').innerHTML = '80%';
+        </script>
+    <div class="container">
+        <div class="parts">
+<!--            <h2 class="subtitle">Part 4 教室与职场之间，还有多远的距离？</h2>-->
+            <p class="text-part">
+                <span>“课程内容好浅、好广”“课好水好无聊”“课上学的东西没有用”…… </span>在名为“大学后悔学新传”的豆瓣小组中输入“课程”关键词进行检索，能看到许多来自不同学校的学生发文吐槽自己的课程。</p>
+
+            <div class="twi-column twi-column28">
+                <p class="text-part drop-cap">在我们发布的样本总量为 <span class="data">673</span> 的受访对象为新闻传播学专业学生的调查问卷中，<span class="data">超 50%</span> 的学生认为，他们的写作能力、采访调查等<span class="data">传统类技能来源于课堂</span>，
+                    <span class="highlight">而创新类（例如多媒体技术、视觉设计、数据处理）、自主类（例如个人素养、职业道德、抗压能力）、交互类（例如领导能力、关系管理、市场管理）技能则都有超过 70%的学生表示是来源于课堂之外</span>。</p>
+                <div>
+                    <img src="img/last.png" alt="问卷中技能来源比例" class="image">
+                </div>
+            </div>
+            <p class="text-part">在“哪些课外活动提升了你的能力”这一问题上，包括实习、社会实践等学习实践这一选项占比最高。超过 70% 的学生表示有过新闻传播相关的实习经历，有近 40% 的受访者实习时长达到三个月至半年。</p>
+            <div>
+                <p class="text-part">就业最核心的适应性技能，在学校能够掌握的却并不充足，而是要通过实习实践来弥补。不仅如此，《新文科背景下新闻传播学本科专业人才培养研究》显示，通过对 59 家新闻传播院校培养方案的内容分析，
+                    <span class="highlight">发现样本高校的课程设置还存在各专业间区分度不显著、业务课设置以传统的新闻传播类业务课程为主，实践教学环节存在诸多不足、课程设置不够合理，知识杂糅重复的问题。
+                    </span>
+                </p>
+                <p class="text-part">
+                    随着技术的进步和媒介形态的变化，就业结构随之改变，作为为国家就业市场输送人才的主阵地的高校，其教育并没有及时跟上变化，仍有许多问题需要完善。
+                </p>
+                <p class="text-part">
+                    同时，对于新闻传播专业能够适应市场的技能，在传媒视频部门有二十余年从业经验的童先生表示：<span class="citing">「</span><span class="citing-content">（这些技能）更多的还是在实习中获得的，或者说其能达到精通的熟练程度多需要经过实习，学校教育更多的是知晓和理论。</span><span class="citing">」</span>
+                    <span class="highlight">教室与职场之间的这段距离，一方面要靠高校来走，一方面则需要学生调动主观能动性进行实践，从实战中积累经验。</span>
+                </p>
+            </div>
+            <div>
+                <div class="twi-column twi-column82">
+                    <div>
+                        <p class="text-part spot"><span class="citing">「</span><span class="citing-content">课堂上关注的讨论是宏大的议题和抽象的概念，当我亲身走到现场时，专业实践让这些具象化。</span><span class="citing"> 」</span>本科学习新闻学专业的黄同学曾于大三在家乡的县级媒体实习，在聊到从学习到实践的感受时，她说到虽然在学校时学到了媒体的工作流程、相关概念和写稿等传统技能，让她在一开始实习时可以很快上手，但实践让她发现很多具体的操作都不是拘泥于书本的。比如稿件的文字处理会依据媒体的定位、面向的受众和文章的主题产生很多灵活的变化，这些书本之外的学习进一步丰富了自己的经验。</p>
+                    </div>
+                    <div>
+                        <img src="img/photographing.svg" alt="">
+                    </div>
+                </div>
+                <div class="twi-column twi-column46">
+                    <div>
+                        <img src="img/networking.svg" alt="">
+                    </div>
+                    <div>
+                        <p class="text-part spot"><span class="citing">「</span><span class="citing-content">学校学到的知识更多地是锻炼你的思维，有些知识其实是为以后打下功底的，即使不从事相关工作，但也会在你未来的工作中起到铺垫作用。</span><span class="citing"> 」</span>本科在莫纳什大学学习传播学的邹同学毕业后主要从事网络编辑的工作，后来单位开设了夜读栏目，在学校里学到的基础剪辑知识帮助他更快地了解这个方向的工作，并在之后的工作实践中进一步学习和提高相关技能。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="anchor" id="anchor5"></div>
+        <div class="parts">
+            <p class="text-part drop-cap">
+                所以，<span class="highlight">新闻传播还值不值得学？答案是肯定的。</span>
+            </p>
+            <p class="text-part">
+                <span class="highlight">一方面，我们应认识到新闻传播正在向信息传播或者公共传播的方向转变，其边界正在扩展，就业的方向也在变得多元。</span>我们不应再以过去的眼光看待新闻传播就业，而是要拓宽该学科的职业想象，看到学科人才职业发展的更多可能。</p>
+            <p class="text-part">
+                <span class="highlight">另一方面，我们需要思考的是，衡量一个学科值不值得学，难道只有就业这一条准则吗？</span></p>
+            <div class="twi-column twi-column5545 cyp">
+                <div>
+                    <p class="text-part">张雪峰在连线一位需要本科毕业就工作的来自普通家庭的理科生时，提出了“不要学新闻”的建议。站在一位指导志愿填报和考研培训的老师的立场上，为一位正处于人生重要节点的学子提供一个稳妥且失误率低的选择，他的建议是合理的。但当这个观点<span class="data">脱离了当时的语境</span>，就会发现其中的漏洞。</p>
+                    <p class="text-part star"><span class="citing">「</span>教育的目的是育人而非制器。<span class="citing"> 」</span></p>
+                    <p class="text-part">教育家蔡元培提出的观点在当今仍十分中肯。大学教育不只为了让学生成为在就业市场中拿到高薪工作的“胜利者”，还在于通过学校的平台让其认知的触角触及世界的更多角落，构建起属于自己的世界观、人生观、价值观，成为一个有学识、有想法且成熟的人。</p>
+                    <p class="text-part moon">同时，一个人的兴趣与理想也不应被抹杀，在就业之外，仍有其他意义值得我们去追逐。除了地上的六便士，也要不忘天上皎洁的月亮。</p>
+                </div>
+                <div>
+                    <img src="img/cyp.jpg" alt="">
+                </div>
+            </div>
+            <div>
+                <p class="text-part"><span class="citing">「</span>当今时代，新闻传播具有前所未有的开放性，通过连接社会的各个系统、各类组织、各种群体甚至个体，发挥着不可替代的价值和效能。<span class="citing"> 」</span></p>
+                <p class="text-part sun">华中科技大学新闻与信息传播学院院长张明新在新生开学典礼的致辞中发表了他对“<span class="data">新闻传播在当今社会的重要变化</span>”的见解。在时代的洪流下，学科交叉，就业多元将成为主流趋势，新闻传播教育和就业都将面临更多的可能。</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="division">
+            <div></div>
+            <img src="img/logo.svg" alt="" class="logo">
+            <div></div>
+        </div>
+        <div>
+            <h2>About Us</h2>
+            <div class="about-us tri-column">
+                <div>
+                    <h3>指导老师</h3>
+                    <p>王然 王诗月</p>
+                </div>
+                <div>
+                    <h3>制作团队</h3>
+                    <p>周栩睿 高宏雨 朱烨清 王文慧 余雪柔</p>
+                </div>
+                <div>
+                    <h3>出品</h3>
+                    <p>华中科技大学新闻与信息传播学院</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        © Copyright 2023 - All rights reserved.
+    </div>
+    <script>
+        document.getElementById('progress-bar').style.width = '90%';
+        document.querySelector('#loading>p').innerHTML = '90%';
+    </script>
+</body>
+</html>
