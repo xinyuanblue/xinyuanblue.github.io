@@ -1,0 +1,10 @@
+#interactive-test {
+    margin: 2em 0;  /* 为测试区域添加上下间距 */
+}
+
+#test-container {
+    /* 添加任何需要的样式来突出显示测试区域 */
+    border: 1px solid #ddd;
+    padding: 1em;
+    background-color: #f9f9f9;
+}
