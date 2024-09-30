@@ -1,149 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="keywords" content="数据新闻, 网络与新媒体，毕业设计" />
-    <meta name="description" content="“网络与新媒体毕业设计" />
-    <title>数据新闻预览网页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="数据新闻, 网络与新媒体, 毕业设计">
+    <meta name="description" content="网络与新媒体毕业设计 - 数据新闻预览网页">
+    <title>数据新闻预览网页 - 平院转专业分析</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="img/logo.svg">
-<!--    如有logo-->
-    <script src="js/always.js"></script>
-    <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js"></script>
-    <script src="js/scrollama.min.js"></script>
+    <script src="js/always.js" defer></script>
+    <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js" defer></script>
+    <script src="js/scrollama.min.js" defer></script>
 </head>
 <body>
-    <article>
-  <h2>平院转专业，难不难？</h2>
-  <p>从2020年到2023年，平顶山学院申请转专业的趋势大致是申请人数不断增加，申请通过率不断下降。</p>
-  <ol>
-    <li>学校转专业申请人数增加、通过率降低。</li>
-    <li>数据异常情况分析，以2020与2023为例</li>
-    <li>热门专业转入以汉语言文学、法学为例</li>
-    <li>学前教育专业的困境（单向度的链条）</li>
-    <li>学院对待学院内外转专业申请的处理差异</li>
-  </ol>
-  <figure>
-    <img src="img/shuju1.png" alt="平顶山学院2020-2023申请转专业人数与成功率">
-    <figcaption>图1：平顶山学院2020-2023申请转专业人数与成功率</figcaption>
-  </figure>
-</article>
-    import React, { useState } from 'react';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+    <header>
+        <h1>数据新闻预览网页</h1>
+    </header>
 
-const questions = [
-  "我发现很难完全依赖他人。",
-  "我担心他人不会像我在意他们那样在意我。",
-  "我觉得他人不愿像我希望的那样亲近我。",
-  "我不太担心被他人抛弃。",
-  "我更喜欢不依赖他人。"
-];
+    <main>
+        <article>
+            <h2>平院转专业，难不难？</h2>
+            <p>从2020年到2023年，平顶山学院申请转专业的趋势大致是申请人数不断增加，申请通过率不断下降。</p>
+            <ol>
+                <li>学校转专业申请人数增加、通过率降低。</li>
+                <li>数据异常情况分析，以2020与2023为例</li>
+                <li>热门专业转入以汉语言文学、法学为例</li>
+                <li>学前教育专业的困境（单向度的链条）</li>
+                <li>学院对待学院内外转专业申请的处理差异</li>
+            </ol>
+            <figure>
+                <img src="img/shuju1.png" alt="平顶山学院2020-2023申请转专业人数与成功率">
+                <figcaption>图1：平顶山学院2020-2023申请转专业人数与成功率</figcaption>
+            </figure>
+        </article>
 
-const AttachmentStyleTest = () => {
-  const [answers, setAnswers] = useState(Array(questions.length).fill(0));
-  const [showResults, setShowResults] = useState(false);
+        <section id="interactive-test">
+            <!-- 互动测试将在这里生成 -->
+        </section>
+    </main>
 
-  const handleAnswer = (index, value) => {
-    const newAnswers = [...answers];
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
-  };
-
-  const calculateScore = () => {
-    const sum = answers.reduce((a, b) => a + b, 0);
-    return (sum / (questions.length * 5)) * 100;
-  };
-
-  const getAttachmentStyle = (score) => {
-    if (score > 60) return "回避型依恋倾向较高";
-    if (score > 40) return "回避型依恋倾向中等";
-    return "回避型依恋倾向较低";
-  };
-
-  const data = [
-    { name: '回避型依恋倾向', 您的得分: calculateScore(), 平均得分: 50 },
-  ];
-
-  return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>回避型依恋测试</CardHeader>
-      <CardContent>
-        {!showResults ? (
-          <>
-            {questions.map((question, index) => (
-              <div key={index} className="mb-4">
-                <p className="mb-2">{question}</p>
-                <div className="flex justify-between">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <Button
-                      key={value}
-                      onClick={() => handleAnswer(index, value)}
-                      variant={answers[index] === value ? "default" : "outline"}
-                    >
-                      {value}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <Button onClick={() => setShowResults(true)} className="mt-4">
-              查看结果
-            </Button>
-          </>
-        ) : (
-          <div>
-            <h3 className="text-lg font-semibold mb-2">
-              您的结果: {getAttachmentStyle(calculateScore())}
-            </h3>
-            <p className="mb-4">得分: {calculateScore().toFixed(2)}%</p>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="您的得分" fill="#8884d8" />
-                <Bar dataKey="平均得分" fill="#82ca9d" />
-              </BarChart>
-            </ResponsiveContainer>
-            <p className="mt-4">
-              这个测试仅供参考。如果您对自己的依恋类型有疑问,建议咨询专业心理医生。
-            </p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-};
-
-export default AttachmentStyleTest;
-   
-            <div class="about-us tri-column">
-                <div>
-                    <h3>指导老师</h3>
-                    <p>万鹏</p>
-                </div>
-                <div>
-                    <h3>制作</h3>
-                    <p>李心愿</p>
-                </div>
-                <div>
-                    <h3>出品</h3>
-                    <p>平顶山学院新闻与传播学院</p>
-                </div>
+    <footer>
+        <div class="about-us tri-column">
+            <div>
+                <h3>指导老师</h3>
+                <p>万鹏</p>
+            </div>
+            <div>
+                <h3>制作</h3>
+                <p>李心愿</p>
+            </div>
+            <div>
+                <h3>出品</h3>
+                <p>平顶山学院新闻与传播学院</p>
             </div>
         </div>
-    </div>
-    <div class="copyright">
-        © Copyright 2024 - All rights reserved.
-        <footer>
-    <div class="disclaimer">
-        <p><strong>声明：</strong>该项目仅用于教育目的</p>
-    </div>
-</footer>
-</body>
-</html>
+        <div class="copyright">
+            © Copyright 2024 - All rights reserved.
+        </div>
+        <div class="disclaimer">
+            <p><strong>声明：</strong>该项目仅用于教育目的</p>
+        </div>
+    </footer>
+
+    <script src="js/互动测试.js" defer></script>
 </body>
 </html>
