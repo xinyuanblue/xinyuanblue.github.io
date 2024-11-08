@@ -1,47 +1,30 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="数据新闻, 网络与新媒体, 毕业设计">
-    <meta name="description" content="网络与新媒体毕业设计 - 数据新闻预览网页">
-    <title>数据新闻网页测试</title>
-    <link rel="stylesheet" href="css/互动测试.css">
-    <link rel="shortcut icon" href="img/touxiang.jpg">
-    <script src="js/always.js" defer></script>
-    <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js" defer></script>
-    <script src="js/scrollama.min.js" defer></script>
+    <title>城市书房数据调查报告</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>一级标题</h1>
-    </header>
-
-    <main>
-        <h2>二级标题</h2>
-
-        <section id="interactive-test">
-            <h3>互动测试：你的依恋类型是？</h3>
-            <div id="test-container">
-                <!-- 测试将在这里生成 -->
-            </div>
+    <div class="header">
+        <h1>城市书房建设现状调查报告</h1>
+        <p>探索公共阅读空间的发展与挑战</p>
+    </div>
+    
+    <div class="content">
+        <section>
+            <h2>引言</h2>
+            <p>近年来，城市书房作为重要的公共文化空间，在促进全民阅读和提升城市文化品质方面发挥着重要作用。</p>
         </section>
 
-        <article>
-           <p>正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文</p>
-            <ol>
-                <li>正文正文正文正文正文正文正文正文正文正文正文正文正</li>
-                <li>正文正文正文正文正文正文正文正文正文正文正文正文正</li>
-                <li>正文正文正文正文正文正文正文正文正文正文正文正文正</li>
-                <li>正文正文正文正文正文正文正文正文正文正文正文正文正</li>
-                <li>正文正文正文正文正文正文正文正文正文正文正文正文正</li>
-            </ol>
-            <figure>
-                <img src="img/gxjz-home-map.png" alt="城市书房分布图">
-                <figcaption>图1：城市书房分布图（暂时静态，后续设定为动态可互动）</figcaption>
-            </figure>
-        </article>
-    </main>
+        <section id="charts">
+            <h2>数据可视化</h2>
+            <div class="chart-container">
+                <!-- 数据图表将在这里显示 -->
+            </div>
+        </section>
+    </div>
 
     <footer>
         <div class="about-us tri-column">
@@ -66,6 +49,7 @@
         </div>
     </footer>
 
+    <script src="js/main.js"></script>
     <script src="js/互动测试.js" defer></script>
 </body>
 </html>
