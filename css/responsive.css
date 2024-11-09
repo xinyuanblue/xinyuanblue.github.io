@@ -1,0 +1,32 @@
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .nav-sections {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .tri-column {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    footer {
+        padding: 30px 15px 15px;
+    }
+
+    .visualization-container {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 14px;
+    }
+
+    .nav-sections a {
+        font-size: 1em;
+    }
+}
