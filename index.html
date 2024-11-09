@@ -1,55 +1,87 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>城市书房数据调查报告</title>
+    <title>河洛书苑 - 洛阳城市书房数据调查</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- 数据可视化库 -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
 <body>
-    <div class="header">
-        <h1>城市书房建设现状调查报告</h1>
-        <p>探索公共阅读空间的发展与挑战</p>
-    </div>
-    
-    <div class="content">
-        <section>
-            <h2>引言</h2>
-            <p>近年来，城市书房作为重要的公共文化空间，在促进全民阅读和提升城市文化品质方面发挥着重要作用。</p>
+    <!-- 导航栏部分 -->
+    <nav class="main-nav">
+        <div class="nav-sections">
+            <a href="#intro">引言</a>
+            <a href="#current-status">发展现状</a>
+            <a href="#comparison">对比分析</a>
+            <a href="#conclusion">经验总结</a>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main>
+        <!-- 引言部分 -->
+        <section id="intro" class="scroll-section">
+            <div class="hero-container">
+                <h1>河洛书苑</h1>
+                <div class="counter-container">
+                    <!-- 动态数字计数器将在这里 -->
+                </div>
+            </div>
         </section>
 
-        <section id="charts">
-            <h2>数据可视化</h2>
-            <div class="chart-container">
-                <!-- 数据图表将在这里显示 -->
+        <!-- 发展现状部分 -->
+        <section id="current-status" class="scroll-section">
+            <div class="visualization-container">
+                <!-- 数据可视化图表将在这里 -->
             </div>
         </section>
-    </div>
 
-    <footer>
-        <div class="about-us tri-column">
-            <div>
-                <h3>指导老师</h3>
-                <p>万鹏</p>
+        <!-- 对比分析部分 -->
+        <section id="comparison" class="scroll-section">
+            <div class="visualization-container">
+                <!-- 对比分析图表将在这里 -->
             </div>
-            <div>
-                <h3>制作</h3>
-                <p>李心愿</p>
-            </div>
-            <div>
-                <h3>出品</h3>
-                <p>平顶山学院新闻与传播学院</p>
-            </div>
-        </div>
-        <div class="copyright">
-            © Copyright 2024 - All rights reserved.
-        </div>
-        <div class="disclaimer">
-            <p><strong>声明：</strong>该项目仅用于教育目的</p>
-        </div>
-    </footer>
+        </section>
 
+        <!-- 经验总结部分 -->
+        <section id="conclusion" class="scroll-section">
+            <div class="content-container">
+                <!-- 总结内容将在这里 -->
+            </div>
+        </section>
+
+        <!-- 页脚部分 -->
+        <footer>
+            <div class="about-us tri-column">
+                <div>
+                    <h3>指导老师</h3>
+                    <p>万鹏</p>
+                </div>
+                <div>
+                    <h3>制作</h3>
+                    <p>李心愿</p>
+                </div>
+                <div>
+                    <h3>出品</h3>
+                    <p>平顶山学院新闻与传播学院</p>
+                </div>
+            </div>
+            <div class="copyright">
+                © Copyright 2024 - All rights reserved.
+            </div>
+            <div class="disclaimer">
+                <p><strong>声明：</strong>该项目仅用于教育目的</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- 自定义JS -->
+    <script src="js/data.js"></script>
+    <script src="js/visualization.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/互动测试.js" defer></script>
 </body>
 </html>
