@@ -103,3 +103,65 @@ footer {
 .disclaimer strong {
     font-weight: 600;
 }
+
+/* 新增样式 */
+.hero-container {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.intro-text {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.highlight-text {
+    font-size: 2em;
+    color: var(--accent-color);
+    margin: 30px 0;
+}
+
+.intro-description {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.feature-list li {
+    padding: 10px 0;
+    position: relative;
+    padding-left: 25px;
+}
+
+.feature-list li:before {
+    content: "•";
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+    font-size: 1.2em;
+}
+
+.case-study {
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.case-content {
+    margin-top: 20px;
+}
