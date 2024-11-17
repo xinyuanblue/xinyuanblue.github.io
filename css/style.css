@@ -32,16 +32,16 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
     position: relative;
 }
 
 .section-container h2 {
     color: var(--primary-color);
     font-size: 2em;
-    margin-bottom: 1.5em;
+    margin-bottom: 30px;
     position: relative;
-    padding-bottom: 0.5em;
+    padding-bottom: 15px;
 }
 
 .section-container h2::after {
@@ -179,7 +179,7 @@ footer {
 .section-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 15px;
     background: #fff;
     border: 1px solid #eaeaea;
     border-radius: 12px;
@@ -196,8 +196,8 @@ footer {
 .section-container h2 {
     color: var(--primary-color);
     font-size: 1.8em;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
     border-bottom: 2px solid #f5f5f5;
     position: relative;
     
@@ -294,7 +294,10 @@ footer {
 /* 头部大图样式 */
 .hero {
     height: 100vh;
-    background: linear-gradient(135deg, #2c3e50, #3498db);
+    background-image: url('../img/宜人坊城市书房.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -325,6 +328,7 @@ footer {
     font-size: 1.2em;
     line-height: 1.8;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    margin-top: -260px;
 }
 
 /* 响应式调整 */
@@ -407,4 +411,38 @@ footer {
     color: #fff;
     text-align: center;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 假设你的导航栏使用的是类似这样的选择器 */
+.nav-container, 
+.navbar, 
+.top-nav {  /* 根据实际使用的类名调整 */
+    /* ... existing code ... */
+    padding: 5px 15px;  /* 减小上下内边距 */
+    height: 40px;  /* 减小整体高度 */
+    /* ... existing code ... */
+}
+
+/* 如果有导航链接，也相应调整它们的大小 */
+.nav-link {
+    /* ... existing code ... */
+    padding: 5px 10px;  /* 减小导航链接的内边距 */
+    /* ... existing code ... */
+}
+
+/* 导航栏固定定位和透明效果 */
+.nav-container {  /* 使用你实际的导航栏类名 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.95); /* 初始状态略微透明 */
+    transition: background-color 0.3s ease;
+}
+
+/* 滚动时的透明效果类 */
+.nav-transparent {
+    background-color: rgba(255, 255, 255, 0.7); /* 更透明的状态 */
+    backdrop-filter: blur(5px); /* 毛玻璃效果 */
 }
