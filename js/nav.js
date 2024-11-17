@@ -1,36 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // 获取所有导航项和章节
     const navItems = document.querySelectorAll('.nav-item');
     const sections = document.querySelectorAll('section');
+    
+    // 检查元素是否在视口中
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight / 2) &&
+            rect.bottom >= (window.innerHeight / 2)
+        );
+    }
 
-    // 滚动监听
-    window.addEventListener('scroll', () => {
-        let current = '';
-        
+    // 更新活动导航项
+    function updateActiveNavItem() {
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
-                current = section.getAttribute('id');
+            if (isInViewport(section)) {
+                const id = section.getAttribute('id');
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href').slice(1) === id) {
+                        item.classList.add('active');
+                    }
+                });
             }
         });
+    }
 
-        // 更新活动导航项
-        navItems.forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('href').slice(1) === current) {
-                item.classList.add('active');
-            }
-        });
+    // 添加滚动事件监听器
+    window.addEventListener('scroll', () => {
+        requestAnimationFrame(updateActiveNavItem);
     });
 
-    // 平滑滚动
+    // 添加点击事件监听器
     navItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
-            document.querySelector(targetId).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
     });
+
+    // 初始化活动导航项
+    updateActiveNavItem();
 });
