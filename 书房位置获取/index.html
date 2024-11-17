@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>洛阳城市书房地图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        #container {
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .control-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 100;
+            min-width: 200px;
+        }
+        
+        .search-box {
+            margin-bottom: 15px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        
+        .district-filter {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .district-filter label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .district-filter input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        
+        .bookroom-info {
+            padding: 10px;
+            min-width: 250px;
+        }
+        
+        .bookroom-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .bookroom-info p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .status-badge::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        
+        .status-open {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-open::before {
+            background: #2e7d32;
+        }
+        
+        .status-closed {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .status-closed::before {
+            background: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <div class="search-box">
+            <input type="text" placeholder="搜索书房名称..." id="searchInput">
+        </div>
+        <div class="district-filter">
+            <label><input type="checkbox" value="all" checked> 全部区域</label>
+            <label><input type="checkbox" value="西工区" checked> 西工区</label>
+            <label><input type="checkbox" value="涧西区" checked> 涧西区</label>
+            <label><input type="checkbox" value="老城区" checked> 老城区</label>
+            <label><input type="checkbox" value="瀍河区" checked> 瀍河区</label>
+        </div>
+    </div>
+    
+    <div id="container"></div>
+    
+    <script>
+        window._AMapSecurityConfig = {
+            securityJsCode: 'e790abe110f796deb3749aab5126bb89'
+        }
+    </script>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=c760f3c36c2f0417f462e58f06b7ac49&plugin=AMap.ToolBar,AMap.Scale,AMap.MarkerClusterer"></script>
+    <script src="bookroom_data.js"></script>
+    
+    <script>
+        // 初始化地图
+        const map = new AMap.Map('container', {
+            zoom: 13,
+            center: [112.434468, 34.618682],  // 洛阳市中心坐标
+            viewMode: '2D'
+        });
+
+        // 添加工具条和比例尺
+        map.plugin(['AMap.ToolBar', 'AMap.Scale'], function() {
+            map.addControl(new AMap.ToolBar());
+            map.addControl(new AMap.Scale());
+        });
+
+        // 存储所有标记点
+        const markers = {};
+
+        // 创建标记点函数
+        function createMarkers() {
+            // 先清除所有现有标记
+            for (const district in markers) {
+                if (markers[district]) {
+                    markers[district].forEach(marker => marker.setMap(null));
+                }
+            }
+
+            // 创建新标记
+            for (const district in DISTRICTS) {
+                markers[district] = [];
+                console.log(`Processing district: ${district}`); // 调试信息
+
+                DISTRICTS[district].forEach(room => {
+                    console.log(`Creating marker for: ${room.name}`, room); // 调试信息
+                    
+                    if (room.longitude && room.latitude) {
+                        const marker = new AMap.Marker({
+                            position: new AMap.LngLat(room.longitude, room.latitude),
+                            title: room.name,
+                            label: {
+                                content: room.name,
+                                direction: 'bottom'
+                            }
+                        });
+
+                        const infoWindow = new AMap.InfoWindow({
+                            content: `
+                                <div class="bookroom-info">
+                                    <h3>${room.name}</h3>
+                                    <p>地址：${room.address}</p>
+                                    <p>${room.info} 
+                                        <span class="status-badge ${isBookroomOpen(room.info) ? 'status-open' : 'status-closed'}">
+                                            ${isBookroomOpen(room.info) ? '开放中' : '已关闭'}
+                                        </span>
+                                    </p>
+                                </div>
+                            `,
+                            offset: new AMap.Pixel(0, -30)
+                        });
+
+                        marker.on('click', () => {
+                            infoWindow.open(map, marker.getPosition());
+                        });
+
+                        markers[district].push(marker);
+                        marker.setMap(map);
+                    }
+                });
+            }
+        }
+
+        // 切换区域显示函数
+        function toggleDistrict(district, show) {
+            if (markers[district]) {
+                markers[district].forEach(marker => {
+                    if (show) {
+                        marker.setMap(map);
+                    } else {
+                        marker.setMap(null);
+                    }
+                });
+            }
+        }
+
+        // 绑定复选框事件
+        document.querySelectorAll('.district-filter input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.value === 'all') {
+                    const checked = this.checked;
+                    document.querySelectorAll('.district-filter input').forEach(cb => {
+                        if (cb.value !== 'all') {
+                            cb.checked = checked;
+                            toggleDistrict(cb.value, checked);
+                        }
+                    });
+                } else {
+                    toggleDistrict(this.value, this.checked);
+                }
+            });
+        });
+
+        // 等待地图加载完成后创建标记点
+        map.on('complete', function() {
+            console.log('Map loaded completely');
+            createMarkers();
+        });
+
+        // 添加调试信息
+        console.log('Map initialization started');
+        console.log('DISTRICTS data:', DISTRICTS);
+
+        // 添加搜索功能
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase();
+            
+            for (const district in markers) {
+                markers[district].forEach((marker, index) => {
+                    const room = DISTRICTS[district][index];
+                    if (room.name.toLowerCase().includes(searchText) || 
+                        room.address.toLowerCase().includes(searchText)) {
+                        marker.show();
+                    } else {
+                        marker.hide();
+                    }
+                });
+            }
+        });
+
+        // 判断书房是否开放
+        function isBookroomOpen(info) {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTime = hours * 100 + minutes;
+            
+            const timeMatch = info.match(/(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/);
+            if (timeMatch) {
+                const openTime = parseInt(timeMatch[1]) * 100 + parseInt(timeMatch[2]);
+                const closeTime = parseInt(timeMatch[3]) * 100 + parseInt(timeMatch[4]);
+                return currentTime >= openTime && currentTime <= closeTime;
+            }
+            return true;
+        }
+
+        // 添加标记点聚合
+        let cluster = new AMap.MarkerClusterer(map, [], {
+            gridSize: 80,
+            minClusterSize: 2
+        });
+    </script>
+</body>
+</html>
