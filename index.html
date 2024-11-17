@@ -3,121 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>《数说洛阳河洛书苑城市书房》</title>
+    <title>河洛书苑 - 洛阳城市书房数据分析</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <!-- 数据可视化库 -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- 引入ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=m1ZuPJqnc13Ztl4XsIZV3pz5LK5WngYY"></script>
 </head>
 <body>
-    <!-- 导航栏部分 -->
+    <!-- 导航栏 -->
     <nav class="main-nav">
-        <div class="nav-sections">
-            <a href="#intro">引言</a>
-            <a href="#current-status">发展现状</a>
-            <a href="#comparison">对比分析</a>
-            <a href="#conclusion">经验总结</a>
+        <div class="nav-container">
+            <h1>河洛书苑</h1>
+            <ul>
+                <li><a href="#overview">总体概况</a></li>
+                <li><a href="#distribution">空间布局</a></li>
+                <li><a href="#operation">运营管理</a></li>
+                <li><a href="#service">服务效能</a></li>
+                <li><a href="#user-analysis">用户分析</a></li>
+                <li><a href="#comparison">区域对比</a></li>
+            </ul>
         </div>
     </nav>
 
-<!-- 在主要内容区域添加具体内容 -->
-<main>
-    <!-- 引言部分 -->
-    <section id="intro" class="scroll-section">
-        <div class="hero-container">
-            <h1>河洛书苑</h1>
-            <div class="intro-text">
-                <p class="highlight-text">全国已建成新型公共文化空间33,500多个</p>
-                <p class="intro-description">
-                    我国的新型公共文化空间建设已走过十年历程。党的十八大特别是"十四五"以来，以"城市书房"为代表的新型公共文化空间建设发展迅速，取得显著成效，走出了一条以新型公共文化空间建设带动公共文化服务高质量发展的中国道路。
-                </p>
-            </div>
+    <!-- 头部大图 -->
+    <header class="hero">
+        <div class="hero-content">
+            <h2>洛阳城市书房发展现状数据分析</h2>
+            <p>以数据视角解读"河洛书苑"建设成果</p>
         </div>
-    </section>
+    </header>
 
-    <!-- 发展现状部分 -->
-    <section id="current-status" class="scroll-section">
-        <div class="section-container">
-            <h2>发展现状</h2>
-            <div class="status-content">
-                <div class="text-block">
-                    <h3>新型公共文化空间的主要类型</h3>
-                    <ul class="feature-list">
-                        <li>既有公共文化设施空间的创意性改造</li>
-                        <li>新建"小而美"的新型公共文化空间</li>
-                        <li>城市公共服务空间的综合利用</li>
-                        <li>嵌入式公共文化空间</li>
-                        <li>开放式公共文化空间</li>
-                        <li>城市更新中腾退空间的改造利用</li>
-                        <li>实体书店拓展公共文化服务空间</li>
-                    </ul>
-                </div>
-                <div class="visualization-container">
-                    <!-- 这里放置数据可视化图表 -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 对比分析部分 -->
-    <section id="comparison" class="scroll-section">
-        <div class="section-container">
-            <h2>典型案例分析</h2>
-            <div class="case-study">
-                <h3>温州模式</h3>
-                <div class="case-content">
-                    <p>温州市图书馆推出的"城市书房"建设模式具有以下特点：</p>
-                    <ul class="feature-list">
-                        <li>成本低</li>
-                        <li>可复制</li>
-                        <li>有实效</li>
-                        <li>服务均等化</li>
-                        <li>社会化</li>
-                        <li>信息化</li>
-                        <li>标准化</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
-
-        <!-- 经验总结部分 -->
-        <section id="conclusion" class="scroll-section">
-            <div class="content-container">
-                <!-- 总结内容将在这里 -->
+    <!-- 主要内容区域 -->
+    <main>
+        <!-- 总体概况部分 -->
+        <section id="overview" class="section">
+            <h2>总体概况</h2>
+            <div class="data-visualization">
+                <!-- 放置总体数据图表 -->
+                <div id="overviewChart" class="chart"></div>
             </div>
         </section>
 
-        <!-- 页脚部分 -->
-        <footer>
-            <div class="about-us tri-column">
-                <div>
-                    <h3>指导老师</h3>
-                    <p>万鹏</p>
-                </div>
-                <div>
-                    <h3>制作</h3>
-                    <p>李心愿</p>
-                </div>
-                <div>
-                    <h3>出品</h3>
-                    <p>平顶山学院新闻与传播学院</p>
+        <!-- 空间布局部分 -->
+        <section id="distribution" class="section">
+            <h2>空间布局</h2>
+            <div class="map-container">
+                <div id="baiduMap" class="map"></div>
+                <div class="map-legend">
+                    <h4>图例说明</h4>
+                    <div class="legend-item">
+                        <span class="dot"></span>
+                        <span>城市书房位置</span>
+                    </div>
                 </div>
             </div>
-            <div class="copyright">
-                © Copyright 2024 - All rights reserved.
+        </section>
+
+        <!-- 运营管理部分 -->
+        <section id="operation" class="section">
+            <h2>运营管理</h2>
+            <div class="data-visualization">
+                <!-- 放置运营数据图表 -->
+                <div id="operationChart" class="chart"></div>
             </div>
-            <div class="disclaimer">
-                <p><strong>声明：</strong>该项目仅用于教育目的</p>
+        </section>
+
+        <!-- 服务效能部分 -->
+        <section id="service" class="section">
+            <h2>服务效能</h2>
+            <div class="data-visualization">
+                <!-- 放置服务数据图表 -->
+                <div id="serviceChart" class="chart"></div>
             </div>
-        </footer>
+        </section>
+
+        <!-- 用户分析部分 -->
+        <section id="user-analysis" class="section">
+            <h2>用户分析</h2>
+            <div class="data-visualization">
+                <!-- 放置用户画像图表 -->
+                <div id="userChart" class="chart"></div>
+            </div>
+        </section>
+
+        <!-- 区域对比部分 -->
+        <section id="comparison" class="section">
+            <h2>区域对比</h2>
+            <div class="data-visualization">
+                <!-- 放置城市对比图表 -->
+                <div id="comparisonChart" class="chart"></div>
+            </div>
+        </section>
     </main>
 
-    <!-- 自定义JS -->
-    <script src="js/data.js"></script>
-    <script src="js/visualization.js"></script>
+    <!-- 页脚部分 -->
+    <footer>
+        <div class="about-us tri-column">
+            <div>
+                <h3>指导老师</h3>
+                <p>万鹏</p>
+            </div>
+            <div>
+                <h3>制作</h3>
+                <p>李心愿</p>
+            </div>
+            <div>
+                <h3>出品</h3>
+                <p>平顶山学院新闻与传播学院</p>
+            </div>
+        </div>
+        <div class="copyright">
+            © Copyright 2024 - All rights reserved.
+        </div>
+        <div class="disclaimer">
+            <p><strong>声明：</strong>该项目仅用于教育目的</p>
+        </div>
+    </footer>
+
+    <!-- 引入JS文件 -->
+    <script src="js/charts.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
