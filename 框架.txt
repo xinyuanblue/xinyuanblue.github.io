@@ -13,7 +13,7 @@ project/
 │   ├── nav.js           # 导航功能
 │   └── main.js          # 主要功能
 │
-├── images/
+├── img/
 │   ├── logo.png         # 网站logo
 │   └── icons/           # 导航图标等
 │
