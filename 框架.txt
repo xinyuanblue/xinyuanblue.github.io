@@ -1,0 +1,20 @@
+project/
+│
+├── css/
+│   ├── style.css        # 主样式文件
+│   ├── nav.css          # 导航栏样式
+│   ├── map.css          # 地图相关样式
+│   └── charts.css       # 图表样式
+│
+├── js/
+│   ├── bookroom_data.js # 书房数据
+│   ├── map.js           # 地图功能
+│   ├── charts.js        # 图表功能
+│   ├── nav.js           # 导航功能
+│   └── main.js          # 主要功能
+│
+├── images/
+│   ├── logo.png         # 网站logo
+│   └── icons/           # 导航图标等
+│
+└── index.html           # 主页面

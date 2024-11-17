@@ -5,47 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>河洛书苑 - 洛阳城市书房数据分析</title>
     <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=m1ZuPJqnc13Ztl4XsIZV3pz5LK5WngYY"></script>
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/charts.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 </head>
 <body>
-    <!-- 导航栏 -->
     <nav class="main-nav">
         <div class="nav-container">
             <div class="logo">
-                <img src="images/logo.png" alt="河洛书苑" class="logo-img">
                 <span class="logo-text">河洛书苑</span>
             </div>
             <div class="nav-sections">
                 <a href="#overview" class="nav-item">
-                    <i class="nav-icon overview-icon"></i>
                     <span>总体概况</span>
                 </a>
                 <a href="#distribution" class="nav-item">
-                    <i class="nav-icon distribution-icon"></i>
                     <span>空间布局</span>
                 </a>
                 <a href="#operation" class="nav-item">
-                    <i class="nav-icon operation-icon"></i>
                     <span>运营管理</span>
                 </a>
                 <a href="#service" class="nav-item">
-                    <i class="nav-icon service-icon"></i>
                     <span>服务效能</span>
                 </a>
                 <a href="#user-analysis" class="nav-item">
-                    <i class="nav-icon analysis-icon"></i>
                     <span>用户分析</span>
                 </a>
                 <a href="#comparison" class="nav-item">
-                    <i class="nav-icon comparison-icon"></i>
                     <span>区域对比</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- 头部大图 -->
     <section class="hero scroll-section">
         <div class="hero-container">
             <h1 class="highlight-text">河洛书苑</h1>
@@ -58,9 +51,7 @@
         </div>
     </section>
 
-    <!-- 主要内容区域 -->
     <main>
-        <!-- 总体概况部分 -->
         <section id="overview" class="scroll-section">
             <div class="section-container">
                 <h2>总体概况</h2>
@@ -72,13 +63,28 @@
             </div>
         </section>
 
-        <!-- 空间布局部分 -->
         <section id="distribution" class="scroll-section">
             <div class="section-container">
                 <h2>空间布局</h2>
                 <div class="case-study">
                     <div class="map-container">
-                        <div id="baiduMap"></div>
+                        <div class="loading-indicator" id="loadingIndicator">
+                            <div class="spinner"></div>
+                            <span>加载中...</span>
+                        </div>
+                        <div id="container"></div>
+                        <div class="control-panel">
+                            <div class="search-box">
+                                <input type="text" placeholder="搜索书房名称..." id="searchInput">
+                            </div>
+                            <div class="district-filter">
+                                <label><input type="checkbox" value="all" checked> 全部区域</label>
+                                <label><input type="checkbox" value="西工区" checked> 西工区</label>
+                                <label><input type="checkbox" value="涧西区" checked> 涧西区</label>
+                                <label><input type="checkbox" value="老城区" checked> 老城区</label>
+                                <label><input type="checkbox" value="瀍河区" checked> 瀍河区</label>
+                            </div>
+                        </div>
                         <div class="map-legend">
                             <h4>图例说明</h4>
                             <div class="legend-item">
@@ -91,52 +97,44 @@
             </div>
         </section>
 
-        <!-- 运营管理部分 -->
         <section id="operation" class="scroll-section">
             <div class="section-container">
                 <h2>运营管理</h2>
                 <div class="case-study">
                     <div class="data-visualization">
-                        <!-- 放置运营数据图表 -->
                         <div id="operationChart" class="chart"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 服务效能部分 -->
         <section id="service" class="scroll-section">
             <div class="section-container">
                 <h2>服务效能</h2>
                 <div class="case-study">
                     <div class="data-visualization">
-                        <!-- 放置服务数据图表 -->
                         <div id="serviceChart" class="chart"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 用户分析部分 -->
         <section id="user-analysis" class="scroll-section">
             <div class="section-container">
                 <h2>用户分析</h2>
                 <div class="case-study">
                     <div class="data-visualization">
-                        <!-- 放置用户画像图表 -->
                         <div id="userChart" class="chart"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 区域对比部分 -->
         <section id="comparison" class="scroll-section">
             <div class="section-container">
                 <h2>区域对比</h2>
                 <div class="case-study">
                     <div class="data-visualization">
-                        <!-- 放置城市对比图表 -->
                         <div id="comparisonChart" class="chart"></div>
                     </div>
                 </div>
@@ -144,7 +142,6 @@
         </section>
     </main>
 
-    <!-- 页脚部分 -->
     <footer>
         <div class="about-us tri-column">
             <div>
@@ -168,9 +165,26 @@
         </div>
     </footer>
 
-    <!-- 引入JS文件 -->
+    <script>
+        window._AMapSecurityConfig = {
+            securityJsCode: 'e790abe110f796deb3749aab5126bb89'
+        }
+    </script>
+    
+    <script src="https://webapi.amap.com/maps?v=2.0&key=c760f3c36c2f0417f462e58f06b7ac49&plugin=AMap.ToolBar,AMap.Scale,AMap.MarkerClusterer"></script>
+    
+    <script src="js/bookroom_data.js"></script>
+    <script src="js/map.js"></script>
     <script src="js/charts.js"></script>
-    <script src="js/main.js"></script>
     <script src="js/nav.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initMap === 'function') {
+                initMap();
+            }
+        });
+    </script>
 </body>
 </html>
