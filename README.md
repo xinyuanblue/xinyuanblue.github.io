@@ -54,64 +54,7 @@ This is a data journalism project documenting the development, spatial distribut
 6. **新闻报道与政策文件:** 洛阳日报、河南省政府网等官方发布及《洛阳市"河洛书苑"城市书房建设管理办法》等。
 
 *详细说明见网页底部的"数据来源与分析方法"部分。*
-
-## 如何运行项目 (Running the Project Locally)
-
-1. **环境准备 (Prerequisites):**
-   * 确保已安装 Python 3.x 和 pip。
-   * 建议创建并激活一个虚拟环境 (e.g., using `venv`: `python -m venv venv`, then `source venv/bin/activate` on Linux/macOS or `venv\Scripts\activate` on Windows)。
-2. **克隆仓库 (Clone Repository):**
-   ```bash
-   git clone [your-repository-url]
-   cd [repository-folder-name]
-   ```
-3. **安装依赖 (Install Dependencies):**
-   * **(重要) 创建 `requirements.txt` 文件:** 列出项目所需的 Python 包 (至少应包含 `Flask`)。例如：
-     ```
-     Flask>=2.0
-     # Add other packages like Pandas if used in backend scripts
-     ```
-   * 运行安装命令:
-     ```bash
-     pip install -r requirements.txt
-     ```
-4. **运行 Flask 应用 (Run Flask App):**
-   * 找到主应用文件 (通常是 `app.py` 或类似名称)。
-   * 在终端中运行:
-     ```bash
-     flask run
-     # 或者 python app.py
-     ```
-5. **访问网页 (Access Website):**
-   * 在浏览器中打开 Flask 提示的本地地址 (通常是 `http://127.0.0.1:5000/`)。
-
-## 文件结构 (File Structure)
-
-```
-.
-├── static/
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   ├── echarts.min.js
-│   │   └── translations.js
-│   │   └── ... (other chart data js files)
-│   ├── picture/
-│   │   ├── 开头.png
-│   │   └── ... (other images)
-│   ├── favicon/
-│   │   └── ... (favicon files)
-│   ├── data/
-│   │   └── 面积.json
-│   │   └── ...
-│   └── favicon.png
-├── templates/
-│   └── index.html
-├── app.py (主 Flask 应用文件)
-├── requirements.txt (Python 依赖列表)
-├── README.md (本项目文件)
-└── (其他可能的 Python 脚本或数据处理文件)
-```
+`
 
 ## 致谢 (Credits)
 
@@ -123,57 +66,10 @@ This is a data journalism project documenting the development, spatial distribut
 
 本项目仅用于教育目的（毕业设计）。部分数据基于公开信息整理、估算或进行了必要的调整。完整代码及所使用的公开数据集计划在项目完成后于 [github.com/xinyuanblue](https://github.com/xinyuanblue) 开源共享。
 
-## 项目结构
 
 ```
-.
-├── app.py                 # Flask 应用主文件
-├── freeze.py              # 静态网站生成脚本
-├── requirements.txt       # 项目依赖
-├── static/                # 静态资源文件
-│   ├── css/               # 样式文件
-│   ├── data/              # 数据文件
-│   ├── js/                # JavaScript 文件
-│   ├── picture/           # 图片资源
-│   └── vendor/            # 第三方库
-├── templates/             # Flask 模板文件
-│   ├── index.html         # 主页模板
-│   ├── isochrone_map.html # 等时圈地图模板
-│   └── population_map.html# 人口热力图模板
-└── heluoshuyuan-static/   # 静态网站文件
-    ├── static/            # 静态网站的静态资源
-    ├── index.html         # 静态版主页
-    ├── isochrone_map.html # 静态版等时圈地图
-    └── population_map.html# 静态版人口热力图
-```
 
-## 如何使用
 
-### 1. 开发模式
-
-安装依赖：
-
-```bash
-pip install -r requirements.txt
-```
-
-运行Flask应用：
-
-```bash
-python app.py
-```
-
-访问 http://localhost:5000 查看网站。
-
-### 2. 生成静态网站
-
-使用Flask-Frozen生成静态网站：
-
-```bash
-python freeze.py
-```
-
-生成的静态网站将保存在 `build` 目录下。您可以将该目录部署到任何静态网站托管服务。
 
 ## 技术栈
 
@@ -185,4 +81,62 @@ python freeze.py
 ## 注意事项
 
 - 本项目使用了高德地图 API，确保您的网络环境能够访问该 API
-- 静态网站版本已经将动态的Flask路由替换为直接的文件链接 
+- 静态网站版本已经将动态的Flask路由替换为直接的文件链接
+
+# 河洛书苑静态网站
+
+## 项目简介
+
+本项目是"河洛书苑生长笔记"数据新闻项目的静态网站版本，记录了河南省洛阳市"河洛书苑"城市书房项目的发展历程、空间分布和社会影响。网站完全由静态HTML文件构成，无需服务器端支持，可直接部署在任何静态网站托管服务上。
+
+## 网站结构
+
+静态网站包含以下页面和资源：
+
+- `index.html` - 项目主页，包含项目综述、数据分析和图表展示
+- `isochrone_map.html` - 阅读圈等时线地图，展示各书房的15分钟阅读圈覆盖情况
+- `population_map.html` - 人口分布与书房位置关系地图
+- `static/` - 静态资源目录
+  - `css/` - 样式文件
+  - `js/` - JavaScript脚本文件
+  - `data/` - 数据文件（JSON格式）
+  - `vendor/` - 第三方库文件
+  - `picture/` - 图片资源
+
+## 浏览方式
+
+由于项目采用纯静态文件构建，可通过以下方式访问：
+
+### 本地浏览
+
+1. 直接用浏览器打开`index.html`文件
+2. 使用任何静态文件服务器，如Python的http.server:
+   ```
+   cd build
+   python -m http.server 8000
+   ```
+   然后访问 http://localhost:8000
+
+### 在线部署
+
+网站可部署到任何静态网站托管服务，如：
+- GitHub Pages
+- Netlify
+- Vercel
+- 阿里云/腾讯云对象存储
+
+只需上传`build`目录中的所有文件到对应服务即可。
+
+## 技术说明
+
+此静态版本通过以下技术实现：
+- 纯HTML/CSS/JavaScript构建
+- 使用原生JavaScript处理交互和数据可视化
+- 地图可视化使用高德地图API和Mapbox GL JS
+- 数据以JSON文件形式存储在`static/data/`目录
+
+## 注意事项
+
+- 部分地图功能需要互联网连接以加载地图API
+- 建议使用现代浏览器访问（Chrome、Firefox、Edge、Safari等最新版本）
+- 网站支持响应式设计，可在桌面和移动设备上浏览 
