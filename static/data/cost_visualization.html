@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市书房成本构成分析</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .chart-container {
+            width: 48%;
+            margin-bottom: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .data-container {
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .cost-category {
+            font-weight: bold;
+        }
+        .cost-value {
+            color: #e74c3c;
+        }
+        .cost-percentage {
+            color: #3498db;
+        }
+        .total-cost {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+            color: #e74c3c;
+        }
+        .chart-image {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>城市书房成本构成分析</h1>
+    
+    <div class="container">
+        <div class="chart-container">
+            <h2>成本构成比例</h2>
+            <img src="cost_structure.png" alt="成本构成比例图" class="chart-image">
+        </div>
+        
+        <div class="chart-container">
+            <h2>各类别成本(万元)</h2>
+            <img src="category_costs.png" alt="各类别成本图" class="chart-image">
+        </div>
+        
+        <div class="data-container">
+            <h2>标准城市书房成本明细</h2>
+            
+            <div id="cost-breakdown">
+                <!-- 这里的数据将由Python脚本生成的结果填充 -->
+                <div class="cost-item">
+                    <span class="cost-category">土建装修</span>
+                    <span class="cost-value">-- 万元</span>
+                    <span class="cost-percentage">--%</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">设备采购</span>
+                    <span class="cost-value">-- 万元</span>
+                    <span class="cost-percentage">--%</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">图书资源</span>
+                    <span class="cost-value">-- 万元</span>
+                    <span class="cost-percentage">--%</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">智能系统</span>
+                    <span class="cost-value">-- 万元</span>
+                    <span class="cost-percentage">--%</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">维护运营</span>
+                    <span class="cost-value">-- 万元</span>
+                    <span class="cost-percentage">--%</span>
+                </div>
+                <div class="cost-item">
+                    <span class="cost-category">其他费用</span>
+                    <span class="cost-value">-- 万元</span>
+                    <span class="cost-percentage">--%</span>
+                </div>
+            </div>
+            
+            <div class="total-cost">
+                标准书房总成本: <span id="total-cost">-- 万元</span>
+            </div>
+        </div>
+        
+        <div class="data-container">
+            <h2>城市书房建设成本影响因素</h2>
+            <p>城市书房的建设成本受多种因素影响，主要包括：</p>
+            <ul>
+                <li><strong>面积大小</strong>：不同规模的书房（微型、小型、中型、大型）建设成本差异明显</li>
+                <li><strong>装修标准</strong>：基础装修、中档装修和高档装修的成本差异可达数倍</li>
+                <li><strong>功能配置</strong>：智能化程度、设备配置等直接影响成本</li>
+                <li><strong>图书资源</strong>：图书数量和种类是重要成本组成部分</li>
+                <li><strong>区域差异</strong>：不同城市和地区的人工、材料成本存在差异</li>
+            </ul>
+            
+            <h3>不同规模书房的成本估算</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>书房类型</th>
+                        <th>面积范围</th>
+                        <th>成本估算(万元)</th>
+                        <th>占比</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>微型书房</td>
+                        <td>&lt;100㎡</td>
+                        <td id="micro-cost">--</td>
+                        <td>29.8%</td>
+                    </tr>
+                    <tr>
+                        <td>小型书房</td>
+                        <td>100-150㎡</td>
+                        <td id="small-cost">--</td>
+                        <td>30.7%</td>
+                    </tr>
+                    <tr>
+                        <td>中型书房</td>
+                        <td>150-250㎡</td>
+                        <td id="medium-cost">--</td>
+                        <td>28.8%</td>
+                    </tr>
+                    <tr>
+                        <td>大型书房</td>
+                        <td>&gt;250㎡</td>
+                        <td id="large-cost">--</td>
+                        <td>10.7%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 这里可以添加JavaScript代码来动态更新数据
+        // 实际应用中，这些数据应该由后端提供或通过API获取
+        document.addEventListener('DOMContentLoaded', function() {
+            // 示例数据，实际应用中应替换为真实数据
+            const costData = {
+                // 这些数据将由Python脚本分析结果替换
+                categories: {
+                    '土建装修': { cost: 0, percentage: 0 },
+                    '设备采购': { cost: 0, percentage: 0 },
+                    '图书资源': { cost: 0, percentage: 0 },
+                    '智能系统': { cost: 0, percentage: 0 },
+                    '维护运营': { cost: 0, percentage: 0 },
+                    '其他费用': { cost: 0, percentage: 0 }
+                },
+                totalCost: 0,
+                // 不同规模书房的成本估算
+                roomTypes: {
+                    'micro': 0,
+                    'small': 0,
+                    'medium': 0,
+                    'large': 0
+                }
+            };
+            
+            // 更新成本明细
+            const costBreakdown = document.getElementById('cost-breakdown');
+            costBreakdown.innerHTML = '';
+            
+            for (const [category, data] of Object.entries(costData.categories)) {
+                if (data.percentage > 0) {
+                    const item = document.createElement('div');
+                    item.className = 'cost-item';
+                    item.innerHTML = `
+                        <span class="cost-category">${category}</span>
+                        <span class="cost-value">${data.cost.toFixed(2)} 万元</span>
+                        <span class="cost-percentage">${data.percentage.toFixed(1)}%</span>
+                    `;
+                    costBreakdown.appendChild(item);
+                }
+            }
+            
+            // 更新总成本
+            document.getElementById('total-cost').textContent = `${costData.totalCost.toFixed(2)} 万元`;
+            
+            // 更新不同规模书房的成本
+            document.getElementById('micro-cost').textContent = costData.roomTypes.micro.toFixed(2);
+            document.getElementById('small-cost').textContent = costData.roomTypes.small.toFixed(2);
+            document.getElementById('medium-cost').textContent = costData.roomTypes.medium.toFixed(2);
+            document.getElementById('large-cost').textContent = costData.roomTypes.large.toFixed(2);
+        });
+    </script>
+</body>
+</html> 

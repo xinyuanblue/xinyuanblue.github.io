@@ -1,0 +1,46 @@
+.graph {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.graph h2 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+#bezierInp {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+figure {
+    margin: 0;
+    position: relative;
+}
+
+#curve {
+    border: 1px solid #ccc;
+    background: white;
+}
+
+#axisHeat, #axisHeight {
+    position: absolute;
+    font-size: 12px;
+}
+
+#axisHeat {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    left: -20px;
+    top: 275px;
+}
+
+#axisHeight {
+    bottom: -20px;
+    left: 85px;
+} 

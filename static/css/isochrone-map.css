@@ -1,0 +1,150 @@
+/* 等时圈地图特定样式 */
+
+.map-container {
+    width: 95%;
+    height: 90vh;
+    margin: 10px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    position: relative;
+}
+
+.map-title {
+    text-align: center;
+    color: #2c3e50;
+    margin: 30px 0 20px;
+    font-weight: bold;
+}
+
+.map-description {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    text-align: center;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+.map-controls {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.map-controls button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.map-controls button:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.map-legend {
+    background: white;
+    padding: 20px;
+    border-radius: 6px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.legend-title {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.district-legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.demo-title {
+    position: absolute;
+    top: 95px;
+    left: 25px;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.count {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.num {
+    font-size: 28px;
+    color: #B44322;
+    font-weight: bold;
+}
+
+.txt {
+    font-size: 16px;
+    color: #775032;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .map-container {
+        height: 75vh;
+        max-width: 100%;
+        margin: 5px auto;
+    }
+    
+    .map-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .district-legend {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .demo-title, .count {
+        padding: 8px;
+    }
+    
+    .count {
+        bottom: 20px;
+        left: 20px;
+    }
+} 
