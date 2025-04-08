@@ -18,10 +18,9 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            /* Default height, JS will adjust for preview */
             height: 100vh;
         }
-
+        
         .input-card {
             position: fixed;
             top: 20px;
@@ -33,7 +32,7 @@
             z-index: 1000;
             width: 180px;
         }
-
+        
         .input-item {
             margin-bottom: 8px;
         }
@@ -59,7 +58,7 @@
             background: #e8e8e8;
             margin: 8px 0;
         }
-
+        
         .btn {
             width: 100%;
             height: 36px;
@@ -78,12 +77,12 @@
             padding: 0 12px;
             white-space: nowrap;
         }
-
+        
         .btn:hover {
             background: #66b1ff;
             transform: translateY(-1px);
         }
-
+        
         .btn.active {
             background: #FF4500;
         }
@@ -108,7 +107,7 @@
             -webkit-backdrop-filter: blur(10px) !important;
             overflow: hidden !important;
         }
-
+        
         .info-window {
             padding: 0;
             background: transparent;
@@ -192,7 +191,7 @@
             box-shadow: 0 2px 4px rgba(255, 69, 0, 0.1);
             border: 1px solid rgba(255, 69, 0, 0.2);
         }
-
+        
         .amap-info-close {
             top: 16px !important;
             right: 16px !important;
@@ -202,15 +201,15 @@
             transition: opacity 0.3s !important;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
         }
-
+        
         .amap-info-close:hover {
             opacity: 1 !important;
         }
-
+        
         .amap-info-sharp {
             display: none !important;
         }
-
+        
         .library-title {
             font-size: 24px !important;
             font-weight: 700 !important;
@@ -221,7 +220,7 @@
             border-radius: 2px !important;
             background: #ffffff !important;
         }
-
+        
         .library-info {
             position: relative !important;
             font-size: 18px !important;
@@ -231,7 +230,7 @@
             background: #ffffff !important;
             z-index: 1 !important;
         }
-
+        
         .library-info p {
             position: relative !important;
             margin: 12px 0 !important;
@@ -242,7 +241,7 @@
             background: #ffffff !important;
             border-radius: 8px !important;
         }
-
+        
         .library-info p::before {
             content: "" !important;
             position: absolute !important;
@@ -254,7 +253,7 @@
             background: #409EFF !important;
             border-radius: 50% !important;
         }
-
+        
         .legend {
             position: fixed;
             top: 270px;  /* 调整这个值以适应控件栏的高度 */
@@ -267,28 +266,28 @@
             font-size: 13px;
             width: 180px;
         }
-
+        
         .legend-item {
             display: flex;
             align-items: center;
             margin: 4px 0;
         }
-
+        
         .legend-item:first-child {
             margin-top: 0;
         }
-
+        
         .legend-item:last-child {
             margin-bottom: 0;
         }
-
+        
         .legend-color {
             width: 16px;
             height: 16px;
             margin-right: 8px;
             border-radius: 4px;
         }
-
+        
         .loading-indicator {
             position: absolute;
             top: 50%;
@@ -317,8 +316,6 @@
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            text-decoration: none; /* Ensure it looks like a button */
-            color: #333; /* Text color */
         }
 
         .back-button:hover {
@@ -448,7 +445,7 @@
     </style>
 </head>
 <body>
-    <a href="index.html#populationMapPreview" class="back-button" title="返回主页"> <!-- Changed href -->
+    <a href="index.html#populationMapPreview" class="back-button" title="返回主页">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
@@ -528,7 +525,7 @@
     </div>
     <div class="map-info">
         <div class="map-info-title">地图图例说明</div>
-
+        
         <div class="map-legend-group">
             <div class="map-legend-subtitle">人口热力分布</div>
             <div class="map-legend-item">
@@ -583,8 +580,8 @@
     </div>
 
 
-<script type="text/javascript" src="static/js/heatmapData.js"></script> <!-- Changed src -->
-<script type="text/javascript" src="static/js/libraryData.js"></script> <!-- Changed src -->
+<script type="text/javascript" src="static/js/heatmapData.js"></script>
+<script type="text/javascript" src="static/js/libraryData.js"></script>
 <script src="https://webapi.amap.com/maps?v=1.4.15&key=8c0f2606de763666d42b04bb5ec5b0e3&plugin=AMap.MarkerClusterer"></script>
 <script type="text/javascript">
     var map, heatmap, libraryLayer;
@@ -597,30 +594,6 @@
     var blindAreaMergedPolygons = [];
     var isOverlapStyle = false;
     var currentInfoWindow = null;
-
-    // Handle preview mode for height
-    document.addEventListener('DOMContentLoaded', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const isPreview = urlParams.get('preview') === 'true' || urlParams.get('preview') === '1';
-        const mapElement = document.getElementById('population-map');
-        const backButton = document.querySelector('.back-button');
-        const initialTip = document.getElementById('initialTip');
-        const inputCard = document.querySelector('.input-card');
-        const mapInfo = document.querySelector('.map-info');
-
-
-        if (isPreview && mapElement) {
-            mapElement.style.height = 'calc(100vh - 0px)'; // Adjusted height
-            // Hide elements not needed in preview
-            if (backButton) backButton.style.display = 'none';
-            if (initialTip) initialTip.style.display = 'none';
-            if (inputCard) inputCard.style.display = 'none';
-            if (mapInfo) mapInfo.style.display = 'none';
-             // Hide legend if it exists and is visible
-             const legend = document.getElementById('legend');
-             if (legend) legend.style.display = 'none';
-        }
-    });
 
     // 初始化地图
     function initMap() {
@@ -639,7 +612,7 @@
         map.plugin(["AMap.Heatmap"], function () {
             const canvas = document.createElement('canvas');
             canvas.setAttribute('willReadFrequently', true);
-
+            
             heatmap = new AMap.Heatmap(map, {
                 radius: 25,
                 opacity: [0.1, 0.8],
@@ -653,57 +626,22 @@
                 canvas: canvas
             });
 
-            // Assuming heatmapData is globally available from heatmapData.js
-            if (typeof heatmapData !== 'undefined') {
-                heatmap.setDataSet({
-                    data: heatmapData,
-                    max: 100
-                });
-            } else {
-                console.error("heatmapData is not loaded.");
-                // Optionally fetch data here if heatmapData.js fails
-                // fetch('static/js/heatmapData.js')... but that's not how .js files work directly
-            }
+            heatmap.setDataSet({
+                data: heatmapData,
+                max: 100
+            });
         });
 
-        // 加载城市书房数据 - libraryData should be globally available
-        if (typeof libraryData !== 'undefined') {
+        // 加载城市书房数据
+        loadLibraryData().then(() => {
             createLibraryCircles();
             // 在服务范围创建完成后初始化盲区
             initBlindAreas();
-
+            
             // 默认显示服务范围
             map.add(libraryLayer);
             isLibraryVisible = true;
-        } else {
-            console.error("libraryData is not loaded.");
-            // Optionally fetch the JSON data if libraryData.js is not used
-            /*
-            fetch('static/data/城市书房数据.json') // Assuming JSON data is here
-                .then(response => response.json())
-                .then(data => {
-                     // Process data similar to how libraryData.js defines it
-                     // For example:
-                     window.libraryData = data.districts.flatMap(d => d.libraries.map(l => ({
-                         id: l.id,
-                         name: l.name,
-                         district: l.district,
-                         address: l.address,
-                         area: parseFloat(l.area) || 0,
-                         seats: parseInt(l.seats) || 0,
-                         books: l.books,
-                         magazine_types: l.magazine_types,
-                         opening_hours: l.opening_hours || '8:30-20:30', // Provide default
-                         position: l.coordinates.split(',').map(Number)
-                     })));
-                     createLibraryCircles();
-                     initBlindAreas();
-                     map.add(libraryLayer);
-                     isLibraryVisible = true;
-                })
-                .catch(error => console.error('Error fetching library data:', error));
-             */
-        }
+        });
     }
 
     // 判断浏览器是否支持canvas
@@ -715,31 +653,9 @@
 
     // 创建城市书房服务范围圆形
     function createLibraryCircles() {
-        if (!libraryData) {
-            console.error("Cannot create library circles: libraryData is missing.");
-            return;
-        }
         libraryData.forEach(function(library) {
-            // Ensure library.position is an array of numbers
-            let centerPosition;
-            if (Array.isArray(library.position) && library.position.length === 2 && !isNaN(library.position[0]) && !isNaN(library.position[1])) {
-                centerPosition = library.position;
-            } else if (typeof library.coordinates === 'string') {
-                const coords = library.coordinates.split(',').map(Number);
-                if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-                    centerPosition = coords;
-                } else {
-                    console.warn(`Invalid coordinates for library ${library.name}:`, library.coordinates);
-                    return; // Skip this library if coordinates are invalid
-                }
-            } else {
-                 console.warn(`Missing or invalid position/coordinates for library ${library.name}`);
-                 return; // Skip this library
-            }
-
-
             var circle = new AMap.Circle({
-                center: centerPosition,
+                center: library.position,
                 radius: 1500,  // 1.5千米半径
                 strokeColor: "#008B8B",  // 深青色边框
                 strokeOpacity: 0.6,
@@ -755,7 +671,7 @@
                 if (currentInfoWindow) {
                     currentInfoWindow.close();
                 }
-
+                
                 var info = new AMap.InfoWindow({
                     isCustom: true,
                     autoMove: true,
@@ -774,7 +690,7 @@
                                         </svg>
                                     </div>
                                     <div class="info-text">
-                                        <strong style="color: #2ecc71;">地址：</strong>${library.address || '未知'}
+                                        <strong style="color: #2ecc71;">地址：</strong>${library.address}
                                     </div>
                                 </div>
                                 <div class="info-item">
@@ -785,7 +701,7 @@
                                         </svg>
                                     </div>
                                     <div class="info-text">
-                                        <strong style="color: #2ecc71;">藏书：</strong>${library.books || '?'}册
+                                        <strong style="color: #2ecc71;">藏书：</strong>${library.books}册
                                     </div>
                                 </div>
                                 <div class="info-item">
@@ -798,7 +714,7 @@
                                         </svg>
                                     </div>
                                     <div class="info-text">
-                                        <strong style="color: #2ecc71;">座位：</strong>${library.seats || '?'}个
+                                        <strong style="color: #2ecc71;">座位：</strong>${library.seats}个
                                     </div>
                                 </div>
                                 <div class="info-item">
@@ -830,9 +746,9 @@
                     offset: new AMap.Pixel(0, -20)
                 });
 
-                info.open(map, centerPosition);
+                info.open(map, library.position);
                 currentInfoWindow = info;
-
+                
                 e.stopPropagation();
             });
 
@@ -840,7 +756,7 @@
         });
 
         libraryLayer = new AMap.OverlayGroup(circles);
-
+        
         // 添加地图点击事件，关闭信息窗口
         map.on('click', function() {
             if (currentInfoWindow) {
@@ -852,7 +768,6 @@
 
     // 切换热力图显示/隐藏
     function toggleHeatmap() {
-        if (!heatmap) return; // Add guard clause
         if (isHeatmapVisible) {
             heatmap.hide();
         } else {
@@ -864,45 +779,46 @@
     // 切换覆盖样式
     function toggleOverlapStyle() {
         isOverlapStyle = !isOverlapStyle;
-        const legend = document.getElementById('legend');
-        if(legend) legend.style.display = isOverlapStyle ? 'block' : 'none';
-
-        circles.forEach(circle => {
-            circle.setOptions({
-                strokeColor: "#008B8B",
-                strokeOpacity: isOverlapStyle ? 0.4 : 0.6,
-                strokeWeight: 1.5,
-                fillColor: "#008B8B",
-                fillOpacity: 0.25,
-                strokeStyle: isOverlapStyle ? 'solid' : 'dashed'
+        document.getElementById('legend').style.display = isOverlapStyle ? 'block' : 'none';
+        
+        if (isOverlapStyle) {
+            circles.forEach(circle => {
+                circle.setOptions({
+                    strokeColor: "#008B8B",
+                    strokeOpacity: 0.4,
+                    strokeWeight: 1.5,
+                    fillColor: "#008B8B",
+                    fillOpacity: 0.25,
+                    strokeStyle: 'solid'
+                });
             });
-        });
+        } else {
+            circles.forEach(circle => {
+                circle.setOptions({
+                    strokeColor: "#008B8B",
+                    strokeOpacity: 0.6,
+                    strokeWeight: 1.5,
+                    fillColor: "#008B8B",
+                    fillOpacity: 0.25,
+                    strokeStyle: 'dashed'
+                });
+            });
+        }
     }
 
     // 切换城市书房服务范围显示/隐藏
     function toggleLibraries() {
         if (!libraryLayer) {
-            // Attempt to create circles if they don't exist
-            if (typeof libraryData !== 'undefined') {
-                createLibraryCircles();
-                if (!libraryLayer) {
-                     console.error("Failed to create library layer even after attempting to create circles.");
-                     return;
-                }
-            } else {
-                 console.error("Cannot toggle libraries: libraryData is missing.");
-                 return;
-            }
+            createLibraryCircles();
         }
-
-        const legend = document.getElementById('legend');
+        
         if (isLibraryVisible) {
             map.remove(libraryLayer);
-             if (legend) legend.style.display = 'none';
+            document.getElementById('legend').style.display = 'none';
         } else {
             map.add(libraryLayer);
-            if (isOverlapStyle && legend) {
-                legend.style.display = 'block';
+            if (isOverlapStyle) {
+                document.getElementById('legend').style.display = 'block';
             }
         }
         isLibraryVisible = !isLibraryVisible;
@@ -910,24 +826,25 @@
 
     // 计算和创建服务盲区
     function initBlindAreas() {
-        if (typeof heatmapData === 'undefined') {
-             console.error("Cannot init blind areas: heatmapData is missing.");
-             return;
-        }
         // 清空现有盲区
-        blindAreaPolygons.forEach(polygon => map.remove(polygon));
+        blindAreaPolygons.forEach(polygon => {
+            map.remove(polygon);
+        });
         blindAreaPolygons = [];
-        blindAreaMergedPolygons.forEach(polygon => map.remove(polygon));
+        
+        blindAreaMergedPolygons.forEach(polygon => {
+            map.remove(polygon);
+        });
         blindAreaMergedPolygons = [];
-
+        
         // 筛选出高密度点（热力值大于80的点）
         const highDensityPoints = heatmapData.filter(point => point.count > 80);
         const blindPoints = [];
-
+        
         highDensityPoints.forEach(point => {
             let isInServiceArea = false;
             const pointLngLat = new AMap.LngLat(point.lng, point.lat);
-
+            
             // 检查该点是否在任何服务范围内
             for (let circle of circles) {
                 const center = circle.getCenter();
@@ -937,7 +854,7 @@
                     break;
                 }
             }
-
+            
             // 如果不在服务范围内，创建盲区标记
             if (!isInServiceArea) {
                 blindPoints.push(point);
@@ -953,93 +870,76 @@
     // Graham扫描法计算凸包
     function convexHull(points) {
         if (points.length < 3) {
-            return points; // Return as is if not enough points for a polygon
+            // 如果点数小于3，直接返回这些点围成的多边形
+            return points;
         }
 
-        // Find the lowest and then leftmost point
+        // 找到最左下方的点作为起始点
         let start = points[0];
-        let startIndex = 0;
         for (let i = 1; i < points.length; i++) {
             if (points[i][1] < start[1] || (points[i][1] === start[1] && points[i][0] < start[0])) {
                 start = points[i];
-                startIndex = i;
             }
         }
-        // Swap start point to the beginning
-        [points[0], points[startIndex]] = [points[startIndex], points[0]];
 
-        // Sort points by polar angle with the start point
-        const sortedPoints = points.slice(1).sort((a, b) => {
+        // 计算其他点相对于起始点的极角
+        const sortedPoints = points.filter(p => p !== start).sort((a, b) => {
             const angleA = Math.atan2(a[1] - start[1], a[0] - start[0]);
             const angleB = Math.atan2(b[1] - start[1], b[0] - start[0]);
-            if (angleA < angleB) return -1;
-            if (angleA > angleB) return 1;
-            // If angles are the same, sort by distance (closer first)
-            const distA = (a[0] - start[0])**2 + (a[1] - start[1])**2;
-            const distB = (b[0] - start[0])**2 + (b[1] - start[1])**2;
-            return distA - distB;
+            if (angleA === angleB) {
+                // 如果极角相同，选择距离起始点更远的点
+                const distA = (a[0] - start[0]) * (a[0] - start[0]) + (a[1] - start[1]) * (a[1] - start[1]);
+                const distB = (b[0] - start[0]) * (b[0] - start[0]) + (b[1] - start[1]) * (b[1] - start[1]);
+                return distB - distA;
+            }
+            return angleA - angleB;
         });
 
-        // Build the hull
+        // 构建凸包
         const hull = [start];
         for (const point of sortedPoints) {
-            hull.push(point);
-            while (hull.length >= 3 && orientation(hull[hull.length - 3], hull[hull.length - 2], hull[hull.length - 1]) !== 2) {
-                // Remove the middle point if it doesn't make a left turn
-                hull.splice(hull.length - 2, 1);
+            while (hull.length >= 2 && !isLeftTurn(hull[hull.length - 2], hull[hull.length - 1], point)) {
+                hull.pop();
             }
+            hull.push(point);
         }
-         // Ensure the hull is closed by adding the start point if needed (Graham scan doesn't always do this)
-         //if (hull.length >= 3 && (hull[0][0] !== hull[hull.length - 1][0] || hull[0][1] !== hull[hull.length - 1][1])) {
-         //   hull.push(hull[0]);
-         //}
+
+        // 确保首尾相连
+        if (hull.length >= 3) {
+            hull.push(hull[0]);
+        }
+
         return hull;
     }
 
-     // Helper function to find orientation of ordered triplet (p, q, r).
-     // 0 --> p, q and r are collinear
-     // 1 --> Clockwise
-     // 2 --> Counterclockwise
-     function orientation(p, q, r) {
-         const val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]);
-         if (val === 0) return 0;  // Collinear
-         return (val > 0) ? 1 : 2; // Clockwise or Counterclockwise
-     }
-
-
     // 判断是否左转
     function isLeftTurn(p1, p2, p3) {
-         // Check if p3 is to the left of the directed line from p1 to p2
-         // Using cross product: (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x)
-         return (p2[0] - p1[0]) * (p3[1] - p1[1]) - (p2[1] - p1[1]) * (p3[0] - p1[0]) > 0;
-     }
-
+        return (p2[0] - p1[0]) * (p3[1] - p1[1]) -
+               (p2[1] - p1[1]) * (p3[0] - p1[0]) > 0;
+    }
 
     // 创建盲区多边形
     function createBlindAreaPolygons(blindPoints) {
         if (blindPoints.length === 0) return;
 
         // 使用DBSCAN算法对盲点进行聚类
-        const clusters = dbscan(blindPoints, 2000, 2); // eps = 2km, minPts = 2
+        const clusters = dbscan(blindPoints, 2000, 2);
 
         clusters.forEach(cluster => {
-            if (cluster.length < 3) return; // Need at least 3 points for a polygon
+            if (cluster.length < 2) return;
 
+            // 创建凸包
             const points = cluster.map(point => [point.lng, point.lat]);
-
-            try {
-                const hull = convexHull(points); // Use convexHull directly
-                if (!Array.isArray(hull) || hull.length < 3) {
-                     console.warn("Convex hull resulted in less than 3 points for a cluster, skipping polygon creation.");
-                     return;
-                }
-
-                // Convert hull points to AMap.LngLat objects for the polygon path
-                const path = hull.map(p => new AMap.LngLat(p[0], p[1]));
-
-                // Create the polygon
+            
+            // 判断是否为线性分布
+            const isLinear = isLinearDistribution(points);
+            
+            if (isLinear) {
+                // 为线性分布创建缓冲区
+                const bufferedPoints = createBufferZone(points);
+                // 创建多边形
                 const polygon = new AMap.Polygon({
-                    path: path,
+                    path: bufferedPoints,
                     strokeColor: "#FF0000",
                     strokeWeight: 2,
                     strokeOpacity: 0.8,
@@ -1047,40 +947,53 @@
                     fillOpacity: 0.4,
                     cursor: 'pointer'
                 });
-
+                
+                // 添加点击事件
                 addPolygonClickEvent(polygon, cluster);
                 blindAreaMergedPolygons.push(polygon);
-
-             } catch (error) {
-                 console.error("Error creating convex hull or polygon for cluster:", error, cluster);
-             }
+            } else {
+                // 非线性分布使用原有的凸包算法
+                const hull = convexHull(points);
+                if (hull.length < 3) return;
+                
+                const polygon = new AMap.Polygon({
+                    path: hull,
+                    strokeColor: "#FF0000",
+                    strokeWeight: 2,
+                    strokeOpacity: 0.8,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.4,
+                    cursor: 'pointer'
+                });
+                
+                addPolygonClickEvent(polygon, cluster);
+                blindAreaMergedPolygons.push(polygon);
+            }
         });
-         console.log("Blind area polygons created:", blindAreaMergedPolygons.length);
     }
 
-
-    // 判断是否为线性分布 - Simplified check
-     function isLinearDistribution(points) {
-         if (points.length < 3) return true; // Treat as linear if fewer than 3 points
-
-         // Basic check: Calculate the ratio of the bounding box dimensions
-         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-         points.forEach(p => {
-             minX = Math.min(minX, p[0]);
-             maxX = Math.max(maxX, p[0]);
-             minY = Math.min(minY, p[1]);
-             maxY = Math.max(maxY, p[1]);
-         });
-
-         const width = maxX - minX;
-         const height = maxY - minY;
-
-         // If one dimension is significantly smaller than the other, consider it linear
-         // Adjust the threshold (e.g., 0.1) as needed
-         if (width === 0 || height === 0) return true; // Perfectly linear
-         return Math.min(width / height, height / width) < 0.1;
-     }
-
+    // 判断是否为线性分布
+    function isLinearDistribution(points) {
+        if (points.length < 3) return true;
+        
+        // 计算点到直线的最大距离
+        const start = points[0];
+        const end = points[points.length - 1];
+        
+        let maxDistance = 0;
+        for (let i = 1; i < points.length - 1; i++) {
+            const distance = pointToLineDistance(points[i], start, end);
+            maxDistance = Math.max(maxDistance, distance);
+        }
+        
+        // 如果最大距离小于线段长度的10%，认为是线性分布
+        const lineLength = Math.sqrt(
+            Math.pow(end[0] - start[0], 2) + 
+            Math.pow(end[1] - start[1], 2)
+        );
+        
+        return maxDistance < lineLength * 0.1;
+    }
 
     // 计算点到直线的距离
     function pointToLineDistance(point, lineStart, lineEnd) {
@@ -1090,21 +1003,74 @@
             lineEnd[0] * lineStart[1] -
             lineEnd[1] * lineStart[0]
         );
-
+        
         const denominator = Math.sqrt(
             Math.pow(lineEnd[1] - lineStart[1], 2) +
             Math.pow(lineEnd[0] - lineStart[0], 2)
         );
-
-        return denominator === 0 ? 0 : numerator / denominator; // Avoid division by zero
+        
+        return numerator / denominator;
     }
 
-    // 创建缓冲区 (Simplified - Not used if convexHull is always used)
-     function createBufferZone(points) {
-         console.warn("createBufferZone called, but convexHull is preferred.");
-         return convexHull(points); // Fallback to convex hull
-     }
-
+    // 创建缓冲区
+    function createBufferZone(points) {
+        if (points.length < 2) return points;
+        
+        const bufferDistance = 0.005; // 约500米的经纬度距离
+        const bufferedPoints = [];
+        
+        // 添加起点的缓冲区圆弧点
+        const startPoint = points[0];
+        for (let i = 0; i <= 10; i++) {
+            const angle = Math.PI * i / 10;
+            const x = startPoint[0] + bufferDistance * Math.cos(angle);
+            const y = startPoint[1] + bufferDistance * Math.sin(angle);
+            bufferedPoints.push([x, y]);
+        }
+        
+        // 创建平行线上的点
+        for (let i = 0; i < points.length - 1; i++) {
+            const p1 = points[i];
+            const p2 = points[i + 1];
+            
+            // 计算垂直向量
+            const dx = p2[0] - p1[0];
+            const dy = p2[1] - p1[1];
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const normalX = -dy / length * bufferDistance;
+            const normalY = dx / length * bufferDistance;
+            
+            bufferedPoints.push([p2[0] + normalX, p2[1] + normalY]);
+        }
+        
+        // 添加终点的缓冲区圆弧点
+        const endPoint = points[points.length - 1];
+        for (let i = 0; i <= 10; i++) {
+            const angle = Math.PI + Math.PI * i / 10;
+            const x = endPoint[0] + bufferDistance * Math.cos(angle);
+            const y = endPoint[1] + bufferDistance * Math.sin(angle);
+            bufferedPoints.push([x, y]);
+        }
+        
+        // 添加下方的点（反向）
+        for (let i = points.length - 1; i > 0; i--) {
+            const p1 = points[i];
+            const p2 = points[i - 1];
+            
+            const dx = p2[0] - p1[0];
+            const dy = p2[1] - p1[1];
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const normalX = dy / length * bufferDistance;
+            const normalY = -dx / length * bufferDistance;
+            
+            bufferedPoints.push([p1[0] + normalX, p1[1] + normalY]);
+        }
+        
+        // 闭合多边形
+        bufferedPoints.push(bufferedPoints[0]);
+        
+        return bufferedPoints;
+    }
 
     // 添加多边形点击事件
     function addPolygonClickEvent(polygon, cluster) {
@@ -1112,7 +1078,7 @@
             if (currentInfoWindow) {
                 currentInfoWindow.close();
             }
-
+            
             var info = new AMap.InfoWindow({
                 isCustom: true,
                 autoMove: true,
@@ -1162,14 +1128,10 @@
                 `,
                 offset: new AMap.Pixel(0, -20)
             });
-
-             // Calculate center of the polygon bounds for positioning the info window
-             const bounds = polygon.getBounds();
-             const center = bounds ? bounds.getCenter() : e.lnglat; // Fallback to click position if bounds unavailable
-
-             info.open(map, center);
+            
+            info.open(map, polygon.getBounds().getCenter());
             currentInfoWindow = info;
-
+            
             e.stopPropagation();
         });
     }
@@ -1178,90 +1140,74 @@
     function dbscan(points, eps, minPts) {
         const clusters = [];
         const visited = new Set();
-        const pointMap = new Map(); // Use Map for object identity check
-        points.forEach((p, i) => pointMap.set(i, { point: p, index: i, clusterId: undefined }));
-
-        pointMap.forEach((pData) => {
-            if (visited.has(pData.index)) return;
-            visited.add(pData.index);
-
-            const neighborsIndices = getNeighborsIndices(pData.index, points, eps, pointMap);
-
-            if (neighborsIndices.length < minPts) {
-                // Mark as noise for now, might become part of a cluster later
-                pData.clusterId = -1; // Noise
-            } else {
-                const clusterId = clusters.length;
-                clusters.push([]); // Start a new cluster
-                expandCluster(pData.index, neighborsIndices, clusterId, eps, minPts, visited, pointMap, points, clusters);
-            }
+        
+        points.forEach(point => {
+            if (visited.has(point)) return;
+            visited.add(point);
+            
+            const neighbors = getNeighbors(point, points, eps);
+            if (neighbors.length < minPts) return;
+            
+            const cluster = [point];
+            expandCluster(points, neighbors, cluster, eps, minPts, visited);
+            clusters.push(cluster);
         });
-
-        // Return clusters containing the original point objects
-        return clusters.map(clusterIndices => clusterIndices.map(index => points[index]));
+        
+        return clusters;
     }
 
-    // Get neighbor indices
-    function getNeighborsIndices(pointIndex, points, eps, pointMap) {
-        const neighbors = [];
-        const currentPoint = points[pointIndex];
-        const currentLngLat = new AMap.LngLat(currentPoint.lng, currentPoint.lat);
-
-        pointMap.forEach((otherPData) => {
-            if (pointIndex === otherPData.index) return;
-            const dist = currentLngLat.distance([otherPData.point.lng, otherPData.point.lat]);
-            if (dist <= eps) {
-                neighbors.push(otherPData.index);
-            }
+    // 获取邻近点
+    function getNeighbors(point, points, eps) {
+        return points.filter(p => {
+            if (p === point) return false;
+            const distance = new AMap.LngLat(point.lng, point.lat)
+                .distance([p.lng, p.lat]);
+            return distance <= eps;
         });
-        return neighbors;
     }
 
-    // Expand cluster
-    function expandCluster(pointIndex, neighborsIndices, clusterId, eps, minPts, visited, pointMap, points, clusters) {
-        clusters[clusterId].push(pointIndex);
-        pointMap.get(pointIndex).clusterId = clusterId;
-
-        let i = 0;
-        while (i < neighborsIndices.length) {
-            const neighborIndex = neighborsIndices[i];
-            const neighborData = pointMap.get(neighborIndex);
-
-            if (!visited.has(neighborIndex)) {
-                visited.add(neighborIndex);
-                const newNeighborsIndices = getNeighborsIndices(neighborIndex, points, eps, pointMap);
-                if (newNeighborsIndices.length >= minPts) {
-                    // Add new neighbors to the queue
-                    neighborsIndices = neighborsIndices.concat(newNeighborsIndices.filter(idx => !neighborsIndices.includes(idx) && !visited.has(idx)));
+    // 扩展聚类
+    function expandCluster(points, neighbors, cluster, eps, minPts, visited) {
+        neighbors.forEach(neighbor => {
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor);
+                const newNeighbors = getNeighbors(neighbor, points, eps);
+                if (newNeighbors.length >= minPts) {
+                    neighbors.push(...newNeighbors.filter(n => !neighbors.includes(n)));
                 }
             }
-
-            // Add to cluster if not already assigned
-            if (neighborData.clusterId === undefined || neighborData.clusterId === -1) {
-                 if (!clusters[clusterId].includes(neighborIndex)) {
-                     clusters[clusterId].push(neighborIndex);
-                 }
-                neighborData.clusterId = clusterId;
+            if (!cluster.includes(neighbor)) {
+                cluster.push(neighbor);
             }
-            i++;
-        }
+        });
     }
-
 
     // 切换盲点显示/隐藏
     function toggleBlindArea() {
+        if (isBlindAreaVisible) {
+            blindAreaPolygons.forEach(polygon => {
+                map.remove(polygon);
+            });
+        } else {
+            blindAreaPolygons.forEach(polygon => {
+                map.add(polygon);
+            });
+        }
         isBlindAreaVisible = !isBlindAreaVisible;
-        blindAreaPolygons.forEach(polygon => {
-            isBlindAreaVisible ? map.add(polygon) : map.remove(polygon);
-        });
     }
 
     // 切换盲区多边形显示/隐藏
     function toggleBlindAreaPolygon() {
+        if (isBlindAreaPolygonVisible) {
+            blindAreaMergedPolygons.forEach(polygon => {
+                map.remove(polygon);
+            });
+        } else {
+            blindAreaMergedPolygons.forEach(polygon => {
+                map.add(polygon);
+            });
+        }
         isBlindAreaPolygonVisible = !isBlindAreaPolygonVisible;
-        blindAreaMergedPolygons.forEach(polygon => {
-            isBlindAreaPolygonVisible ? map.add(polygon) : map.remove(polygon);
-        });
     }
 
     // 修改盲区标记的点击事件
@@ -1276,12 +1222,12 @@
             fillOpacity: 0.6,
             strokeStyle: 'solid'
         });
-
+        
         blindArea.on('click', function(e) {
             if (currentInfoWindow) {
                 currentInfoWindow.close();
             }
-
+            
             var info = new AMap.InfoWindow({
                 isCustom: true,
                 autoMove: true,
@@ -1328,25 +1274,23 @@
                 `,
                 offset: new AMap.Pixel(0, -20)
             });
-
+            
             info.open(map, pointLngLat);
             currentInfoWindow = info;
-
+            
             e.stopPropagation();
         });
-
+        
         return blindArea;
     }
 
     // 在现有的 JavaScript 代码开头添加关闭提示框的函数
     function closeInitialTip() {
         const tip = document.getElementById('initialTip');
-         if (tip) {
-            tip.style.opacity = '0';
-            setTimeout(() => {
-                tip.style.display = 'none';
-            }, 500);
-         }
+        tip.style.opacity = '0';
+        setTimeout(() => {
+            tip.style.display = 'none';
+        }, 500);
     }
 
     // 初始化地图
