@@ -75,12 +75,12 @@ This is a data journalism project documenting the development, spatial distribut
 
 - 后端：Flask
 - 前端：HTML, CSS, JavaScript
-- 地图：高德地图 API
+- 地图：高德地图、mapbox API
 - 数据可视化：ECharts, Plotly
 
 ## 注意事项
 
-- 本项目使用了高德地图 API，确保您的网络环境能够访问该 API
+- 本项目使用了高德地图\mapbox API，确保您的网络环境能够访问该 API
 - 静态网站版本已经将动态的Flask路由替换为直接的文件链接
 
 # 河洛书苑静态网站
