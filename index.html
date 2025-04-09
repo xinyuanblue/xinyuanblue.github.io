@@ -662,9 +662,9 @@
         margin: 0 auto;  /* 水平居中 */
         display: grid;  /* 网格布局 */
         grid-template-columns: repeat(2, 1fr);  /* 两列布局 */
-        gap: 30px;  /* 列间距 */
+        gap: 20px;  /* 减小列间距 */
         text-align: center;  /* 文本居中 */
-        margin-bottom: 30px;  /* 底部外边距 */
+        margin-bottom: 20px;  /* 减小底部外边距 */
     }
 
     /* 制作人员标题样式 */
@@ -2169,12 +2169,17 @@
     }
 
     .showcase-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
-        gap: 25px;
-        max-width: 1000px; /* Adjust as needed */
-        margin: 0 auto;
-    }
+  display: flex;
+  flex-wrap: nowrap;  /* 防止自动换行 */
+  justify-content: space-between;
+  gap: 20px;
+  overflow-x: auto;  /* 在窄屏上允许水平滚动而不是换行 */
+  padding-bottom: 10px;  /* 为可能的滚动条留出空间 */
+}
+.showcase-item {
+  flex: 0 0 31%;  /* 三张图片时每张分配大约1/3的宽度（稍小点以留出间距） */
+  min-width: 250px;  /* 设置最小宽度，确保内容可见 */
+}
 
     .showcase-item.library-card {
         background-color: #fff;
@@ -3010,7 +3015,7 @@
 <!-- 建设成本分析 -->
 <!-- 建设成本分析 -->
 <div class="analysis-section">
-    <h3>城市书房建设成本构成</h3>
+    <h3>城市书房建设成本构成（万元）</h3>
     <div class="chart-container">
         <div id="costStructurePieChart" style="width: 100%; height: 300px;"></div>
     </div>
@@ -3185,12 +3190,12 @@
             </div>
 
             <!-- 提出解决方案：洛阳模式 -->
-            <div class="solution-highlight" style="text-align: center; margin-bottom: 30px;">
-                 <h3 style="color: #27ae60; margin-bottom: 15px; font-size: 1.6em;">洛阳的答案：“多元共建，协同共享”</h3>
-                 <p style="font-size: 1.1em; color: #34495e; max-width: 800px; margin: 0 auto; line-height: 1.7;">
-                     面对资金压力和可持续运营的难题，洛阳没有仅仅依赖政府财政“大包大揽”，而是创新性地探索出了一条“政府主导、社会参与、专业运营、共建共享”的发展新路径。这不仅是解决资金问题的务实之举，更是激发城市活力、实现文化惠民长效化的智慧探索。
-                 </p>
-            </div>
+            <div class="solution-highlight" style="margin-bottom: 30px;">
+                <h3 style="color: #27ae60; margin-bottom: 15px; font-size: 1.8em;">洛阳的答案："多元共建，协同共享"</h3>
+                <p style="font-size: 1.2em; color: #34495e; line-height: 1.7; text-indent: 2em; width: 100%;">
+                    面对资金压力和可持续运营的难题，洛阳没有仅仅依赖政府财政"大包大揽"，而是创新性地探索出了一条"政府主导、社会参与、专业运营、共建共享"的发展新路径。这不仅是解决资金问题的务实之举，更是激发城市活力、实现文化惠民长效化的智慧探索。
+                </p>
+           </div>
 
 <!-- 具体措施 -->
 <div style="margin-bottom: 30px;">
@@ -3342,46 +3347,45 @@
             </li>
         </ul>
 
-        <h4 style="font-size: 1.4em; margin: 25px 0 15px; color: #2c3e50; padding-bottom: 8px; border-bottom: 2px solid #e0e0e0;">
-            <i class="fas fa-map-pin" style="color: #ffc107; margin-right: 8px;"></i>区域问题特征细分
+        <h4 style="font-size: 1.4em; margin: 25px 0 15px; color: #2c50; padding-bottom: 8px; border-bottom: 2px solid #e0e0e0;">
+            <i class="fas fa-map-pin" style="color: #ffc107; margin-right: 8px;"></i>区域问题特征细分 (结合数据与区域特点分析) <!-- 更新标题以反映内容 -->
         </h4>
 
         <ul style="list-style: none; padding-left: 0;">
              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                 <i class="fas fa-tools" style="color: #17a2b8; margin-right: 10px; margin-top: 5px; width: 20px; text-align: center;"></i>
-                 <div><strong>涧西区 (运营服务问题突出):</strong> 可能反映了老牌建成区书房在硬件相对稳定后，对精细化管理和服务的更高要求。</div>
+                 <i class="fas fa-cogs" style="color: #17a2b8; margin-right: 10px; margin-top: 5px; width: 20px; text-align: center;"></i>
+                 <div><strong>涧西区 (运营服务类反馈相对集中):</strong> 作为成熟的中心城区，该区域书房使用频率较高，市民对日常管理规范、服务细节（如开放时间、人员态度、活动组织等）的关注度和期望值也可能相对更高。数据显示其运营服务反馈量(176条)显著多于设施环境类(138条)，印证了当硬件设施基本满足后，运营层面的问题更容易成为反馈焦点。</div> <!-- 结合推测和数据 -->
             </li>
              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
                  <i class="fas fa-building" style="color: #17a2b8; margin-right: 10px; margin-top: 5px; width: 20px; text-align: center;"></i>
-                <div><strong>洛龙区 (设施环境问题相对较多):</strong> 新城区书房虽新，但高强度使用可能放大了选址、空间、座位、环境舒适度等硬件相关问题。</div>
+                <div><strong>洛龙区 (设施环境类反馈相对突出):</strong> 作为洛阳市重点发展的新城区，人口增长快，公共设施使用强度大。数据显示其设施环境反馈量(161条)居于首位，且多于运营服务类(132条)。尽管书房建设时间不长，但高密度、高频率的使用可能更快地暴露或放大了硬件设施、空间布局、座位配置、环境维护（如空调、卫生）等方面存在的问题或压力点。</div> <!-- 结合推测和数据 -->
             </li>
              <li style="margin-bottom: 12px; display: flex; align-items: flex-start;">
-                <i class="fas fa-history" style="color: #17a2b8; margin-right: 10px; margin-top: 5px; width: 20px; text-align: center;"></i>
-                <div><strong>其他主城区 (瀍河、老城、西工):</strong> 普遍面临设施维护和运营提升的双重需求。</div>
+                <i class="fas fa-balance-scale" style="color: #17a2b8; margin-right: 10px; margin-top: 5px; width: 20px; text-align: center;"></i>
+                <div><strong>其他主城区 (瀍河、老城、西工):</strong> 数据反映这些区域在设施环境和运营服务两类问题上的反馈数量较为接近或互有侧重（如西工区运营服务类63条略多于设施环境类52条）。这表明市民对这些区域书房的关注点分布相对均衡，涉及硬件维护和软件服务的双重需求。</div> <!-- 基于数据的描述 -->
             </li>
             <li style="display: flex; align-items: flex-start;">
-                 <i class="fas fa-city" style="color: #17a2b8; margin-right: 10px; margin-top: 5px; width: 20px; text-align: center;"></i>
-                <div><strong>新兴/周边区域:</strong> 运营服务问题偏多，可能反映了管理模式仍在磨合。</div>
+                 <i class="fas fa-chart-line" style="color: #17a2b8; margin-right: 10px; margin-top: 5px; width: 20px; text-align: center;"></i>
+                <div><strong>新兴/县区/周边区域 (伊滨、孟津、偃师、伊川等):</strong> 尽管总反馈量相对较低，但数据显示其中部分区域（如孟津区运营服务类35条，远超设施环境类18条；伊川县运营服务类21条，多于设施环境类10条）运营服务类反馈数量明显超过设施环境类。这可能暗示随着书房网络向外围扩展，确保服务规范和管理到位是这些区域面临的重要课题。</div> <!-- 基于数据的描述和谨慎推测 -->
             </li>
         </ul>
-
         <!-- 总结与政策回应 -->
         <div class="summary-conclusion" style="margin-top: 30px; padding: 20px; background-color: rgba(46, 204, 113, 0.05); border-radius: 8px; border-left: 5px solid #2ecc71;">
              <h4 style="font-size: 1.4em; margin-bottom: 15px; color: #27ae60;">
-                 <i class="fas fa-check-circle" style="margin-right: 8px;"></i>总结：从“建好”到“管好用好”的深化
+                 <i class="fas fa-check-circle" style="margin-right: 8px;"></i>总结：从"建好"到"管好用好"的深化
              </h4>
-            <p style="font-size: 1.05em; color: #34495e; line-height: 1.8; text-indent: 2em; margin-bottom: 15px;">
-                市民反馈数据清晰地指向一个核心趋势：随着“河洛书苑”网络化布局的基本完成，运营管理和服务效能已成为影响市民体验、决定书房口碑的关键因素。正如行业共识所言，“城市书房三分靠建、七分靠管”。
+             <p style="font-size: 1.05em; color: #34495e; line-height: 1.8; text-indent: 2em; margin-bottom: 15px;">
+                市民反馈数据清晰地指向一个核心趋势：随着"河洛书苑"网络化布局的基本完成，运营管理和服务效能已成为影响市民体验、决定书房口碑的关键因素。正如一句常被引用的话所指出的，<a href="https://nepaper.ccdy.cn/html/2019-09/10/content_270329.htm" target="_blank" style="color: #007bff;">"城市书房三分靠建、七分靠管"</a>，后续的精细化管理至关重要。
             </p>
+        </div>
             <p style="font-size: 1.05em; color: #34495e; line-height: 1.8; text-indent: 2em;">
-                面对市民在开放时间、人员服务、空间规划、噪音控制等方面提出的具体问题和建议，洛阳市展现了持续优化的决心。通过因地制宜地探索管理模式，并先后印发《洛阳市“河洛书苑”城市书房达标创优实施办法》和《洛阳市“河洛书苑”城市书房管理办法》等关键性政策文件，建立了从建设标准到运营规范、再到服务评估的完整体系。定期的运行效果评估机制更是将市民的反馈和实际使用情况纳入持续改进的闭环中。这种从“建好”向“管好、用好”的深化，不仅是对市民呼声的积极回应，更是保障城市书房这一文化惠民工程能够长期发挥效能、真正融入市民生活的关键所在。
+                面对市民在开放时间、人员服务、空间规划、噪音控制等方面提出的具体问题和建议，洛阳市展现了持续优化的决心。通过因地制宜地探索管理模式，并先后印发《洛阳市“河洛书苑”城市书房达标创优实施办法》和《洛阳市“河洛书苑”城市书房建设管理办法》等关键性政策文件，建立了从建设标准到运营规范、再到服务评估的完整体系。定期的运行效果评估机制更是将市民的反馈和实际使用情况纳入持续改进的闭环中。这种从“建好”向“管好、用好”的深化，不仅是对市民呼声的积极回应，更是保障城市书房这一文化惠民工程能够长期发挥效能、真正融入市民生活的关键所在。
             </p>
         </div>
     </div>
-</div>
 
 
-</div>
+
 
 
 <!-- 市民反馈时间趋势分析 -->
@@ -3432,7 +3436,7 @@
             </li>
         </ul>
         <p style="font-size: 1.05em;">
-            总的来说，时间趋势分析不仅展示了反馈量的起伏，更重要的是揭示了影响这些变化的潜在因素（季节性、特殊事件），并突出了运营管理和服务优化对于提升市民满意度的长期重要性。
+            通过时间趋势分析不仅展示了反馈量的起伏，更重要的是揭示了影响这些变化的潜在因素（季节性、特殊事件），并突出了运营管理和服务优化对于提升市民满意度的长期重要性。
         </p>
     </div>
 </div>
@@ -3559,7 +3563,7 @@
             </li>
         </ul>
          <p style="line-height: 1.8; color: #34495e; text-indent: 2em; font-weight: 500;">
-            综上所述，市民反馈中反映出的问题，洛阳市通过出台详细的《建设管理办法》等制度文件，从规划选址、设施配置到运行管理、服务提供、监督考评等多个环节进行了全面的规范和部署，力求系统性地解决问题，保障“河洛书苑”的高质量、可持续发展。
+            针对市民反映出的问题，洛阳市通过出台详细的《建设管理办法》等制度文件，从规划选址、设施配置到运行管理、服务提供、监督考评等多个环节进行了全面的规范和部署，力求系统性地解决问题，保障“河洛书苑”的高质量、可持续发展。
         </p>
     </div>
 
@@ -3708,7 +3712,7 @@
             </div>
         </div>
          <p style="font-size: 1.1em; color: #34495e; line-height: 1.8; text-indent: 2em; margin-top: 25px;">
-              这些散布在公园、社区、商场、景区旁的“河洛书苑”，不仅为市民（包括大学生、上班族等各类人群）提供了便捷、免费、高质量的阅读学习空间，更成为了传递城市文化、促进邻里交流、激发城市活力的重要节点，是洛阳这座千年古都写给新时代的一封充满温度的“文化情书”。
+              这些散布在公园、社区、商场、景区旁的“河洛书苑”，不仅为市民（包括大学生、上班族等各类人群）提供了便捷、免费、高质量的阅读学习空间，更成为了传递城市文化、促进邻里交流、激发城市活力的重要节点。
           </p>
    </div>
 
@@ -4361,7 +4365,7 @@
                       }
                   },
                   legend: {
-                      data: ['书房数量', '总面积(平方米/100)'], // Updated legend label
+                      data: ['书房数量（座）', '总面积(平方米)'], // Updated legend label
                       top: 'top'
                   },
                   grid: {
@@ -4386,7 +4390,7 @@
                   },
                   series: [
                       {
-                          name: '书房数量', // Match legend label
+                          name: '书房数量（座）', // Match legend label
                           type: 'bar',
                           stack: '总量',
                           color: '#36A2EB',
@@ -4398,7 +4402,7 @@
                           data: sortedCounts
                       },
                       {
-                          name: '总面积(平方米/100)', // Match legend label
+                          name: '总面积(平方米)', // Match legend label
                           type: 'bar',
                           color: '#FF9F40',
                           data: sortedAreas.map(area => area / 100), // 缩小面积显示比例
@@ -4712,27 +4716,27 @@
       ];
       // 使用真实的subject_data.json数据
       const subjectData = [
-        { "name": "文学", "borrowing_count": 10442367, "percentage": 61.14 },
-        { "name": "艺术", "borrowing_count": 1234651, "percentage": 7.23 },
-        { "name": "历史、地理", "borrowing_count": 996970, "percentage": 5.84 },
-        { "name": "文化、科学、教育、体育", "borrowing_count": 949105, "percentage": 5.56 },
-        { "name": "政治、法律", "borrowing_count": 876543, "percentage": 5.13 },
-        { "name": "经济", "borrowing_count": 745678, "percentage": 4.37 },
-        { "name": "语言、文字", "borrowing_count": 681075, "percentage": 3.99 },
-        { "name": "哲学、宗教", "borrowing_count": 615892, "percentage": 3.60 },
-        { "name": "医药、卫生", "borrowing_count": 543210, "percentage": 3.18 },
-        { "name": "农业科学", "borrowing_count": 432109, "percentage": 2.53 },
-        { "name": "工业技术", "borrowing_count": 321098, "percentage": 1.88 },
-        { "name": "数理科学和化学", "borrowing_count": 210987, "percentage": 1.23 },
-        { "name": "自然科学总论", "borrowing_count": 176543, "percentage": 1.03 },
-        { "name": "天文学、地球科学", "borrowing_count": 154321, "percentage": 0.90 },
-        { "name": "生物科学", "borrowing_count": 132109, "percentage": 0.77 },
-        { "name": "马克思主义、列宁主义、毛泽东思想", "borrowing_count": 98765, "percentage": 0.58 },
-        { "name": "综合性图书", "borrowing_count": 76543, "percentage": 0.45 },
-        { "name": "交通运输", "borrowing_count": 65432, "percentage": 0.38 },
-        { "name": "航空、航天", "borrowing_count": 54321, "percentage": 0.32 },
-        { "name": "环境科学、安全科学", "borrowing_count": 43210, "percentage": 0.25 },
-        { "name": "军事", "borrowing_count": 32109, "percentage": 0.19 }
+          { "name": "文学", "borrowing_count": 10442367, "percentage": 61.13 },
+          { "name": "艺术", "borrowing_count": 1234651, "percentage": 7.23 },
+          { "name": "历史、地理", "borrowing_count": 996970, "percentage": 5.84 },
+          { "name": "文化、科学、教育、体育", "borrowing_count": 949105, "percentage": 5.56 },
+          { "name": "政治、法律", "borrowing_count": 876543, "percentage": 5.13 },
+          { "name": "经济", "borrowing_count": 745678, "percentage": 4.36 },
+          { "name": "语言、文字", "borrowing_count": 681075, "percentage": 3.99 },
+          { "name": "哲学、宗教", "borrowing_count": 615892, "percentage": 3.61 },
+          { "name": "医药、卫生", "borrowing_count": 543210, "percentage": 3.18 },
+          { "name": "农业科学", "borrowing_count": 432109, "percentage": 2.53 },
+          { "name": "工业技术", "borrowing_count": 321098, "percentage": 1.88 },
+          { "name": "数理科学和化学", "borrowing_count": 210987, "percentage": 1.24 },
+          { "name": "自然科学总论", "borrowing_count": 176543, "percentage": 1.03 },
+          { "name": "天文学、地球科学", "borrowing_count": 154321, "percentage": 0.90 },
+          { "name": "生物科学", "borrowing_count": 132109, "percentage": 0.77 },
+          { "name": "马克思主义、列宁主义、毛泽东思想", "borrowing_count": 98765, "percentage": 0.58 },
+          { "name": "综合性图书", "borrowing_count": 76543, "percentage": 0.45 },
+          { "name": "交通运输", "borrowing_count": 65432, "percentage": 0.38 },
+          { "name": "航空、航天", "borrowing_count": 54321, "percentage": 0.32 },
+          { "name": "环境科学、安全科学", "borrowing_count": 43210, "percentage": 0.25 },
+          { "name": "军事", "borrowing_count": 32109, "percentage": 0.19 }
       ];
 
       // 初始化分时段客流量图表
@@ -4744,7 +4748,7 @@
                   // 获取小时值
                   const hour = params[0].axisValue;
                   // 返回格式化的提示内容
-                  return `${hour}:00 - ${hour}:59<br/>平均客流量: ${params[0].value}人`;
+                  return `${hour}:00 - ${hour}:59<br/>平均客流量: ${params[0].value}人次`;
               }
           },
           grid: {
@@ -4763,7 +4767,7 @@
           },
           yAxis: {
               type: 'value',
-              name: '平均客流量'
+              name: '平均客流量（人次）'
           },
           series: [{
               name: '平均客流量',
@@ -4818,7 +4822,7 @@
                   }
 
                   return '日期: ' + params[0].name +
-                         '<br/>客流量: ' + params[0].value + '人' + dateTypeText;
+                         '<br/>客流量: ' + params[0].value + '人次' + dateTypeText;
               }
           },
           grid: {
@@ -4838,7 +4842,7 @@
           },
           yAxis: {
               type: 'value',
-              name: '客流量'
+              name: '客流量（人次）'
           },
           series: [{
               name: '客流量',
@@ -4896,7 +4900,7 @@
       if (otherPercentage > 0) {
           pieData.push({
               name: '其他',
-              value: otherPercentage,
+              value: Number(otherPercentage.toFixed(2)),
               borrowing_count: otherCount
           });
       }
@@ -4931,7 +4935,7 @@
                       show: true,
                       fontSize: '18',
                       fontWeight: 'bold',
-                      formatter: '{b}: {c}%\n{d}%'
+                      formatter: '{b}: {c}%'
                   }
               },
               labelLine: {
@@ -4992,7 +4996,7 @@ document.addEventListener('DOMContentLoaded', function() {
               {
                   name: '成本构成',
                   type: 'pie',
-                  radius: ['0%', '60%'],
+                  radius: ['0%', '85%'],
                   center: ['50%', '55%'], // Adjusted center
                   avoidLabelOverlap: true,
                   data: [
@@ -5530,21 +5534,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     [0.375, 'rgb(254, 178, 76)'], [0.5, 'rgb(253, 141, 60)'], [0.625, 'rgb(252, 78, 42)'],
                     [0.75, 'rgb(227, 26, 28)'], [0.875, 'rgb(189, 0, 38)'], [1, 'rgb(128, 0, 38)']
                 ];
-
                 const heatmapData = [{
-                    z: data.values, x: data.months, y: data.years, type: 'heatmap',
-                    colorscale: customColorScale, showscale: true,
+                    z: data.values, 
+                    x: data.months, 
+                    y: data.years, 
+                    type: 'heatmap',
+                    colorscale: customColorScale, 
+                    showscale: true,
+                    colorbar: {
+                        title: '数量（条）',
+                        titleside: 'right',
+                        titlefont: {
+                            size: 14,
+                            family: 'Arial, sans-serif'
+                        }
+                    },
                     hovertemplate: '%{y}年%{x}: %{z}条反馈<extra></extra>',
-                    text: data.values.map(row => row.map(val => val > 0 ? String(val) : '')), // Only show text for non-zero values
-                    texttemplate: '%{text}', textfont: { size: 12 }
+                    text: data.values.map(row => row.map(val => val > 0 ? String(val) : '')),
+                    texttemplate: '%{text}', 
+                    textfont: { size: 12 }
                 }];
 
                 const layout = {
-                    title: type === 'all' ? '全部反馈月度热力图' : `${type}类反馈月度热力图`,
-                    margin: { l: 50, r: 50, b: 80, t: 50, pad: 4 },
-                    xaxis: { title: '月份', side: 'bottom' },
-                    yaxis: { title: '年份', autorange: 'reversed' },
-                    annotations: [] // Clear previous annotations
+                    title: {
+                        text: type === 'all' ? '' : `${type}类反馈月度热力图`,
+                        font: { size: 18 }
+                    },
+                    margin: { l: 50, r: 80, b: 80, t: 50, pad: 4 },
+                    xaxis: { 
+                        title: {
+                            text: '月份',
+                            font: { size: 14 }
+                        }, 
+                        side: 'bottom' 
+                    },
+                    yaxis: { 
+                        title: {
+                            text: '年份',
+                            font: { size: 14 }
+                        }, 
+                        autorange: 'reversed' 
+                    },
+                    annotations: []
                 };
 
                  // Add annotations with adjusted text color logic
@@ -5584,10 +5615,86 @@ document.addEventListener('DOMContentLoaded', function() {
             } else { console.error("Canvas 'level1FeedbackChart' not found."); }
 
             const level2Ctx = document.getElementById('level2FeedbackChart')?.getContext('2d');
-            if (level2Ctx) { /* ... (Keep Chart.js bar chart logic as before) ... */
-                 const level2Data = { labels: ['开放时间调整', '人员服务问题', '空间规划与选址', '噪音控制问题', '空调通风系统', '卫生设施问题', '物理设施损坏', '座位资源不足', '照明系统问题', '饮水设施问题'].reverse(), datasets: [{ label: '反馈数量', data: [409, 304, 300, 86, 75, 67, 49, 47, 26, 18].reverse(), backgroundColor: 'rgba(75, 192, 192, 0.7)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 }] };
-                 new Chart(level2Ctx, { type: 'bar', data: level2Data, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return `反馈数量: ${context.raw}条`; } } } }, scales: { x: { beginAtZero: true, title: { display: true, text: '反馈数量' } }, y: { ticks: { font: { size: 11 } } } } } });
-            } else { console.error("Canvas 'level2FeedbackChart' not found."); }
+            if (level2Ctx) {
+                // 定义一级分类对应的颜色
+                const categoryColors = {
+                    '运营服务': 'rgba(255, 159, 64, 0.7)',  // 橙色 - 运营服务问题
+                    '设施环境': 'rgba(54, 162, 235, 0.7)'   // 蓝色 - 设施环境问题
+                };
+                
+                // 每个二级问题归属的一级分类
+                const problemCategories = {
+                    '开放时间调整': '运营服务',
+                    '人员服务问题': '运营服务',
+                    '空间规划与选址': '设施环境',
+                    '噪音控制问题': '设施环境',
+                    '空调通风系统': '设施环境',
+                    '卫生设施问题': '设施环境',
+                    '物理设施损坏': '设施环境',
+                    '座位资源不足': '设施环境',
+                    '照明系统问题': '设施环境',
+                    '饮水设施问题': '设施环境'
+                };
+                
+                // 原始标签和数据（已经是reverse顺序）
+                const originalLabels = ['开放时间调整', '人员服务问题', '空间规划与选址', '噪音控制问题', '空调通风系统', '卫生设施问题', '物理设施损坏', '座位资源不足', '照明系统问题', '饮水设施问题'].reverse();
+                const originalData = [409, 304, 300, 86, 75, 67, 49, 47, 26, 18].reverse();
+                
+                // 生成每个条形的背景颜色数组
+                const backgroundColors = originalLabels.map(label => {
+                    const category = problemCategories[label];
+                    return category ? categoryColors[category] : 'rgba(201, 203, 207, 0.7)'; // 默认灰色
+                });
+                
+                // 生成每个条形的边框颜色数组（稍深一点的颜色）
+                const borderColors = backgroundColors.map(color => {
+                    return color.replace('0.7', '1'); // 边框使用不透明的颜色
+                });
+                
+                const level2Data = {
+                    labels: originalLabels,
+                    datasets: [{
+                        label: '反馈数量',
+                        data: originalData,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1
+                    }]
+                };
+                
+                new Chart(level2Ctx, {
+                    type: 'bar',
+                    data: level2Data,
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const category = problemCategories[label] || '其他';
+                                        return `${category}类问题: ${context.raw}条`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: { display: true, text: '反馈数量（条）' }
+                            },
+                            y: {
+                                ticks: { font: { size: 11 } }
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.error("Canvas 'level2FeedbackChart' not found.");
+            }
         }
          // Call Chart.js init after DOM is ready and Chart.js is confirmed loaded
         if (typeof Chart !== 'undefined') {
