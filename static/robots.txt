@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://heluoshuyuan.cn/sitemap.xml 
