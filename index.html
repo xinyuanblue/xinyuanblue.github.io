@@ -3393,7 +3393,7 @@
 <!-- 市民反馈时间趋势分析 -->
 <div class="analysis-section feedback-time-trend" style="margin-bottom: 40px;"> <!-- Added class -->
     <h3 class="section-title" style="font-size: 1.6em; margin-bottom: 10px;">
-        <i class="fas fa-chart-line" style="color: #6f42c1; margin-right: 8px;"></i>市民反馈强度时间趋势 (按月)
+        <i class="fas fa-chart-line" style="color: #6f42c1; margin-right: 8px;"></i>市民反馈强度时间趋势 
     </h3>
     <p style="text-align: center; color: #6c757d; margin-top: -5px; margin-bottom: 20px; font-size: 0.95em;">
         下图展示了2017年底至2025年初市民反馈数量的月度变化。点击图例可切换查看咨询、建议、投诉的单项趋势或总反馈量趋势。
@@ -5193,6 +5193,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
   // 反馈图表逻辑 (Plotly + Chart.js)
+  // 反馈图表逻辑 (Plotly + Chart.js)
+    // 反馈图表逻辑 (Plotly + Chart.js)
+  // 反馈图表逻辑 (Plotly + Chart.js)
+  // 反馈图表逻辑 (Plotly + Chart.js)
   document.addEventListener('DOMContentLoaded', function() {
       // --- Plotly Heatmap ---
       function createHeatmap() {
@@ -5208,10 +5212,16 @@ document.addEventListener('DOMContentLoaded', function() {
           ];
 
           var data = [{
-              z: zValues, x: departments, y: level1Categories, type: 'heatmap',
-              colorscale: customColorScale, showscale: true, hovertemplate: '%{y}-%{x}: %{z}<extra></extra>',
-              text: zValues.map(row => row.map(String)), texttemplate: '%{text}',
-              textfont: { color: 'black', size: 14, family: 'Arial, sans-serif' }
+              z: zValues, 
+              x: departments, 
+              y: level1Categories, 
+              type: 'heatmap',
+              colorscale: customColorScale, 
+              showscale: true, 
+              hoverongaps: false,
+              hoverlabel: { bgcolor: 'white', font: { size: 14 } },
+              hovertemplate: '<b>%{y}</b><br>%{x}: %{z}条<extra></extra>',
+              colorbar: { title: '（条）', titleside: 'right' }
           }];
 
           var layout = {
@@ -5227,8 +5237,13 @@ document.addEventListener('DOMContentLoaded', function() {
                   const value = zValues[i][j];
                   const textColor = value > 100 ? 'white' : 'black';
                   layout.annotations.push({
-                      x: departments[j], y: level1Categories[i], text: value.toString(),
-                      font: { color: textColor, size: 14 }, showarrow: false
+                      x: departments[j], 
+                      y: level1Categories[i], 
+                      text: value.toString(),
+                      font: { color: textColor, size: 14 }, 
+                      showarrow: false,
+                      xref: 'x',
+                      yref: 'y'
                   });
               }
           }
@@ -5236,7 +5251,9 @@ document.addEventListener('DOMContentLoaded', function() {
           var config = { responsive: true, displayModeBar: false };
           Plotly.newPlot('heatmap_container', data, layout, config);
       }
-
+      // ... existing code ...
+      // ... existing code ...
+      // ... existing code ...
       if (typeof Plotly !== 'undefined') {
           createHeatmap();
       } else {
@@ -5465,7 +5482,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     axisTick: { alignWithLabel: true }
                 },
-                yAxis: { type: 'value', name: '反馈数量', min: 0, axisLabel: { formatter: '{value}' } },
+                yAxis: { type: 'value', name: '反馈数量（条）', min: 0, axisLabel: { formatter: '{value}' } },
                 dataZoom: [
                     { type: 'inside', start: 0, end: 100 },
                     {
@@ -5734,7 +5751,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: { text: '全国城市书房分布', left: 'center', top: 10, subtext: '点击省份条形图可查看省内城市书房分布详情', subtextStyle: { color: '#666', fontSize: 12 } },
                     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: '{b}: {c} 家' },
                     grid: { left: '3%', right: '4%', bottom: '3%', top: '80px', containLabel: true },
-                    xAxis: { type: 'value', boundaryGap: [0, 0.01], name: '数量 (家)' },
+                    xAxis: { type: 'value', boundaryGap: [0, 0.01], name: '数量 (家)' ,nameLocation: 'middle',nameGap: 25},
                     yAxis: { type: 'category', data: nationalData.map(item => item.name).reverse(), axisLabel: { interval: 0 } },
                     series: [{ name: '城市书房数量', type: 'bar', data: nationalData.map(item => item.value).reverse(), itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{ offset: 0, color: '#83bff6' }, { offset: 0.5, color: '#188df0' }, { offset: 1, color: '#188df0' }]) }, emphasis: { itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{ offset: 0, color: '#2378f7' }, { offset: 0.7, color: '#2378f7' }, { offset: 1, color: '#83bff6' }]) } } }]
                 };
