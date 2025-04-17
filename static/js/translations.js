@@ -1,94 +1,155 @@
+// static/js/translations.js
+
 const translations = {
-    zh: {
-        // 导航
-        'nav_home': '首页',
-        'nav_reading_circle': '十五分钟阅读圈',
-        'nav_population': '人口热力分布',
-        'skip_nav': '跳过导航',
-        'accessibility_tools': '无障碍工具',
-        'high_contrast': '高对比度',
-        'large_font': '大字体',
-        'increase_line_height': '增加行距',
-        'read_aloud': '朗读内容',
-        
-        // 页面标题
-        'site_title': '河洛书苑生长笔记',
-        'data_analysis_title': '从历史到数据：解读河洛书苑的成长密码',
-        'main_title': '河洛书苑生长笔记：百座书房画出十五分钟阅读圈',
-        'section_title_library_showcase': '城市书房风采',
-        'section_title_reading_transition': '洛阳阅读空间的变迁',
-        
-        // 统计数据标签
-        'annual_visitors': '年度进馆人数',
-        'city_libraries': '城市书房',
-        'total_loans': '累计借阅总量',
-        'daily_visitors': '日均进馆人次',
-        'intro_text': '这是洛阳市全民阅读的生动写照。在这座十三朝古都，一座座城市书房如星辰般点亮城市的每个角落，构建起便捷的"15分钟阅读圈"。每天，众多市民走进这些阅读空间，日均借阅流通量超过1万册，自助设备借还率达60%以上。从市中心到城郊，683个流通服务点织就了一张覆盖全城的阅读网络，让阅读成为洛阳市民日常生活的一部分。',
-        'data_news_intro': '本数据新闻将从三个主线展开，全面呈现洛阳城市书房建设的成果与影响。首先，我们将探索城市书房的空间分布，揭示"15分钟阅读圈"如何覆盖城市各个角落，打造便捷的全民阅读网络。其次，通过发展时间轴，我们将追溯洛阳城市书房从无到有、从少到多的建设历程，见证阅读空间的蓬勃发展。最后，基于市民需求反馈，我们将展示城市书房如何满足市民多元阅读需求，以及这一文化工程为洛阳市民生活带来的深远影响。',
-        
-        
-    },
     en: {
-        // Navigation
-        'nav_home': 'Home',
-        'nav_reading_circle': '15-Min Reading Circle',
-        'nav_population': 'Population Heatmap',
-        'skip_nav': 'Skip Navigation',
-        'accessibility_tools': 'Accessibility Tools',
-        'high_contrast': 'High Contrast',
-        'large_font': 'Large Font',
-        'increase_line_height': 'Increase Line Height',
-        'read_aloud': 'Read Aloud',
-        
-        // Page Titles
-        'site_title': 'Heluo Library Growth Story',
-        'data_analysis_title': 'From History to Data: Decoding the Growth of Heluo Library',
-        'main_title': 'Growing Notes of Heluo Shuyuan: Mapping 15-Minute Reading Circles Around Over 200 Reading Rooms',
-        'section_title_library_showcase': 'City Library Showcase',
-        'section_title_reading_transition': 'Transition of Reading Spaces in Luoyang',
-        
-        // Statistics Labels
-        'annual_visitors': 'Annual Visitors',
-        'city_libraries': 'City Libraries',
-        'total_loans': 'Total Loans',
-        'daily_visitors': 'Daily Visitors',
-        'intro_text': 'This is a vivid portrait of Luoyang\'s citywide reading initiative. In this ancient capital of thirteen dynasties, city libraries illuminate every corner like stars, creating convenient "15-minute reading circles." Each day, numerous citizens enter these reading spaces, with daily borrowing exceeding 10,000 volumes and self-service equipment handling over 60% of transactions. From downtown to suburbs, 683 service points weave a reading network covering the entire city, making reading an integral part of daily life for Luoyang residents.',
-        'data_news_intro': 'This data news will unfold along three main threads, comprehensively presenting the achievements and impacts of Luoyang\'s city library construction. First, we will explore the spatial distribution of city libraries, revealing how the "15-minute reading circle" covers every corner of the city, creating a convenient reading network. Second, through a development timeline, we will trace the journey of Luoyang\'s city libraries from non-existence to abundance, witnessing the flourishing growth of reading spaces. Finally, based on citizen feedback, we will showcase how city libraries meet diverse reading needs and the profound impact this cultural project has brought to life in Luoyang.',
-        
-         }
-};
-
-// 翻译函数
-function translatePage(lang) {
-    console.log('Translating to:', lang);
-    const elements = document.querySelectorAll('[data-i18n]');
-    console.log('Found elements:', elements.length);
-    elements.forEach(element => {
-        const key = element.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = translations[lang][key];
-            } else {
-                element.textContent = translations[lang][key];
-            }
-        } else {
-            console.warn('Missing translation for key:', key, 'in language:', lang);
-        }
+      // Language Switch Buttons
+      "lang_zh": "中文", // For potential tooltips or labels if needed
+      "lang_en": "En",
+  
+      // Intro Section
+      "main_title": "How 205 Heluo Bookstores Illuminate Luoyang's Reading Scene?",
+      "stat_label_bookstores": "Heluo Bookstores Across City & Countryside",
+      "stat_label_reading_circle": "15-Min Walking Reading Circle Taking Shape",
+      "stat_label_annual_visits": "Annual Visits",
+      "stat_label_loans": "Total Loans",
+      "unit_bookstore": " Units", // Note the space before 'Units'
+      "unit_minute": " Min",
+      "unit_million_plus": "M+", // Abbreviation for Million+
+      "intro_text": "Imagine stepping into a comfortable, bright, book-filled free reading space right at your doorstep, next to a park, or even inside a mall - this is the 'Urban Study Room', a new type of public cultural facility popular across China in recent years. They extend traditional libraries, acting as accessible cultural posts.",
+      "intro_text_part2": "In the ancient capital Luoyang, these study rooms share a unified, poetic name: 'Heluo Book苑 (Heluo Book Garden/Academy)'. More than just reading spots, they represent a 'Growth Diary' of how urban culture quietly develops. From a few initial locations to a network of over 200 rooms today, they have rapidly risen, 'drawing' a convenient '15-minute reading circle' and profoundly changing the city's cultural warmth and residents' lives.",
+      "intro_question1_v3": "How did this 'growth miracle' of reading spaces happen?",
+      "intro_question2_v3": "Where did the construction funds come from? How are service quality and sustainable operation ensured?",
+      "intro_question3_v3": "What do citizens think of these nearby study rooms? What challenges have they faced?",
+      "intro_guide_v3_part1": "Let's open this 'Heluo Bookstore Growth Diary' together, explore the wisdom of spatial layout, the journey of its growth path, listen to the echoes of citizens' voices, and finally decode the 'Luoyang Model' that fills the city with the fragrance of books.",
+      "intro_guide_v3_part2": "Click the navigation above to start your exploration journey.",
+  
+      // Navigation (Add keys for your nav links)
+      "nav_overview": "Overview",
+      "nav_achievement": "Today's Achievements",
+      "nav_journey": "Growth Journey",
+      "nav_model": "Secret Sauce",
+      "nav_spatial": "Spatial Decoding",
+      "nav_feedback": "Citizen Voices",
+      "nav_showcase": "Showcase",
+      "nav_conclusion": "National Context",
+      // Add other keys from your HTML with data-i18n attributes here...
+  
+    },
+    zh: {
+      // Language Switch Buttons
+      "lang_zh": "中文",
+      "lang_en": "En",
+  
+      // Intro Section
+      "main_title": "205座河洛书苑如何点亮洛阳阅读之光？",
+      "stat_label_bookstores": "河洛书苑遍布城乡",
+      "stat_label_reading_circle": "步行阅读圈初步形成",
+      "stat_label_annual_visits": "年服务人次",
+      "stat_label_loans": "累计借阅量",
+      "unit_bookstore": "座",
+      "unit_minute": "分钟",
+      "unit_million_plus": "万+",
+      "intro_text": "想象一下，在家门口、公园旁、甚至商场里，就能走进一个舒适明亮、书香四溢的免费阅读空间——这就是近年来风靡全国的新型公共文化设施：“城市书房”。它们是传统图书馆的延伸，更是触手可及的文化驿站。",
+      "intro_text_part2": "在千年古都洛阳，这些城市书房拥有一个统一且诗意的名字：“河洛书苑”。这不仅仅是一个个阅读点，更是一部关于城市文化如何悄然生长的“生长笔记”。从最初的零星几家到如今超二百座书房的网络，它们迅速崛起，“画”出了一张便捷的“十五分钟阅读圈”，深刻地改变着这座城市的文化温度与居民生活。",
+      "intro_question1_v3": "这场阅读空间的“生长奇迹”是如何发生的？",
+      "intro_question2_v3": "建设资金从何而来？如何保障服务质量与可持续运营？",
+      "intro_question3_v3": "市民们对这些身边的书房评价如何？又遇到了哪些挑战？",
+      "intro_guide_v3_part1": "让我们一起翻开这本“河洛书苑生长笔记”，探索空间布局的智慧、成长足迹的历程、市民心声的回响，解码“洛阳模式”。", // Simplified slightly
+      "intro_guide_v3_part2": "点击上方导航，开启探索之旅。",
+  
+      // Navigation
+      "nav_overview": "概览",
+      "nav_achievement": "今日成就",
+      "nav_journey": "成长之路",
+      "nav_model": "建设密码",
+      "nav_spatial": "空间解码",
+      "nav_feedback": "市民心声",
+      "nav_showcase": "一房一景",
+      "nav_conclusion": "全国坐标",
+      // Add other keys from your HTML with data-i18n attributes here...
+    }
+  };
+  
+  // Function to apply translations
+  function translatePage(lang) {
+    if (!translations[lang]) {
+      console.warn(`Translation language "${lang}" not found.`);
+      return;
+    }
+  
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      if (translations[lang][key]) {
+        // Handle potential nested elements like <strong> or <span> within the paragraph
+        // Preserve non-text nodes and translate text nodes
+         if (element.childNodes.length > 1 || element.querySelector('*')) {
+              // More complex content, translate text nodes carefully
+               translateComplexElement(element, key, lang);
+           } else {
+              // Simple text content
+               element.textContent = translations[lang][key];
+           }
+  
+      } else {
+        console.warn(`Translation key "${key}" not found for language "${lang}".`);
+      }
     });
-}
-
-// 监听语言变化事件
-document.addEventListener('languageChange', function(e) {
-    console.log('Language change event:', e.detail.lang);
-    translatePage(e.detail.lang);
-});
-
-// 初始化时使用默认语言
-document.addEventListener('DOMContentLoaded', function() {
-    const defaultLang = document.documentElement.lang || 'zh';
-    console.log('Initial language:', defaultLang);
-    translatePage(defaultLang);
-});
-
-// 确保全局可访问
-window.translatePage = translatePage; 
+  
+      // Special handling for dynamic units in key stats (if needed)
+      document.querySelectorAll('.key-stats .stat-item').forEach(item => {
+          const labelDiv = item.querySelector('.stat-label');
+          const numberDiv = item.querySelector('div[style*="font-size: 2.5em"]'); // Selector for the number div
+          if (labelDiv && numberDiv) {
+              const labelKey = labelDiv.getAttribute('data-i18n');
+              if(labelKey && translations[lang][labelKey]) {
+                   labelDiv.textContent = translations[lang][labelKey];
+              }
+  
+              // Find the span for the unit inside the number div
+              const unitSpan = numberDiv.querySelector('span');
+              if(unitSpan) {
+                   const unitKeyBase = labelKey?.replace('stat_label_', 'unit_'); // Try to derive unit key
+                   const unitKey = unitKeyBase || getUnitKeyFromContent(numberDiv.textContent); // Fallback if no label key
+                   if(unitKey && translations[lang][unitKey]) {
+                      unitSpan.textContent = translations[lang][unitKey];
+                   }
+              }
+          }
+      });
+  }
+  
+  // Helper function to get a unit key based on content (fallback)
+  function getUnitKeyFromContent(text) {
+      if (text.includes('座')) return 'unit_bookstore';
+      if (text.includes('分钟')) return 'unit_minute';
+      if (text.includes('万+')) return 'unit_million_plus'; // Match based on common pattern
+      return null;
+  }
+  
+  
+  // Helper function to translate elements with mixed content (text and child elements)
+  function translateComplexElement(element, key, lang) {
+      const translation = translations[lang][key];
+      if (!translation) return;
+  
+      // Simple approach: If translation likely contains HTML (e.g., has <strong>), set innerHTML
+      if (translation.includes('<strong') || translation.includes('<span') || translation.includes('<i')) {
+           // Be cautious with innerHTML if translations are user-generated
+           element.innerHTML = translation;
+      } else {
+           // Try to replace only text nodes if possible, preserving child elements
+           // This is more complex and might require traversing childNodes recursively
+           // For now, a simpler approach: set textContent if no obvious HTML in translation
+           element.textContent = translation;
+           // If the above doesn't work well for some elements, you might need
+           // a more sophisticated recursive text node replacement function.
+      }
+  }
+  
+  
+  // Initial translation on load (assuming language switch logic sets initial lang)
+  // This might be called by initializeLanguageSwitch or directly here if needed
+  // document.addEventListener('DOMContentLoaded', () => {
+  //     const initialLang = document.documentElement.lang || 'zh';
+  //     translatePage(initialLang);
+  // });

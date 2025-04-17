@@ -1,0 +1,231 @@
+/* static/css/timeline-preview-modal.css */
+
+/* --- 时间轴基础容器 --- */
+#journey-timeline-preview {
+    padding: 60px 20px;
+    background-color: #f9f9f9; /* 整体背景色 */
+    overflow: hidden; /* 防止内部元素溢出 */
+}
+
+#journey-timeline-preview .container {
+    max-width: 1100px; /* 时间轴区域最大宽度 */
+    margin: 0 auto;
+}
+
+/* --- 时间轴引导语 --- */
+#journey-timeline-preview .timeline-intro {
+    text-align: center;
+    margin-bottom: 60px;
+}
+#journey-timeline-preview .timeline-intro h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#journey-timeline-preview .timeline-intro h2 i {
+    color: #2ecc71;
+    margin-right: 10px;
+}
+#journey-timeline-preview .timeline-intro p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 1.15em;
+    max-width: 800px;
+    margin: 0 auto;
+}
+#journey-timeline-preview .timeline-intro .divider {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #a8e063, #56ab2f);
+    margin: 25px auto 0;
+}
+/* --- 副标题 --- */
+#journey-timeline-preview .subtitle {
+     text-align: center;
+     color: #7f8c8d;
+     margin-bottom: 30px;
+     font-size: 1.2em;
+}
+
+/* --- 时间轴主体 --- */
+#journey-timeline-preview .timeline {
+    position: relative;
+    max-width: 950px; /* 时间轴内容区宽度 */
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+/* 时间轴线 */
+#journey-timeline-preview .timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px; /* 细一点的轴线 */
+    background-color: #dfe6e9;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px; /* 宽度一半 */
+    z-index: 1;
+}
+
+/* 时间轴项目 - 动态加载 */
+#journey-timeline-preview .timeline-item {
+    padding: 10px 0; /* 上下 padding */
+    position: relative;
+    width: 50%; /* 左右布局 */
+    z-index: 2;
+    opacity: 0; /* 初始隐藏 */
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition-delay: 0.1s; /* 基础延迟 */
+    margin-bottom: 50px; /* 增加项目间距 */
+}
+#journey-timeline-preview .timeline-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 时间轴节点 */
+#journey-timeline-preview .timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 4px solid #fdcb6e; /* 初始节点颜色 - 黄色 */
+    top: 25px;
+    border-radius: 50%;
+    z-index: 3;
+    transition: border-color 0.5s ease;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+#journey-timeline-preview .timeline-item.is-visible::after {
+    border-color: #27ae60; /* 激活时节点颜色 - 绿色 */
+}
+
+/* 定位项目和节点 */
+#journey-timeline-preview .timeline-item.left { left: 0; padding-right: 45px; /* 为预览区留空间 */ }
+#journey-timeline-preview .timeline-item.right { left: 50%; padding-left: 45px; /* 为预览区留空间 */ }
+#journey-timeline-preview .timeline-item.left::after { right: -14px; /* 调整节点位置 */ }
+#journey-timeline-preview .timeline-item.right::after { left: -14px; /* 调整节点位置 */ }
+
+/* 内容卡片样式 */
+#journey-timeline-preview .content {
+    padding: 20px 25px;
+    background-color: #ffffff;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+#journey-timeline-preview .timeline-item.left .content { margin-right: 15px; /* 与预览空间隔 */ }
+#journey-timeline-preview .timeline-item.right .content { margin-left: 15px; /* 与预览空间隔 */ }
+
+#journey-timeline-preview .content h2 { margin-top: 0; margin-bottom: 5px; font-size: 1.4em; color: #34495e; font-weight: 600; }
+#journey-timeline-preview .growth-stage { font-size: 0.9em; color: #7f8c8d; margin-bottom: 15px; font-style: italic; }
+#journey-timeline-preview .content ul.event-list { list-style: none; padding-left: 0; margin-top: 15px; }
+#journey-timeline-preview .content ul.event-list li { margin-bottom: 8px; font-size: 0.95em; color: #555; line-height: 1.6; position: relative; padding-left: 20px; }
+#journey-timeline-preview .content ul.event-list li::before { content: '\f111'; font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 0.6em; position: absolute; left: 0; top: 7px; color: #bdc3c7; }
+#journey-timeline-preview .content ul.event-list li.policy::before { content: '\f0f6'; color: #3498db; }
+#journey-timeline-preview .content ul.event-list li a { color: #3498db; text-decoration: none; font-size: 0.9em; margin-left: 4px; }
+#journey-timeline-preview .content ul.event-list li a:hover { text-decoration: underline; }
+
+/* --- 故事预览区样式 --- */
+.story-preview {
+    position: absolute;
+    top: 20px; /* 大致与内容卡片顶部对齐 */
+    width: calc(100% - 30px); /* 占据分配空间，减去两边间距 */
+    padding: 15px 20px;
+    background-color: rgba(248, 249, 250, 0.9); /* 浅灰色半透明背景 */
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 4px solid; /* 边框颜色由 style 设置 */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0; /* 初始隐藏 */
+    transform: scale(0.95) translateY(10px); /* 初始状态 */
+    z-index: 4; /* 确保在内容卡片之上（如果需要） */
+}
+/* 定位预览区 */
+.timeline-item.left .story-preview {
+    left: calc(100% + 15px); /* 放在右侧空白处 */
+}
+.timeline-item.right .story-preview {
+    right: calc(100% + 15px); /* 放在左侧空白处 */
+    text-align: left; /* 左侧预览文本左对齐 */
+    border-left: none;
+    border-right: 4px solid; /* 边框颜色由 style 设置 */
+}
+/* 预览区出现动画 */
+.timeline-item.is-visible .story-preview {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.5s; /* 在卡片出现后延迟出现 */
+}
+.story-preview:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-3px) scale(1.02) !important; /* 悬停放大效果 */
+}
+
+.story-preview h5 { font-size: 1.05em; margin-top: 0; margin-bottom: 8px; font-weight: 600; color: #333; display: flex; align-items: center; }
+.story-preview h5 i { margin-right: 8px; font-size: 0.9em;}
+/* 预览标题颜色 */
+.timeline-item:nth-child(4n+1) .story-preview h5 { color: #e67e22; }
+.timeline-item:nth-child(4n+2) .story-preview h5 { color: #2980b9; }
+.timeline-item:nth-child(4n+3) .story-preview h5 { color: #16a085; }
+.timeline-item:nth-child(4n+4) .story-preview h5 { color: #8e44ad; }
+
+.story-preview p {
+    font-size: 0.9em; color: #555; line-height: 1.6; margin-bottom: 10px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden; text-overflow: ellipsis; height: calc(1.6em * 3);
+}
+.story-preview .read-full-story { display: block; margin-top: 10px; font-size: 0.85em; color: #3498db; text-decoration: none; font-weight: bold; text-align: right; }
+.timeline-item.right .story-preview .read-full-story { text-align: left; }
+.story-preview .read-full-story:hover { text-decoration: underline; }
+
+/* 隐藏完整故事模块 */
+.story-module-full { display: none; }
+
+/* --- 全局模态框样式 --- */
+.story-modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow-y: auto; background-color: rgba(0, 0, 0, 0.7); opacity: 0; transition: opacity 0.3s ease; padding: 20px; box-sizing: border-box; }
+.story-modal.show { display: block; opacity: 1; }
+.story-modal-content { position: relative; background-color: #fff; margin: 8vh auto; padding: 30px 40px; border-radius: 10px; max-width: 800px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-30px) scale(0.98); transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s; }
+.story-modal.show .story-modal-content { opacity: 1; transform: translateY(0) scale(1); }
+.story-modal-close { position: absolute; top: 10px; right: 15px; font-size: 2.5em; color: #aaa; cursor: pointer; line-height: 1; transition: color 0.2s ease; font-weight: lighter; background: none; border: none; padding: 0;}
+.story-modal-close:hover { color: #333; }
+.story-modal-title { font-size: 1.6em; margin-top: 0; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; color: #333; display: flex; align-items: center; }
+.story-modal-title i { margin-right: 10px; font-size: 0.9em; }
+.story-modal-body { max-height: 70vh; overflow-y: auto; }
+.story-modal-body h4 { display: none; } /* Hide original h4 in modal */
+.story-modal-body p { font-size: 1.05em; line-height: 1.8; color: #444; margin-bottom: 15px; }
+
+/* 响应式调整 */
+@media screen and (max-width: 992px) {
+    /* 在中屏幕隐藏预览区 */
+    .story-preview { display: none !important; }
+    #journey-timeline-preview .timeline-item.left,
+    #journey-timeline-preview .timeline-item.right { padding-left: 0; padding-right: 0; }
+    #journey-timeline-preview .timeline-item.right .content,
+    #journey-timeline-preview .timeline-item.left .content { margin-left: 0; margin-right: 0; }
+    #journey-timeline-preview .timeline-item { width: 85%; margin-left: auto; margin-right: auto; }
+    #journey-timeline-preview .timeline::after { left: 7.5%; } /* Adjust axis position */
+    #journey-timeline-preview .timeline-item::after { left: calc(7.5% - 14px); } /* Adjust node position */
+    #journey-timeline-preview .timeline-item.left,
+    #journey-timeline-preview .timeline-item.right { left: 0; }
+}
+
+@media screen and (max-width: 768px) {
+    /* 时间轴居左 */
+    #journey-timeline-preview .timeline::after { left: 20px; }
+    #journey-timeline-preview .timeline-item { width: 100%; padding-left: 45px; padding-right: 10px; margin-left: 0; margin-right: 0;}
+    #journey-timeline-preview .timeline-item.left,
+    #journey-timeline-preview .timeline-item.right { left: 0; }
+    #journey-timeline-preview .timeline-item::after { left: 9px; }
+    .story-modal-content { padding: 20px; max-width: 95%; }
+    .story-modal-title { font-size: 1.4em; }
+    .story-modal-body p { font-size: 1em; }
+}

@@ -1,0 +1,338 @@
+/* static/css/comparison-styles.css */
+
+#journey-comparison-static {
+    padding: 50px 20px;
+    background-color: #eaf2f8; /* Softer light blue background */
+    opacity: 0; /* Initially hidden */
+    transform: translateY(50px); /* Start slightly lower */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    overflow: hidden; /* Prevent content overflow during animation */
+}
+
+#journey-comparison-static.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#journey-comparison-static .container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+#journey-comparison-static .section-title {
+    font-size: 1.8em;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+#journey-comparison-static .intro-paragraph {
+    font-size: 1.15em;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#journey-comparison-static .past-present-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: 30px; /* Adjust gap */
+    align-items: stretch;
+}
+
+/* Use media query for two columns on larger screens */
+@media (min-width: 768px) {
+    #journey-comparison-static .past-present-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+}
+
+
+#journey-comparison-static .timeline-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    padding: 30px 25px; /* Adjusted padding */
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    background-size: cover; /* Optional texture */
+    /* --- Animation Setup --- */
+    opacity: 0;
+    transform: scale(0.95) translateY(15px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Slower card animation */
+}
+
+#journey-comparison-static .past-card {
+    border-top: 8px solid #e74c3c;
+    /* Optional: background-image: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), url('../picture/past_texture.png'); */ /* Relative path example */
+}
+
+#journey-comparison-static .present-card {
+    border-top: 8px solid #2ecc71;
+     /* Optional: background-image: linear-gradient(rgba(255,255,255,0.95), rgba(255,255,255,0.95)), url('../picture/present_texture.png'); */ /* Relative path example */
+}
+
+/* --- Staggered Animation Delays (ADJUSTED FOR SLOWER PACE) --- */
+#journey-comparison-static.is-visible .past-card {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.2s; /* Past card appears first */
+}
+
+#journey-comparison-static.is-visible .present-card {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 2.0s; /* !!! Significantly increased delay for Present card */
+}
+
+/* --- Inner content block animation (Adjusted delays) --- */
+#journey-comparison-static .timeline-card .content-block {
+     opacity: 0;
+     transform: translateY(15px);
+     transition: opacity 0.7s ease-out, transform 0.7s ease-out; /* Slower inner animation */
+}
+/* Past card content block delays */
+#journey-comparison-static.is-visible .past-card .content-block:nth-of-type(1) { /* Reading Places */
+     transition-delay: 0.7s; /* Delay after past card appears (0.2s + 0.5s) */
+     opacity: 1; transform: translateY(0);
+}
+ #journey-comparison-static.is-visible .past-card .content-block:nth-of-type(2) { /* Service Experience */
+     transition-delay: 1.4s; /* Further delay (0.7s + 0.7s) */
+     opacity: 1; transform: translateY(0);
+}
+
+/* Present card content block delays (Based on Present card's 2.0s delay) */
+#journey-comparison-static.is-visible .present-card .content-block:nth-of-type(1) { /* Reading Network */
+     transition-delay: 2.5s; /* Delay after present card appears (2.0s + 0.5s) */
+     opacity: 1; transform: translateY(0);
+}
+ #journey-comparison-static.is-visible .present-card .content-block:nth-of-type(2) { /* Service Experience */
+     transition-delay: 3.2s; /* Further delay (2.5s + 0.7s) */
+     opacity: 1; transform: translateY(0);
+}
+
+/* --- (Optional) List item animation (Default: Commented out) --- */
+/*
+#journey-comparison-static .timeline-card ul li {
+     opacity: 0;
+     transform: translateX(-15px);
+     transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s;
+ }
+ #journey-comparison-static.is-visible .past-card .content-block:nth-of-type(2) ul li:nth-child(1) { transition-delay: 1.6s; opacity: 1; transform: translateX(0); }
+ #journey-comparison-static.is-visible .past-card .content-block:nth-of-type(2) ul li:nth-child(2) { transition-delay: 1.8s; opacity: 1; transform: translateX(0); }
+ #journey-comparison-static.is-visible .past-card .content-block:nth-of-type(2) ul li:nth-child(3) { transition-delay: 2.0s; opacity: 1; transform: translateX(0); }
+ #journey-comparison-static.is-visible .past-card .content-block:nth-of-type(2) ul li:nth-child(4) { transition-delay: 2.2s; opacity: 1; transform: translateX(0); }
+
+ #journey-comparison-static.is-visible .present-card .content-block:nth-of-type(2) ul li:nth-child(1) { transition-delay: 3.4s; opacity: 1; transform: translateX(0); }
+ #journey-comparison-static.is-visible .present-card .content-block:nth-of-type(2) ul li:nth-child(2) { transition-delay: 3.6s; opacity: 1; transform: translateX(0); }
+ #journey-comparison-static.is-visible .present-card .content-block:nth-of-type(2) ul li:nth-child(3) { transition-delay: 3.8s; opacity: 1; transform: translateX(0); }
+ #journey-comparison-static.is-visible .present-card .content-block:nth-of-type(2) ul li:nth-child(4) { transition-delay: 4.0s; opacity: 1; transform: translateX(0); }
+ #journey-comparison-static.is-visible .present-card .content-block:nth-of-type(2) ul li:nth-child(5) { transition-delay: 4.2s; opacity: 1; transform: translateX(0); }
+*/
+
+/* --- Card Inner Styles --- */
+#journey-comparison-static .card-header { display: flex; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px dashed #ccc; }
+#journey-comparison-static .timeline-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; color: white; margin-right: 15px; flex-shrink: 0; }
+#journey-comparison-static .past-card .timeline-icon { background-color: #e74c3c; }
+#journey-comparison-static .present-card .timeline-icon { background-color: #2ecc71; }
+#journey-comparison-static .card-header h3 { margin: 0; font-size: 1.7em; font-weight: 600; }
+#journey-comparison-static .past-card h3 { color: #c0392b; }
+#journey-comparison-static .present-card h3 { color: #27ae60; }
+#journey-comparison-static .card-content { flex-grow: 1; }
+#journey-comparison-static .card-content h4 { margin-bottom: 15px; font-size: 1.25em; font-weight: 600; display: flex; align-items: center; }
+#journey-comparison-static .past-card h4 { color: #e74c3c; }
+#journey-comparison-static .present-card h4 { color: #27ae60; }
+#journey-comparison-static .card-content h4 i { margin-right: 8px; }
+#journey-comparison-static .card-content p { margin-bottom: 5px; }
+#journey-comparison-static .card-content p.data-highlight { font-size: 2.2em; font-weight: 700; margin-bottom: 5px; }
+#journey-comparison-static .past-card p.data-highlight { color: #c0392b; }
+#journey-comparison-static .present-card p.data-highlight { color: #27ae60; }
+#journey-comparison-static .card-content p.data-context { color: #555; font-size: 0.95em; margin-top: 0; margin-bottom: 15px; }
+#journey-comparison-static .card-content p.description { color: #777; font-size: 1em; line-height: 1.6; margin-bottom: 25px; }
+#journey-comparison-static .card-content ul { list-style: none; padding-left: 0; color: #555; font-size: 1.05em; margin-top: 0; }
+#journey-comparison-static .card-content ul li { margin-bottom: 10px; padding-left: 25px; position: relative; }
+#journey-comparison-static .card-content ul li i { position: absolute; left: 0; top: 5px; font-size: 1em; }
+#journey-comparison-static .past-card ul li i { color: #e74c3c; }
+#journey-comparison-static .present-card ul li i { color: #2ecc71; }
+/* static/css/comparison-styles.css 或 style.css */
+
+#journey-timeline .timeline {
+    /* 覆盖原 timeline 样式，或移除原 timeline 的背景/边框/阴影 */
+    background: none;
+    box-shadow: none;
+    padding: 0; /* 移除内边距，让 item 控制 */
+    max-width: 900px; /* 控制整体宽度 */
+    margin: 40px auto; /* 上下间距 */
+}
+
+/* 优化时间轴线 */
+#journey-timeline .timeline::after {
+    background: linear-gradient(to bottom, #dfe6e9, #b2bec3, #636e72); /* 柔和的灰色渐变 */
+    left: 50%; /* 保持居中 */
+}
+
+/* 优化时间轴节点图标 */
+#journey-timeline .timeline-item::after {
+    content: ''; /* 不用 emoji，用纯色圆点 */
+    background-color: #636e72; /* 轴线颜色 */
+    border: 3px solid #ffffff; /* 白色描边 */
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    width: 20px; /* 调整大小 */
+    height: 20px;
+    line-height: normal; /* 重置行高 */
+    font-size: inherit; /* 重置字体大小 */
+    display: block; /* 确保是块级 */
+    /* 位置微调 */
+    top: 20px;
+}
+#journey-timeline .timeline-item.left::after { right: -13px; } /* 根据圆点大小调整 */
+#journey-timeline .timeline-item.right::after { left: -13px; } /* 根据圆点大小调整 */
+
+
+/* 优化内容卡片样式 */
+#journey-timeline .timeline-item .content.enhanced-content {
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 25px 30px;
+    position: relative; /* 用于放置小箭头 */
+    border-left: 5px solid; /* 左侧彩色边框 */
+    transition: transform 0.3s ease;
+}
+#journey-timeline .timeline-item:hover .content.enhanced-content {
+    transform: translateY(-5px);
+}
+
+/* 根据不同节点设置左侧边框颜色 */
+#journey-timeline .timeline-item:nth-child(4n+1) .content.enhanced-content { border-left-color: #f39c12; } /* 萌芽 - 橙色 */
+#journey-timeline .timeline-item:nth-child(4n+2) .content.enhanced-content { border-left-color: #3498db; } /* 生长 - 蓝色 */
+#journey-timeline .timeline-item:nth-child(4n+3) .content.enhanced-content { border-left-color: #27ae60; } /* 枝繁 - 绿色 */
+#journey-timeline .timeline-item:nth-child(4n+4) .content.enhanced-content { border-left-color: #9b59b6; } /* 硕果 - 紫色 */
+
+/* 小箭头指向时间轴 */
+#journey-timeline .timeline-item .content.enhanced-content::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px; /* 对齐节点圆心 */
+    width: 0;
+    z-index: 1;
+    border: medium solid white; /* 白色填充 */
+}
+#journey-timeline .timeline-item.left .content.enhanced-content::before {
+    right: -10px; /* 指向右侧 */
+    border-width: 10px 0 10px 10px;
+    border-left-color: #ffffff; /* 与卡片背景同色 */
+}
+#journey-timeline .timeline-item.right .content.enhanced-content::before {
+    left: -10px; /* 指向左侧 */
+    border-width: 10px 10px 10px 0;
+    border-right-color: #ffffff; /* 与卡片背景同色 */
+}
+
+
+/* 优化卡片内标题和阶段描述 */
+#journey-timeline .content.enhanced-content h2 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    color: #333;
+    display: flex; /* 让图标和文字同行 */
+    align-items: center;
+}
+#journey-timeline .content.enhanced-content h2 i { /* 图标样式 */
+    font-size: 0.9em; /* 图标略小 */
+}
+
+#journey-timeline .growth-stage {
+    font-size: 0.95em;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* 优化事件列表 */
+#journey-timeline ul.event-list {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+#journey-timeline ul.event-list li {
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #444;
+    position: relative;
+    padding-left: 25px; /* 为图标留出空间 */
+}
+#journey-timeline ul.event-list li i { /* 列表项图标 */
+    position: absolute;
+    left: 0;
+    top: 4px;
+    color: #aaa; /* 默认灰色图标 */
+    font-size: 0.9em;
+}
+/* 政策类使用特殊图标和颜色 */
+#journey-timeline ul.event-list li.policy i {
+    color: #2980b9; /* 蓝色 */
+}
+/* 链接样式 */
+#journey-timeline ul.event-list li a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-left: 5px;
+    transition: color 0.2s ease;
+}
+#journey-timeline ul.event-list li a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* 引用/引言样式 */
+#journey-timeline blockquote.timeline-quote {
+    border-left: 3px solid #dfe6e9; /* 浅灰色左边框 */
+    padding-left: 15px;
+    margin: 20px 0 0 0; /* 顶部留白 */
+    font-style: italic;
+    color: #636e72; /* 深灰色文字 */
+    font-size: 0.95em;
+}
+
+/* 响应式调整 (可选，如果默认时间轴样式已有) */
+@media screen and (max-width: 768px) {
+    #journey-timeline .timeline::after {
+        left: 15px; /* 轴线移到左侧 */
+    }
+    #journey-timeline .timeline-item {
+        width: 100%;
+        padding-left: 40px; /* 内容区域左侧留白 */
+        padding-right: 15px;
+    }
+    #journey-timeline .timeline-item.left,
+    #journey-timeline .timeline-item.right {
+        left: 0; /* 所有项目都在左侧 */
+    }
+    #journey-timeline .timeline-item::after {
+        left: 5px; /* 节点图标放在轴线上 */
+    }
+    #journey-timeline .timeline-item .content.enhanced-content::before {
+        /* 调整或移除小箭头 */
+        left: -10px;
+        border-width: 10px 10px 10px 0;
+        border-right-color: #ffffff;
+    }
+     #journey-timeline .timeline-item.right .content.enhanced-content::before,
+     #journey-timeline .timeline-item.left .content.enhanced-content::before {
+          /* 在小屏幕上统一箭头方向 */
+         left: -10px;
+         right: auto;
+         border-width: 10px 10px 10px 0;
+         border-left-color: transparent; /* 清除左边框颜色 */
+         border-right-color: #ffffff;
+     }
+}
