@@ -7,7 +7,7 @@ const translations = {
       "lang_en": "En",
   
       // Intro Section
-      "main_title": "How 205 Heluo Bookstores Illuminate Luoyang's Reading Scene?",
+      "main_title": "Growing Notes of HeluoShuyuan: Mapping 15-Minute Reading Circles Around Over 200 Reading Rooms",
       "stat_label_bookstores": "Heluo Bookstores Across City & Countryside",
       "stat_label_reading_circle": "15-Min Walking Reading Circle Taking Shape",
       "stat_label_annual_visits": "Annual Visits",
@@ -41,7 +41,7 @@ const translations = {
       "lang_en": "En",
   
       // Intro Section
-      "main_title": "205座河洛书苑如何点亮洛阳阅读之光？",
+      "main_title": "河洛书苑生长笔记：百座书房画出十五分钟阅读圈",
       "stat_label_bookstores": "河洛书苑遍布城乡",
       "stat_label_reading_circle": "步行阅读圈初步形成",
       "stat_label_annual_visits": "年服务人次",
