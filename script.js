@@ -162,11 +162,9 @@ function initializeBookstoreTreemap() {
         if (!backButton) {
             backButton = document.createElement('button');
             backButton.textContent = '返回书房类型总览'; // Button text
-            // Styling for the button
-            backButton.style.cssText = 'position: absolute; top: 15px; right: 20px; z-index: 100; padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; display: none;'; // Initially hidden
-            // Append the button to the chart container's parent for correct positioning
-            container.parentNode.appendChild(backButton);
-
+         // 修改位置为右下角
+         backButton.style.cssText = 'position: absolute; top: 100px; right: 0; z-index: 1000; padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 4px 0 0 0; cursor: pointer; display: none;'; // Initially hidden
+         container.parentNode.appendChild(backButton);
             // Add click listener to the back button
             backButton.addEventListener('click', function() {
                 // Only act if we are in a drilled-down state
