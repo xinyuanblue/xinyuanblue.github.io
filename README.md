@@ -97,10 +97,11 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
    * python -m http.server 8000
    * *注意: 部分地图功能可能需要网络连接才能正常加载。（注意替换地图api）*
 
-## 🙏 致谢 (Acknowledgments)
 
+## 制作
 * **指导老师 (Advisor):** 万鹏
 * **网页制作与数据分析 (Web Dev & Data Analysis):** 李心愿
+## 🙏 致谢 (Acknowledgments)
 * **数据支持 (Data Support):** 洛阳市图书馆, 洛阳市文化广电和旅游局, 及其他公开数据平台。
 
 ## 📝 声明 (Disclaimer)
