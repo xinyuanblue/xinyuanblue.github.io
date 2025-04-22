@@ -178,11 +178,6 @@
 .timeline-item:nth-child(4n+3) .story-preview h5 { color: #16a085; }
 .timeline-item:nth-child(4n+4) .story-preview h5 { color: #8e44ad; }
 
-.story-preview p {
-    font-size: 0.9em; color: #555; line-height: 1.6; margin-bottom: 10px;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-    overflow: hidden; text-overflow: ellipsis; height: calc(1.6em * 3);
-}
 .story-preview .read-full-story { display: block; margin-top: 10px; font-size: 0.85em; color: #3498db; text-decoration: none; font-weight: bold; text-align: right; }
 .timeline-item.right .story-preview .read-full-story { text-align: left; }
 .story-preview .read-full-story:hover { text-decoration: underline; }

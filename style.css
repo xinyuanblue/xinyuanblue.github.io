@@ -1,3 +1,5 @@
+/* START OF MODIFIED style.css */
+
 /* 基础样式 */
 * {
     margin: 0;
@@ -12,10 +14,8 @@
     --navbar-bg: rgba(255, 255, 255, 0.9);
     --navbar-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     --font-size-base: 16px;
-    --line-height: 1.6;
+    --line-height-base: 1.6; /* Default line height */
     --transition-speed: 0.3s;
-    --font-size-base: 16px;
-    --line-height-base: 1.6;
     --focus-outline-color: #2ecc71;
     --focus-outline-width: 3px;
 }
@@ -28,17 +28,157 @@ body.accessibility-mode {
     --navbar-bg: rgba(255, 255, 255, 1);
     --navbar-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     --font-size-base: 18px;
-    --line-height: 1.8;
+    --line-height-base: 1.8; /* Increased line height for accessibility */
 }
 
 body {
     font-family: 'Microsoft YaHei', sans-serif;
     background: var(--bg-color);
     color: var(--text-color);
-    line-height: var(--line-height);
+    line-height: var(--line-height-base); /* Use variable */
     font-size: var(--font-size-base);
     transition: all 0.3s ease;
+    /* Default text alignment for the body - affects inheritance */
+    text-align: left;
 }
+
+/* --- NEW: Default Paragraph Styling --- */
+/* Apply left-align and indent to paragraphs within common content containers */
+.container p, /* General paragraphs inside the main container */
+.main-section p,
+.analysis-section p,
+.content-block p,
+.model-details p,
+.management-response p,
+.luoyang-summary p,
+.reference-value p,
+.spatial-planning-analysis p, /* Added for specific section */
+.operation-snapshot .analysis-text-wrapper p, /* Added */
+.feedback-heatmap-analysis .analysis-interpretation p, /* Added */
+.library-showcase-section > p, /* Paragraph directly under showcase section */
+#luoyang-model-reveal > .container > p, /* Paragraphs directly in model reveal container */
+.cost-challenge-analysis > p, /* Paragraphs in cost challenge */
+#citizen-feedback-optimization > .container > p, /* Paragraphs directly in feedback container */
+#spatial-decoding > .container > p, /* Paragraphs directly in spatial container */
+.data-methodology-section p,
+/* Target the specific intro paragraphs that should be indented */
+div[style*="background-color: #f8f9fa"] > p[data-i18n],
+p[data-i18n="map_guide_interpret_desc"], /* Added for map guide */
+.why-205-section p, /* Added for specific section */
+.timeline-card .card-content p:not(.data-highlight):not(.data-context), /* Indent descriptions in timeline cards */
+.story-module-full p, /* Indent paragraphs in timeline story modals */
+.modal-description p /* Indent modal description */
+{
+    text-align: left;
+    text-indent: 2em; /* Default first-line indent */
+    margin-bottom: 1em; /* Add default spacing below paragraphs */
+}
+
+/* --- NEW: Overrides for Elements that should NOT be indented or should be centered --- */
+/* Titles, subtitles, labels, captions, credits, centered text, etc. */
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.sub-section-title,
+.subtitle,
+.key-stats .stat-label,
+.stats-container .stat-label,
+.achievement-desc,
+.credits p,
+.copyright p,
+.disclaimer p,
+.present-intro,
+.belief-intro p,
+.library-caption p,
+.features-grid .feature-card p,
+.data-source p,
+
+.chart-description-brief,
+.tag,
+.demo-data-notice,
+.link-item,
+.stat-box .stat-label,
+.intro-questions ul p, /* Paragraphs in the question list */
+p.data-highlight, /* Data highlights in timeline cards */
+p.data-context,  /* Data context in timeline cards */
+.chart-analysis p, /* Paragraphs in chart analysis boxes */
+
+.map-guide-container p, /* General paragraphs in map guide unless specified otherwise */
+.map-guide-container ul p, /* Paragraphs inside lists in map guide */
+.map-guide-note, /* Specific note in map guide */
+.policy-note p,
+.feedback-quote,
+.dialogue-box p,
+.evidence-box p,
+.modal-details p, /* Basic info paras in modal */
+.modal-details ul li, /* List items in modal */
+.final-message p,
+.emphasis,
+.highlight,
+.insights p,
+.belief-item p, /* Belief item descriptions (often short) */
+.impact-group li, /* Impact list items */
+.findings-list p,
+.findings-list li,
+.we-believe,
+.data-description p, /* Data description boxes */
+/* Paragraphs used explicitly for centering */
+p[style*="text-align: center"],
+.timeline-intro p, /* Specific centered intro text */
+.footer-info p, /* Footer text */
+.footer-links a /* Footer links */
+{
+    text-indent: 0 !important; /* Remove first-line indent */
+}
+
+/* Ensure elements that need centering *stay* centered */
+h1, h2, h3, h4, h5, h6, /* Headings often centered by specific rules */
+.section-title,
+.sub-section-title,
+.subtitle,
+.key-stats,
+.key-stats .stat-item,
+.stats-container,
+.stats-container .stat-item,
+.stat-box,
+.credits,
+.copyright,
+.disclaimer,
+.present-intro,
+.belief-intro,
+.library-caption,
+.features-grid .feature-card,
+.chart-description-brief, /* Keep this centered */
+.charts-intro,
+.map-preview,
+.map-links,
+.showcase-item.library-card .library-caption,
+.library-showcase .data-source,
+.timeline-intro,
+.unexpected-findings,
+.findings-list,
+.conclusion,
+.final-message,
+.we-believe,
+/* Specific paragraphs that should remain centered */
+.intro-questions p[data-i18n="intro_guide_v3_part1"],
+p.data-highlight,
+p.data-context
+{
+    text-align: center; /* Explicitly set center alignment */
+}
+
+/* Ensure elements that need right alignment stay right aligned */
+.data-source {
+    text-align: right; /* Keep right alignment on larger screens */
+}
+@media (max-width: 768px) {
+    .data-source {
+        text-align: center; /* Center on small screens */
+    }
+}
+
+/* --- End of Default Paragraph Styling Section --- */
+
 
 /* 内容容器 */
 .content-container {
@@ -173,7 +313,7 @@ a:focus, button:focus {
 
 /* 行高增强模式 */
 :root[data-line-height="increased"] {
-    --line-height: 2;
+    --line-height-base: 2;
 }
 
 /* 焦点样式增强 */
@@ -272,12 +412,12 @@ h1 {
     font-size: 2.5em;  /* 字体大小 */
 }
 
-/* 副标题样式 */
+/* 副标题样式 (保持居中) */
 .subtitle {
-    text-align: center;  /* 居中对齐 */
-    color: #7f8c8d;  /* 灰色 */
-    margin-bottom: 30px;  /* 底部外边距 */
-    font-size: 1.2em;  /* 字体大小 */
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+    font-size: 1.2em;
 }
 
 /* 时间线容器样式 */
@@ -366,698 +506,801 @@ h1 {
     z-index: 2;  /* 层级 */
 }
 
-/* 内容标题样式 */
+/* 内容标题样式 (保持居中或左对齐，取决于设计) */
 .content h2 {
-    color: #2ecc71;  /* 绿色文字 */
-    margin-bottom: 10px;  /* 底部外边距 */
-    font-size: 1.5em;  /* 字体大小 */
+    color: #2ecc71;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    text-align: left; /* Or center if preferred */
+    text-indent: 0; /* No indent for headings */
 }
 
 /* 内容列表样式 */
 .content ul {
-    margin-left: 20px;  /* 左侧外边距 */
+    margin-left: 20px;
+    padding-left: 0; /* Reset padding if list-style is used */
+    list-style-position: outside; /* Ensure bullets are outside */
 }
 
 /* 列表项样式 */
 .content li {
-    margin-bottom: 8px;  /* 底部外边距 */
+    margin-bottom: 8px;
+    text-indent: 0; /* Ensure list items don't inherit indent */
 }
+/* Ensure paragraphs inside list items are not indented */
+.content li p {
+    text-indent: 0 !important;
+    margin-bottom: 0; /* Remove extra margin if needed */
+}
+
 
 /* 政策相关文本样式 */
 .policy {
-    color: #2980b9;  /* 蓝色文字 */
-    font-weight: 500;  /* 字体粗细 */
+    color: #2980b9;
+    font-weight: 500;
 }
 
-/* 成长阶段说明文本样式 */
+/* 成长阶段说明文本样式 (保持居中或左对齐) */
 .growth-stage {
-    font-size: 0.9em;  /* 字体大小 */
-    color: #7f8c8d;  /* 灰色文字 */
-    margin-top: 5px;  /* 顶部外边距 */
-    font-style: italic;  /* 斜体 */
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-top: 5px;
+    font-style: italic;
+    text-align: left; /* Or center */
+    text-indent: 0; /* No indent */
 }
 
 /* 地图预览区域样式 */
 .map-preview {
-    margin-top: 60px;  /* 顶部外边距 */
-    text-align: center;  /* 文本居中 */
-    padding: 30px 0;  /* 内边距 */
-    background-color: #fff;  /* 白色背景 */
-    border-radius: 8px;  /* 圆角边框 */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* 阴影效果 */
+    margin-top: 60px;
+    text-align: center;
+    padding: 30px 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 /* 地图预览标题样式 */
 .map-preview h2 {
-    color: #2c3e50;  /* 深蓝色文字 */
-    margin-bottom: 20px;  /* 底部外边距 */
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
 /* 地图链接容器样式 */
 .map-links {
-    display: flex;  /* 弹性布局 */
-    justify-content: center;  /* 水平居中 */
-    gap: 30px;  /* 元素间距 */
-    margin-top: 20px;  /* 顶部外边距 */
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
 }
 
 /* 地图链接按钮样式 */
 .map-link {
-    padding: 12px 25px;  /* 内边距 */
-    background-color: #2ecc71;  /* 绿色背景 */
-    color: white;  /* 白色文字 */
-    text-decoration: none;  /* 移除下划线 */
-    border-radius: 30px;  /* 圆角边框 */
-    font-weight: bold;  /* 粗体文字 */
-    transition: all 0.3s ease;  /* 过渡动画 */
-    display: inline-flex;  /* 内联弹性布局 */
-    align-items: center;  /* 垂直居中 */
+    padding: 12px 25px;
+    background-color: #2ecc71;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* 地图链接悬停效果 */
 .map-link:hover {
-    transform: translateY(-3px);  /* 向上移动 */
-    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);  /* 阴影效果 */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
 }
 
 /* 地图链接图标样式 */
 .map-link svg {
-    margin-right: 8px;  /* 右侧外边距 */
+    margin-right: 8px;
 }
 
 /* 响应式布局调整 */
 @media screen and (max-width: 600px) {
     /* 时间线中轴线位置调整 */
     .timeline::after {
-        left: 31px;  /* 左侧偏移 */
-        z-index: 1;  /* 层级 */
+        left: 31px;
+        z-index: 1;
     }
 
     /* 时间线项目宽度调整 */
     .timeline-item {
-        width: 100%;  /* 全宽 */
-        padding-left: 70px;  /* 左侧内边距 */
-        padding-right: 25px;  /* 右侧内边距 */
-        z-index: 2;  /* 层级 */
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+        z-index: 2;
     }
 
     /* 时间线项目装饰点位置调整 */
     .timeline-item::after {
-        left: 15px;  /* 左侧偏移 */
-        z-index: 3;  /* 层级 */
+        left: 15px;
+        z-index: 3;
     }
 
     /* 右侧时间线项目位置调整 */
     .right {
-        left: 0%;  /* 左对齐 */
+        left: 0%;
     }
 
     /* 地图链接容器布局调整 */
     .map-links {
-        flex-direction: column;  /* 垂直布局 */
-        align-items: center;  /* 居中对齐 */
+        flex-direction: column;
+        align-items: center;
     }
 }
 
 /* 数据分析区域样式 */
 .data-analysis {
-    max-width: 1200px;  /* 最大宽度 */
-    margin: 60px auto;  /* 外边距 */
-    padding: 0 20px;  /* 内边距 */
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
 }
 
 /* 分析部分样式 */
 .analysis-section {
-    background: white;  /* 白色背景 */
-    border-radius: 8px;  /* 圆角边框 */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* 阴影效果 */
-    padding: 30px;  /* 内边距 */
-    margin-bottom: 40px;  /* 底部外边距 */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 40px;
 }
 
 /* 图表容器样式 */
 .chart-container {
-    max-width: 600px;  /* 最大宽度 */
-    margin: 0 auto 30px;  /* 外边距 */
-    height: 350px;  /* 高度 */
-    position: relative;  /* 相对定位 */
+    max-width: 600px;
+    margin: 0 auto 30px;
+    height: 350px;
+    position: relative;
 }
 
 /* 演示数据提示样式 */
 .demo-data-notice {
-    position: absolute;  /* 绝对定位 */
-    top: 10px;  /* 顶部偏移 */
-    right: 10px;  /* 右侧偏移 */
-    background-color: rgba(255, 193, 7, 0.2);  /* 半透明黄色背景 */
-    color: #856404;  /* 文字颜色 */
-    padding: 5px 10px;  /* 内边距 */
-    border-radius: 4px;  /* 圆角边框 */
-    font-size: 0.8em;  /* 字体大小 */
-    border: 1px solid rgba(255, 193, 7, 0.4);  /* 边框样式 */
-    z-index: 10;  /* 层级 */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #856404;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    border: 1px solid rgba(255, 193, 7, 0.4);
+    z-index: 10;
 }
 
 /* 成本项目列表样式 */
 .cost-items {
-    display: grid;  /* 网格布局 */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));  /* 响应式列宽 */
-    gap: 20px;  /* 网格间距 */
-    margin: 20px 0;  /* 外边距 */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
 }
 
 /* 单个成本项目样式 */
 .cost-item {
-    background: #f8f9fa;  /* 浅灰色背景 */
-    padding: 15px;  /* 内边距 */
-    border-radius: 6px;  /* 圆角边框 */
-    text-align: center;  /* 文本居中 */
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center; /* Keep centered */
 }
 
-/* 成本标签样式 */
+/* 成本标签样式 (保持居中) */
 .cost-label {
-    font-weight: bold;  /* 粗体文字 */
-    color: #2c3e50;  /* 深蓝色文字 */
+    font-weight: bold;
+    color: #2c3e50;
+    text-indent: 0;
 }
 
-/* 成本数值样式 */
+/* 成本数值样式 (保持居中) */
 .cost-value {
-    color: #e74c3c;  /* 红色文字 */
-    font-size: 1.2em;  /* 字体大小 */
+    color: #e74c3c;
+    font-size: 1.2em;
+    text-indent: 0;
 }
 
-/* 成本百分比样式 */
+/* 成本百分比样式 (保持居中) */
 .cost-percent {
-    color: #7f8c8d;  /* 灰色文字 */
-    font-size: 0.9em;  /* 字体大小 */
+    color: #7f8c8d;
+    font-size: 0.9em;
+    text-indent: 0;
 }
 
 /* 资金来源区域样式 */
 .funding-sources {
-    margin-top: 30px;  /* 顶部外边距 */
-    padding: 20px;  /* 内边距 */
-    background: #f8f9fa;  /* 浅灰色背景 */
-    border-radius: 6px;  /* 圆角边框 */
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+/* Ensure p inside funding-sources follows default */
+.funding-sources p {
+    text-indent: 2em;
+    text-align: left;
+    margin-bottom: 1em;
+}
+.funding-sources ul {
+    margin-left: 20px; /* Keep list indentation */
+    margin-bottom: 1em;
+}
+.funding-sources li {
+    text-indent: 0; /* List items no indent */
+    margin-bottom: 0.5em;
 }
 
 /* 市民反馈分析区域样式 */
 .feedback-analysis {
-    margin-top: 40px;  /* 顶部外边距 */
+    margin-top: 40px;
 }
 
 /* 反馈趋势区域样式 */
 .feedback-trend {
-    margin-top: 20px;  /* 顶部外边距 */
+    margin-top: 20px;
 }
 
 /* 社交媒体分析区域样式 */
 .social-media-analysis {
-    margin-top: 40px;  /* 顶部外边距 */
+    margin-top: 40px;
 }
 
 /* 词云图容器样式 */
 .wordcloud-container {
-    max-width: 600px;  /* 最大宽度 */
-    margin: 40px auto;  /* 外边距 */
-    height: 400px;  /* 高度 */
-    position: relative;  /* 相对定位 */
-    background: #fff;  /* 白色背景 */
-    padding: 20px;  /* 内边距 */
-    border-radius: 8px;  /* 圆角边框 */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);  /* 阴影效果 */
-    display: flex;  /* 弹性布局 */
-    justify-content: center;  /* 水平居中 */
-    align-items: center;  /* 垂直居中 */
+    max-width: 600px;
+    margin: 40px auto;
+    height: 400px;
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* 词云图画布定位样式 */
 .wordcloud-container canvas {
-    position: absolute;  /* 绝对定位 */
-    top: 50%;  /* 垂直居中 */
-    left: 50%;  /* 水平居中 */
-    transform: translate(-50%, -50%);  /* 居中偏移 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* 标签列表样式 */
 .tag-list {
-    display: flex;  /* 弹性布局 */
-    flex-wrap: wrap;  /* 允许换行 */
-    gap: 10px;  /* 标签间距 */
-    margin-top: 15px;  /* 顶部外边距 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center; /* Center tags if needed */
 }
 
 /* 单个标签样式 */
 .tag {
-    background-color: #f0f2f5;  /* 浅灰色背景 */
-    padding: 5px 12px;  /* 内边距 */
-    border-radius: 15px;  /* 圆角边框 */
-    font-size: 0.9em;  /* 字体大小 */
-    color: #2c3e50;  /* 深蓝色文字 */
+    background-color: #f0f2f5;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    color: #2c3e50;
+    text-indent: 0; /* No indent for tags */
 }
 
 /* 标签悬停效果 */
 .tag:hover {
-    background-color: #e2e5e9;  /* 深一点的背景色 */
-    transform: translateY(-2px);  /* 向上移动 */
-    transition: all 0.3s ease;  /* 过渡动画 */
+    background-color: #e2e5e9;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
 }
 
 /* 底部信息区域样式 */
 .footer-info {
-    margin-top: 60px;  /* 顶部外边距 */
-    padding: 40px 20px;  /* 内边距 */
-    background: #f8f9fa;  /* 浅灰色背景 */
-    border-top: 1px solid #eee;  /* 顶部边框 */
+    margin-top: 60px;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
 }
 
 /* 制作人员信息样式 */
 .credits {
-    max-width: 800px;  /* 最大宽度 */
-    margin: 0 auto;  /* 水平居中 */
-    display: grid;  /* 网格布局 */
-    grid-template-columns: repeat(2, 1fr);  /* 两列布局 */
-    gap: 20px;  /* 减小列间距 */
-    text-align: center;  /* 文本居中 */
-    margin-bottom: 20px;  /* 减小底部外边距 */
+    max-width: 800px;
+    margin: 0 auto 20px; /* Adjusted margin */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: center; /* Keep credits centered */
 }
 
 /* 制作人员标题样式 */
 .credits h3 {
-    color: #2c3e50;  /* 深蓝色文字 */
-    margin-bottom: 10px;  /* 底部外边距 */
-    font-size: 1.2em;  /* 字体大小 */
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
 /* 制作人员文本样式 */
 .credits p {
-    color: #7f8c8d;  /* 灰色文字 */
-    margin: 0;  /* 移除外边距 */
-    padding: 10px;  /* 内边距 */
-    background: #f8f9fa;  /* 浅灰色背景 */
-    border-radius: 6px;  /* 圆角边框 */
-    transition: all 0.3s ease;  /* 过渡动画 */
+    color: #7f8c8d;
+    margin: 0;
+    padding: 10px;
+    background: #f8f9fa; /* Should likely be #fff or transparent if container is #f8f9fa */
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
 /* 制作人员文本悬停效果 */
 .credits p:hover {
-    background: #e9ecef;  /* 深一点的背景色 */
-    transform: translateY(-2px);  /* 向上移动 */
+    background: #e9ecef;
+    transform: translateY(-2px);
 }
 
 /* 版权信息样式 */
 .copyright {
-    text-align: center;  /* 文本居中 */
-    color: #95a5a6;  /* 灰色文字 */
-    margin: 20px 0;  /* 外边距 */
-    font-size: 0.9em;  /* 字体大小 */
+    text-align: center;
+    color: #95a5a6;
+    margin: 20px 0;
+    font-size: 0.9em;
+}
+.copyright p {
+    text-align: center;
+    text-indent: 0;
+    margin-bottom: 0;
 }
 
 /* 免责声明样式 */
 .disclaimer {
-    text-align: center;  /* 文本居中 */
-    color: #7f8c8d;  /* 灰色文字 */
-    font-size: 0.85em;  /* 字体大小 */
-    padding: 10px;  /* 内边距 */
-    background: rgba(0,0,0,0.02);  /* 半透明背景 */
-    border-radius: 4px;  /* 圆角边框 */
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 0.85em;
+    padding: 10px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 4px;
 }
 
 /* 免责声明段落样式 */
 .disclaimer p {
-    margin: 0;  /* 移除外边距 */
+    margin: 0;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
+    margin-bottom: 0;
 }
 
 /* 新增的解释性章节样式 */
 .why-205-section {
-    max-width: 1000px;  /* 最大宽度 */
-    margin: 60px auto;  /* 外边距 */
-    padding: 0 20px;  /* 内边距 */
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 0 20px;
 }
 
 /* 过去与现在对比区域样式 */
-.past-present {
-    display: grid;  /* 网格布局 */
-    grid-template-columns: 1fr 1fr;  /* 两列布局 */
-    gap: 40px;  /* 列间距 */
-    margin-bottom: 40px;  /* 底部外边距 */
-    background: #fff;  /* 白色背景 */
-    padding: 30px;  /* 内边距 */
-    border-radius: 15px;  /* 圆角边框 */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);  /* 阴影效果 */
+.past-present-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px; /* Reduced gap slightly */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* 过去和现在的共同样式 */
-.past, .present {
-    padding: 20px;  /* 内边距 */
-    background: #f8f9fa;  /* 浅灰色背景 */
-    border-radius: 10px;  /* 圆角边框 */
-    height: 100%;  /* 全高 */
+.past-card, .present-card { /* Combined selector */
+    padding: 25px;
+    background: #fff; /* Changed to white */
+    border-radius: 10px;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Unified shadow */
 }
 
-/* 过去和现在的标题样式 */
-.past h3, .present h3 {
-    color: #2c3e50;  /* 深蓝色文字 */
-    margin-bottom: 20px;  /* 底部外边距 */
-    font-size: 1.4em;  /* 字体大小 */
-    border-bottom: 2px solid #2ecc71;  /* 底部边框 */
-    padding-bottom: 10px;  /* 底部内边距 */
+.past-card {
+    border-top: 5px solid #e74c3c;
 }
 
-/* 对话框样式 */
-.dialogue {
-    background: rgba(46, 204, 113, 0.1);  /* 半透明绿色背景 */
-    padding: 20px;  /* 内边距 */
-    border-radius: 10px;  /* 圆角边框 */
-    margin: 20px 0;  /* 外边距 */
-    border-left: 4px solid #2ecc71;  /* 左侧边框 */
+.present-card {
+    border-top: 5px solid #2ecc71;
 }
 
-/* 儿童和母亲引用样式 */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.card-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5em;
+    text-align: left; /* Align header text left */
+    text-indent: 0;
+}
+
+.timeline-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+.past-card .timeline-icon {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.present-card .timeline-icon {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.content-block { /* Added wrapper for content blocks */
+    margin-bottom: 25px;
+}
+.content-block:last-child {
+    margin-bottom: 0;
+}
+
+.content-block h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #34495e; /* Unified color */
+    font-size: 1.1em;
+    text-align: left; /* Align block titles left */
+    text-indent: 0;
+}
+.past-card .content-block h4 i { color: #e74c3c; }
+.present-card .content-block h4 i { color: #2ecc71; }
+
+
+.content-block p {
+    /* Default indent applies here unless it's highlight/context */
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 0.5em;
+}
+.content-block p.data-highlight {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #3498db; /* Example color */
+    margin: 5px 0;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
+}
+.content-block p.data-context {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-top: -5px;
+    margin-bottom: 10px;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
+}
+
+.content-block ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+.content-block li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    color: #555;
+    text-indent: 0;
+}
+.past-card .content-block li i { color: #e74c3c; }
+.present-card .content-block li i { color: #2ecc71; }
+
+
+.problem-item { /* Renamed from .problems */
+    margin-bottom: 20px;
+}
+
+.problem-item h4 { /* Renamed from .problems */
+    display: flex;
+    align-items: center;
+    color: #e74c3c;
+    margin-bottom: 10px;
+    text-align: left; /* Ensure left alignment */
+    text-indent: 0;
+}
+
+.problem-item h4 i { /* Renamed from .problems */
+    margin-right: 10px;
+}
+
+.problem-details { /* Renamed from .problems */
+    padding-left: 15px;
+}
+
+.detail-item { /* Renamed from .problems */
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    text-indent: 0;
+}
+
+.detail-item i { /* Renamed from .problems */
+    margin-right: 10px;
+    color: #7f8c8d;
+}
+
+.dialogue-box {
+    background: #f8f9fa;
+    border-left: 4px solid #e74c3c;
+    padding: 15px;
+    border-radius: 0 5px 5px 0;
+}
+.dialogue-box p {
+    margin-bottom: 0.5em; /* Add spacing */
+    /* Default indent applies */
+}
+
+/* Child/Mother Quote specific styling if needed */
 .child-quote, .mother-quote {
-    margin: 10px 0;  /* 外边距 */
-    font-style: italic;  /* 斜体 */
-    position: relative;  /* 相对定位 */
-    padding-left: 20px;  /* 左侧内边距 */
+    margin: 10px 0;
+    font-style: italic;
+    position: relative;
+    padding-left: 20px;
+    text-indent: 0; /* Quotes often don't indent */
 }
-
-/* 引用装饰样式 */
 .child-quote:before, .mother-quote:before {
-    content: '"';  /* 引号内容 */
-    position: absolute;  /* 绝对定位 */
-    left: 0;  /* 左对齐 */
-    color: #2ecc71;  /* 绿色文字 */
-    font-size: 1.5em;  /* 字体大小 */
+    content: '"';
+    position: absolute;
+    left: 0;
+    color: #2ecc71;
+    font-size: 1.5em;
 }
 
-/* 问题列表容器样式 */
-.problems ul {
-    list-style: none;  /* 移除列表样式 */
-    padding: 0;  /* 移除内边距 */
-}
-
-/* 问题列表项样式 */
-.problems li {
-    margin: 12px 0;  /* 外边距 */
-    display: flex;  /* 弹性布局 */
-    align-items: center;  /* 垂直居中 */
-    gap: 10px;  /* 元素间距 */
-    padding: 8px 12px;  /* 内边距 */
-    background: white;  /* 白色背景 */
-    border-radius: 8px;  /* 圆角边框 */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);  /* 阴影效果 */
-    transition: transform 0.2s ease;  /* 过渡动画 */
-}
-
-/* 问题列表项悬停效果 */
-.problems li:hover {
-    transform: translateX(5px);  /* 向右移动 */
-}
-
-/* 问题列表项图标样式 */
-.problems li i {
-    color: #2ecc71;  /* 绿色图标 */
-}
-
-/* 信念列表样式 */
+/* Beliefs section adjustments */
 .beliefs {
-    display: grid;  /* 网格布局 */
-    grid-template-columns: repeat(2, 1fr);  /* 两列布局 */
-    gap: 20px;  /* 网格间距 */
-    margin: 30px 0;  /* 外边距 */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 30px 0;
 }
-
-/* 信念介绍区域样式 */
 .belief-intro {
-    grid-column: 1 / -1;  /* 跨越所有列 */
-    text-align: center;  /* 文本居中 */
-    margin-bottom: 20px;  /* 底部外边距 */
+    grid-column: 1 / -1;
+    text-align: center; /* Keep centered */
+    margin-bottom: 20px;
 }
-
-/* 信念介绍标题样式 */
 .belief-intro h2 {
-    color: #2c3e50;  /* 深蓝色文字 */
-    margin-bottom: 15px;  /* 底部外边距 */
-    font-size: 1.8em;  /* 字体大小 */
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
-/* 信念介绍段落样式 */
 .belief-intro p {
-    color: #34495e;  /* 深灰色文字 */
-    line-height: 1.6;  /* 行高 */
-    max-width: 800px;  /* 最大宽度 */
-    margin: 0 auto;  /* 水平居中 */
-    font-size: 1.1em;  /* 字体大小 */
+    color: #34495e;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1em;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
-/* 信念项目样式 */
 .belief-item {
-    background: white;  /* 白色背景 */
-    padding: 25px;  /* 内边距 */
-    border-radius: 10px;  /* 圆角边框 */
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);  /* 阴影效果 */
-    text-align: left;  /* 文本左对齐 */
-    display: flex;  /* 弹性布局 */
-    align-items: flex-start;  /* 顶部对齐 */
-    gap: 15px;  /* 元素间距 */
-    transition: transform 0.3s ease;  /* 过渡动画 */
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    transition: transform 0.3s ease;
 }
-
-/* 信念项目悬停效果 */
 .belief-item:hover {
-    transform: translateY(-5px);  /* 向上移动 */
+    transform: translateY(-5px);
 }
-
-/* 信念项目图标样式 */
 .belief-item i {
-    color: #2ecc71;  /* 绿色图标 */
-    font-size: 1.5em;  /* 字体大小 */
-    padding-top: 3px;  /* 顶部内边距 */
+    color: #2ecc71;
+    font-size: 1.5em;
+    padding-top: 3px;
 }
-
-/* 信念项目段落样式 */
 .belief-item p {
-    margin: 0;  /* 移除外边距 */
-    line-height: 1.6;  /* 行高 */
+    margin: 0;
+    line-height: 1.6;
+    text-indent: 0; /* Belief item descriptions usually short, no indent */
 }
 
-/* 影响网格样式 */
+/* Impact Grid adjustments */
 .impact-grid {
-    display: grid;  /* 网格布局 */
-    grid-template-columns: repeat(2, 1fr);  /* 两列布局 */
-    gap: 25px;  /* 网格间距 */
-    margin: 40px 0;  /* 外边距 */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin: 40px 0;
 }
-
-/* 影响组样式 */
 .impact-group {
-    background: white;  /* 白色背景 */
-    padding: 25px;  /* 内边距 */
-    border-radius: 10px;  /* 圆角边框 */
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);  /* 阴影效果 */
-    transition: transform 0.3s ease;  /* 过渡动画 */
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
 }
-
-/* 影响组悬停效果 */
 .impact-group:hover {
-    transform: translateY(-5px);  /* 向上移动 */
+    transform: translateY(-5px);
 }
-
-/* 影响组标题样式 */
 .impact-group h3 {
-    color: #2ecc71;  /* 绿色文字 */
-    margin-bottom: 15px;  /* 底部外边距 */
-    display: flex;  /* 弹性布局 */
-    align-items: center;  /* 垂直居中 */
-    gap: 10px;  /* 元素间距 */
+    color: #2ecc71;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left; /* Ensure left */
+    text-indent: 0;
 }
-
-/* 影响组标题装饰样式 */
 .impact-group h3:before {
-    content: '•';  /* 圆点内容 */
-    color: #2ecc71;  /* 绿色文字 */
-    font-size: 1.5em;  /* 字体大小 */
+    content: '•';
+    color: #2ecc71;
+    font-size: 1.5em;
 }
-
-/* 影响组列表样式 */
 .impact-group ul {
-    list-style: none;  /* 移除列表样式 */
-    padding: 0;  /* 移除内边距 */
-    margin: 0;  /* 移除外边距 */
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
-
-/* 影响组列表项样式 */
 .impact-group li {
-    margin: 10px 0;  /* 外边距 */
-    padding-left: 20px;  /* 左侧内边距 */
-    position: relative;  /* 相对定位 */
+    margin: 10px 0;
+    padding-left: 20px;
+    position: relative;
+    text-indent: 0; /* List items no indent */
 }
-
-/* 影响组列表项装饰样式 */
 .impact-group li:before {
-    content: '→';  /* 箭头内容 */
-    position: absolute;  /* 绝对定位 */
-    left: 0;  /* 左对齐 */
-    color: #2ecc71;  /* 绿色文字 */
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #2ecc71;
+}
+.impact-group li p { /* Paragraphs inside list items */
+    text-indent: 0 !important;
+    margin-bottom: 0;
 }
 
-/* 意外发现区域样式 */
+/* Unexpected Findings adjustments */
 .unexpected-findings {
-    background: #fff;  /* 白色背景 */
-    padding: 30px;  /* 内边距 */
-    border-radius: 15px;  /* 圆角边框 */
-    margin: 40px 0;  /* 外边距 */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);  /* 阴影效果 */
-    text-align: center;  /* 文本居中 */
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    margin: 40px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center; /* Keep centered */
 }
-
-/* 意外发现标题样式 */
 .unexpected-findings h2 {
-    color: #2c3e50;  /* 深蓝色文字 */
-    margin-bottom: 20px;  /* 底部外边距 */
-    text-align: center;  /* 文本居中 */
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
-/* 发现列表样式 */
 .findings-list {
-    max-width: 600px;  /* 最大宽度 */
-    margin: 0 auto;  /* 水平居中 */
-    text-align: center;  /* 文本居中 */
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center; /* Keep centered */
 }
-
-/* 发现列表段落样式 */
 .findings-list p {
-    margin-bottom: 20px;  /* 底部外边距 */
-    font-size: 1.1em;  /* 字体大小 */
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
-/* 发现列表无序列表样式 */
 .findings-list ul {
-    list-style: none;  /* 移除列表样式 */
-    padding: 0;  /* 移除内边距 */
-    margin: 0;  /* 移除外边距 */
-    display: inline-block;  /* 内联块级显示 */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    text-align: left; /* Align list items left within the centered block */
 }
-
-/* 发现列表项样式 */
 .findings-list li {
-    margin: 15px 0;  /* 外边距 */
-    font-size: 1.1em;  /* 字体大小 */
-    color: #2c3e50;  /* 深蓝色文字 */
+    margin: 15px 0;
+    font-size: 1.1em;
+    color: #2c3e50;
+    text-align: left; /* Align list items left */
+    text-indent: 0;
+    position: relative;
+    padding-left: 25px; /* Space for checkmark */
 }
-
-/* 发现列表项装饰样式 */
 .findings-list li:before {
-    content: '✓';  /* 勾选符号 */
-    position: absolute;  /* 绝对定位 */
-    left: 0;  /* 左对齐 */
-    color: #2ecc71;  /* 绿色文字 */
-    display: none;  /* 隐藏显示 */
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #2ecc71;
+    /* display: block; */ /* Make it visible */
+    font-size: 1.1em; /* Adjust size */
 }
 
-/* 结论部分样式优化 */
+
+/* Conclusion adjustments */
 .conclusion {
-    text-align: center;  /* 文本居中 */
-    margin: 40px 0;  /* 外边距 */
-    padding: 40px;  /* 内边距 */
-    background: #fff;  /* 白色背景 */
-    border-radius: 15px;  /* 圆角边框 */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);  /* 阴影效果 */
+    text-align: center; /* Keep centered */
+    margin: 40px 0;
+    padding: 40px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
-
 .conclusion h2 {
     font-size: 2em;
     color: #2c3e50;
     margin-bottom: 30px;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
 .highlight {
     font-size: 1.6em;
     color: #2ecc71;
     margin: 40px 0;
     line-height: 1.6;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
 .insights {
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
+    text-align: center; /* Keep centered */
 }
-
 .insights p {
     font-size: 1.3em;
     color: #2c3e50;
     margin: 30px 0;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
 .insights ul {
     list-style: none;
     padding: 0;
     margin: 30px 0;
+    display: inline-block; /* Allow centering */
+    text-align: left; /* Align list items left */
 }
-
 .insights li {
     margin: 20px 0;
     color: #2c3e50;
     font-size: 1.3em;
     line-height: 1.6;
+    text-align: left; /* Align list items left */
+    text-indent: 0;
 }
-
 .final-message {
     margin-top: 50px;
-    text-align: center;
+    text-align: center; /* Keep centered */
 }
-
 .final-message p {
     font-size: 1.3em;
     margin: 15px 0;
     color: #2c3e50;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
-
 .emphasis {
     font-size: 1.5em;
     font-weight: 500;
     margin: 20px 0;
     color: #2c3e50;
     line-height: 1.6;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
-@media screen and (max-width: 768px) {
-    .past-present,
-    .beliefs,
-    .impact-grid {
-        grid-template-columns: 1fr;
-    }
 
-    .belief-item,
-    .impact-group {
-        margin-bottom: 15px;
-    }
-
-    .chart-container {
-        height: 300px;
-    }
-
-    .wordcloud-container {
-        height: 350px;
-    }
-}
-
-/* 添加响应式布局 */
-@media screen and (max-width: 480px) {
-    .chart-container {
-        height: 250px;
-    }
-
-    .wordcloud-container {
-        height: 300px;
-    }
-}
-
-/* 添加新的样式 */
 .present-intro {
     font-size: 1.1em;
     color: #2c3e50;
     margin-bottom: 20px;
     line-height: 1.6;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
 .achievement-list {
@@ -1090,17 +1333,20 @@ h1 {
 .achievement-content {
     display: flex;
     flex-direction: column;
+    text-align: left; /* Align content left */
 }
 
 .achievement-number {
     font-size: 1.2em;
     font-weight: bold;
     color: #2c3e50;
+    text-indent: 0;
 }
 
 .achievement-desc {
     font-size: 0.9em;
     color: #7f8c8d;
+    text-indent: 0;
 }
 
 .present-features {
@@ -1118,16 +1364,11 @@ h1 {
     align-items: center;
     gap: 10px;
     color: #2c3e50;
+    text-indent: 0;
 }
 
 .present-features i {
     color: #2ecc71;
-}
-
-@media screen and (max-width: 768px) {
-    .achievement-list {
-        grid-template-columns: 1fr;
-    }
 }
 
 .public-reading, .reading-issues, .service-gap {
@@ -1145,6 +1386,8 @@ h1 {
     display: flex;
     align-items: center;
     gap: 10px;
+    text-align: left; /* Ensure left */
+    text-indent: 0;
 }
 
 .public-reading h4 i, .reading-issues h4 i, .service-gap h4 i {
@@ -1164,6 +1407,7 @@ h1 {
     display: flex;
     align-items: center;
     gap: 10px;
+    text-indent: 0; /* List items no indent */
 }
 
 .reading-issues li i {
@@ -1182,7 +1426,9 @@ h1 {
     margin: 0 0 10px 0;
     color: #7f8c8d;
     font-size: 0.9em;
+    /* Default indent applies unless overridden */
 }
+.evidence-box p:last-child { margin-bottom: 0; }
 
 .feedback-quote {
     color: #2c3e50;
@@ -1190,287 +1436,207 @@ h1 {
     position: relative;
     padding-left: 20px;
     margin: 0;
+    text-indent: 0; /* Quotes no indent */
 }
 
 .feedback-quote:before {
-    content: '"';  /* 引号内容 */
-    position: absolute;  /* 绝对定位 */
-    left: 0;  /* 左对齐 */
-    color: #2ecc71;  /* 绿色文字 */
-    font-size: 1.5em;  /* 字体大小 */
-}
-
-.we-believe {
-    text-align: center;  /* 文本居中 */
-    margin-bottom: 20px;  /* 底部外边距 */
-    font-size: 1.2em;  /* 字体大小 */
-    color: #2c3e50;  /* 深蓝色文字 */
-    grid-column: 1 / -1;  /* 跨越所有列 */
-}
-
-.policy-note {
-    background: #f8f9fa;  /* 浅灰色背景 */
-    border-left: 4px solid #2980b9;  /* 左侧蓝色边框 */
-    padding: 10px;  /* 内边距 */
-    margin-top: 15px;  /* 顶部外边距 */
-}
-
-.present-features h4 {
-    text-align: center;  /* 文本居中 */
-    margin-bottom: 25px;  /* 底部外边距 */
-    color: #2c3e50;  /* 深蓝色文字 */
-    font-size: 1.4em;  /* 字体大小 */
-}
-
-.features-grid {
-    display: grid;  /* 网格布局 */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* 响应式列宽 */
-    gap: 20px;  /* 网格间距 */
-    margin-top: 15px;  /* 顶部外边距 */
-}
-
-.feature-card {
-    background: #f8f9fa;  /* 浅灰色背景 */
-    border-radius: 8px;  /* 圆角边框 */
-    padding: 20px;  /* 内边距 */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);  /* 阴影效果 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* 过渡动画 */
-    display: flex;  /* 弹性布局 */
-    flex-direction: column;  /* 垂直方向 */
-    align-items: center;  /* 水平居中 */
-    text-align: center;  /* 文本居中 */
-}
-
-/* 特点卡片悬停效果 */
-.feature-card:hover {
-    transform: translateY(-5px);  /* 向上移动 */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);  /* 增强阴影 */
-}
-
-/* 特点卡片图标样式 */
-.feature-card i {
-    font-size: 2.5em;  /* 字体大小 */
-    color: #3498db;  /* 蓝色图标 */
-    margin-bottom: 15px;  /* 底部外边距 */
-}
-
-/* 特点卡片标题样式 */
-.feature-card h5 {
-    font-size: 1.2em;  /* 字体大小 */
-    margin-bottom: 10px;  /* 底部外边距 */
-    color: #2c3e50;  /* 深蓝色文字 */
-}
-
-/* 特点卡片段落样式 */
-.feature-card p {
-    color: #7f8c8d;  /* 灰色文字 */
-    line-height: 1.5;  /* 行高 */
-}
-
-@media (max-width: 768px) {
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.why-205-section {
-    padding: 40px 0;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #2c3e50;
-    font-size: 2em;
-}
-
-.past-present-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.timeline-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    padding: 25px;
-    height: 100%;
-}
-
-.past-card {
-    border-top: 5px solid #e74c3c;
-}
-
-.present-card {
-    border-top: 5px solid #2ecc71;
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-}
-
-.card-header h3 {
-    margin: 0;
-    color: #2c3e50;
+    content: '"';
+    position: absolute;
+    left: 0;
+    color: #2ecc71;
     font-size: 1.5em;
 }
 
-.timeline-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2em;
-}
-
-.past-card .timeline-icon {
-    background-color: #e74c3c;
-    color: white;
-}
-
-.present-card .timeline-icon {
-    background-color: #2ecc71;
-    color: white;
-}
-
-.problem-item {
+.we-believe {
+    text-align: center;
     margin-bottom: 20px;
+    font-size: 1.2em;
+    color: #2c3e50;
+    grid-column: 1 / -1;
+    text-indent: 0; /* Keep centered */
 }
 
-.problem-item h4 {
-    display: flex;
-    align-items: center;
-    color: #e74c3c;
-    margin-bottom: 10px;
-}
-
-.problem-item h4 i {
-    margin-right: 10px;
-}
-
-.problem-details {
-    padding-left: 15px;
-}
-
-.detail-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.detail-item i {
-    margin-right: 10px;
-    color: #7f8c8d;
-}
-
-.dialogue-box {
+.policy-note {
     background: #f8f9fa;
-    border-left: 4px solid #e74c3c;
-    padding: 15px;
-    border-radius: 0 5px 5px 0;
+    border-left: 4px solid #2980b9;
+    padding: 10px;
+    margin-top: 15px;
 }
+.policy-note p {
+    /* Default indent applies */
+    margin-bottom: 0.5em;
+}
+.policy-note p:last-child { margin-bottom: 0; }
 
-.present-intro {
-    font-size: 1.1em;
-    color: #2c3e50;
+.present-features h4 {
+    text-align: center; /* Keep centered */
     margin-bottom: 25px;
-    text-align: center;
-}
-
-.stats-container {
-    display: flex;
-    justify-content: space-around;
-    margin: 30px 0;
-}
-
-/* Corrected .stat-item to avoid conflict with intro-section's .stat-item */
-.stats-container .stat-item {
-    text-align: center;
-}
-
-.stats-container .stat-icon { /* Target icon within this specific container */
-    font-size: 2em;
-    color: #2ecc71;
-    margin-bottom: 10px;
-}
-
-.stats-container .stat-number { /* Target number within this specific container */
-    font-size: 1.8em;
-    font-weight: bold;
     color: #2c3e50;
-}
-
-.stats-container .stat-label { /* Target label within this specific container */
-    color: #7f8c8d;
-}
-
-
-.features-title {
-    text-align: center;
-    margin: 30px 0 20px;
-    color: #2c3e50;
+    font-size: 1.4em;
+    text-indent: 0;
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
 }
 
-.feature-card {
+/* Corrected .feature-card for grid */
+.features-grid .feature-card {
     background: #f8f9fa;
     border-radius: 8px;
-    padding: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    transition: transform 0.3s ease;
+    text-align: center; /* Keep centered */
 }
 
-.feature-card:hover {
+/* 特点卡片悬停效果 */
+.features-grid .feature-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* Corrected .feature-card i to avoid conflict */
+/* 特点卡片图标样式 */
 .features-grid .feature-card i {
-    font-size: 1.8em;
+    font-size: 2.5em;
     color: #3498db;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-/* Corrected .feature-card h5 to avoid conflict */
+/* 特点卡片标题样式 */
 .features-grid .feature-card h5 {
-    margin: 0 0 8px;
+    font-size: 1.2em;
+    margin-bottom: 10px;
     color: #2c3e50;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
-/* Corrected .feature-card p to avoid conflict */
+/* 特点卡片段落样式 */
 .features-grid .feature-card p {
-    margin: 0;
     color: #7f8c8d;
-    font-size: 0.9em;
+    line-height: 1.5;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
-@media (max-width: 992px) {
-    .past-present-container {
-        grid-template-columns: 1fr;
-    }
 
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
+/* 空间分布部分样式 */
+.spatial-distribution {
+    max-width: 1200px;
+    margin: 0 auto 50px;
+    text-align: center; /* Keep container centered */
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #8e44ad;
 }
+/* Title within spatial distribution */
+.spatial-distribution .sub-section-title {
+    text-align: center; /* Keep centered */
+    text-indent: 0;
+}
+
+.section-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
+}
+
+.map-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 25px; /* Added margin */
+}
+
+.map-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 25px;
+    background-color: #8e44ad;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.map-button:hover {
+    background-color: #9b59b6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-button .icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.map-button.reading-circle {
+    background-color: #8e44ad;
+}
+
+.map-button.population-heat {
+    background-color: #9b59b6;
+}
+
+/* Map Guide Styles */
+.map-guide-container {
+    text-align: left; /* Override parent center alignment */
+}
+.map-guide-container h4,
+.map-guide-container h5 {
+    text-align: left; /* Ensure guide headings are left aligned */
+    text-indent: 0;
+}
+.map-guide-container p {
+    /* Default indent applies */
+    text-align: left;
+}
+.map-guide-container ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1em;
+}
+.map-guide-container li {
+    text-indent: 0; /* List items no indent */
+    margin-bottom: 0.8em;
+    display: flex;
+    align-items: baseline; /* Align text baseline */
+    gap: 10px;
+}
+.map-guide-container li i {
+    width: 18px; /* Consistent icon width */
+    text-align: center;
+    color: #27ae60; /* Example color */
+    flex-shrink: 0; /* Prevent icon shrinking */
+    padding-top: 3px; /* Adjust vertical alignment */
+}
+.map-guide-container .guide-column-left li i {
+    color: #e74c3c; /* Marker color */
+}
+.map-guide-container .guide-column-right li {
+    align-items: flex-start; /* Allow multi-line text to wrap correctly */
+}
+.map-guide-note {
+    font-style: italic;
+    text-indent: 0 !important; /* No indent for note */
+    margin-bottom: 0;
+}
+
 
 .link-item {
     transition: transform 0.2s ease;
@@ -1478,6 +1644,10 @@ h1 {
     border-radius: 8px;
     background: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    text-align: left; /* Ensure left alignment */
+}
+.link-item p {
+    text-indent: 0; /* No indent for link item text */
 }
 
 .link-item:hover {
@@ -1516,6 +1686,8 @@ h1 {
     border-bottom: 2px solid #e74c3c;
     padding-bottom: 8px;
     display: inline-block;
+    text-align: left; /* Ensure left */
+    text-indent: 0;
 }
 
 .stats-grid {
@@ -1526,7 +1698,7 @@ h1 {
 }
 
 .stat-box {
-    text-align: center;
+    text-align: center; /* Keep stat boxes centered */
     padding: 15px;
     min-width: 120px;
     background-color: #fff;
@@ -1552,12 +1724,16 @@ h1 {
     font-size: 24px;
     font-weight: bold;
     color: #2c3e50;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
 .stat-info .stat-label {
     display: block;
     font-size: 14px;
     color: #7f8c8d;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
 .library-challenges {
@@ -1570,7 +1746,9 @@ h1 {
 .library-challenges p {
     margin-bottom: 10px;
     color: #34495e;
+    /* Default indent applies */
 }
+.library-challenges p:last-child { margin-bottom: 0; }
 
 .library-challenges i {
     color: #e74c3c;
@@ -1593,7 +1771,9 @@ h1 {
     margin-bottom: 8px;
     color: #34495e;
     font-size: 0.95em;
+    /* Default indent applies */
 }
+.service-issues p:last-child { margin-bottom: 0; }
 
 .service-issues i {
     color: #e67e22;
@@ -1602,233 +1782,112 @@ h1 {
     text-align: center;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .stats-grid {
-        flex-direction: column;
-    }
-
-    .stat-box {
-        width: 100%;
-        margin: 5px 0;
-    }
-}
-
 /* 添加开头部分的样式 */
 .intro-section {
     margin-bottom: 40px;
-    text-align: center;
+    text-align: center; /* Container centered */
     padding: 30px 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    /* Background image handled inline */
+    border-radius: 8px; /* May not be visible with full bg image */
 }
 
 .main-title {
     color: #2c3e50;
-    font-size: 28px;
-    margin-bottom: 20px;
+    font-size: 2.8em; /* Adjusted from inline */
+    margin-bottom: 40px;
     font-weight: 700;
+    text-align: center; /* Keep centered */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* From inline */
+    text-indent: 0;
 }
 
-.intro-text {
-    font-size: 16px;
+/* Specific intro text boxes */
+div[style*="background-color: #f8f9fa"][style*="max-width: 900px"] {
+    text-align: left; /* Override container centering */
+}
+div[style*="background-color: #f8f9fa"] > p.intro-text {
+    font-size: 1.2em;
     line-height: 1.8;
+    text-align: left;
+    text-indent: 2em; /* Apply indent */
     color: #34495e;
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: justify;
+    margin-bottom: 15px;
+}
+div[style*="background-color: #f8f9fa"] > p.intro-text:last-child {
+    margin-bottom: 0;
 }
 
-/* 原有样式保持不变 */
-.charts-container {
-    margin-bottom: 40px;
-}
-/* 添加背景轮播样式 */
-.city-libraries {
-    margin: 50px 0;
-    padding: 0 20px;
-}
-
-.section-title {
-    text-align: center;
-    font-size: 28px;
-    color: #333;
-    margin-bottom: 30px;
-    font-weight: 500;
-    position: relative;
-}
-
-.section-title:after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 3px;
-    background-color: #0078d4;
-    margin: 15px auto 0;
-}
-
-.library-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.library-item {
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.library-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-}
-
-.library-image {
-    height: 220px;
-    overflow: hidden;
-}
-
-.library-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.library-item:hover .library-image img {
-    transform: scale(1.05);
-}
-
-.library-caption {
-    padding: 15px;
-    text-align: center;
-    font-size: 16px;
-    color: #333;
-    font-weight: 500;
-    background-color: #f5f8fc;
-    border-top: 1px solid #eaeaea;
-}
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .library-gallery {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 15px;
-    }
-
-    .library-image {
-        height: 180px;
-    }
-
-    .section-title {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .library-gallery {
-        grid-template-columns: 1fr;
-        max-width: 320px;
-    }
-
-    .library-image {
-        height: 200px;
-    }
-}
-.data-source {
-    margin-top: 20px;
-    text-align: right;
-    padding-right: 20px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.data-source p {
-    font-size: 14px;
-    color: #666;
-    font-style: italic;
-}
-
-/* 在小屏幕上居中显示数据来源 */
-@media (max-width: 768px) {
-    .data-source {
-        text-align: center;
-        padding-right: 0;
-    }
-}
- /* 现有样式 */
- .intro-section {
-    margin-bottom: 40px;
-    text-align: center;
-    padding: 30px 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.main-title {
-    color: #2c3e50;
-    font-size: 28px;
-    margin-bottom: 30px;
-    font-weight: 700;
-}
-
-/* 新增数字统计样式 */
+/* Key stats (保持居中) */
 .key-stats {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 30px;
-    margin-bottom: 30px;
+    margin: 40px auto;
+    text-align: center;
 }
-
-/* Corrected .stat-item for key-stats */
 .key-stats .stat-item {
     text-align: center;
-    min-width: 120px;
-    /* Removed background/padding from here, added inline */
+    min-width: 150px;
+    /* background/padding/border/shadow handled inline */
 }
-
-/* Corrected .stat-number for key-stats */
-.key-stats .stat-number {
-    font-size: 32px;
+.key-stats .stat-item div:nth-of-type(1) { /* The number */
+    font-size: 2.5em;
     font-weight: 700;
-    color: #e67e22;
-    line-height: 1.2;
-    /* Removed specific color, using inline */
+    color: #2c3e50;
+    text-align: center;
+    text-indent: 0;
 }
-
-.key-stats .stat-unit {
-    font-size: 18px;
-    font-weight: 500;
-    /* Removed specific font-size, using inline */
-}
-
-.key-stats .stat-label {
-    font-size: 14px;
+.key-stats .stat-item div:nth-of-type(1) span { font-size: 0.5em; }
+.key-stats .stat-item div:nth-of-type(2) { /* The label */
+    font-size: 1.1em;
     color: #7f8c8d;
-    margin-top: 5px;
-     /* Removed specific font-size/color, using inline */
+    text-align: center;
+    text-indent: 0;
 }
 
 
-.intro-text {
-    font-size: 16px;
-    line-height: 1.8;
+/* Intro Questions Box */
+.intro-questions {
+    text-align: left; /* Override container centering */
+}
+.intro-questions ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 25px 0;
+}
+.intro-questions li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    text-indent: 0; /* List items no indent */
+}
+.intro-questions li:last-child { margin-bottom: 0; }
+.intro-questions li span { /* Icon span */
+    color: #2ecc71;
+    margin-right: 12px;
+    font-size: 1.2em;
+    line-height: 1.7;
+    flex-shrink: 0;
+}
+.intro-questions li p {
+    font-size: 1.2em;
+    line-height: 1.7;
     color: #34495e;
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: justify;
-    /* Added inline styles for background/padding */
+    margin: 0;
+    text-indent: 0; /* No indent for question text */
 }
+.intro-questions > p { /* Paragraph after the list */
+    font-size: 1.15em;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 15px;
+    text-align: center; /* Keep this one centered */
+    text-indent: 0;
+}
+.intro-questions > p strong { color: #2c3e50; }
 
-/* 图表说明样式 */
+/* 图表说明样式 (保持居中) */
 .charts-intro {
     text-align: center;
     margin-bottom: 30px;
@@ -1841,321 +1900,40 @@ h1 {
     font-size: 16px;
     color: #555;
     line-height: 1.6;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
-.chart-description {
-    margin-top: 15px;           /* 保持顶部外边距 */
-    font-size: 1.05em;          /* 恢复之前的字体大小或设为需要的默认大小 */
-    color: #000;                /* 字体颜色改为黑色 (#000 或 black) */
-    line-height: 1.6;           /* 恢复之前的行高或设为需要的默认行高 */
-    text-align: left;           /* 改为左对齐 */
-    text-indent: 2em;           /* 添加首行缩进，2em 表示缩进两个字符宽度 */
-    font-style: normal;         /* 将字体样式改回常规（非斜体） */
-} /* Missing closing bracket */
-
-.why-205-section {
-    padding: 40px 0;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #2c3e50;
-    font-size: 2em;
-}
-
-.past-present-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.timeline-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    padding: 25px;
-    height: 100%;
-}
-
-.past-card {
-    border-top: 5px solid #e74c3c;
-}
-
-.present-card {
-    border-top: 5px solid #2ecc71;
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-}
-
-.card-header h3 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.5em;
-}
-
-.timeline-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2em;
-}
-
-.past-card .timeline-icon {
-    background-color: #e74c3c;
-    color: white;
-}
-
-.present-card .timeline-icon {
-    background-color: #2ecc71;
-    color: white;
-}
-
-.problem-item {
-    margin-bottom: 20px;
-}
-
-.problem-item h4 {
-    display: flex;
-    align-items: center;
-    color: #e74c3c;
-    margin-bottom: 10px;
-}
-
-.problem-item h4 i {
-    margin-right: 10px;
-}
-
-.problem-details {
-    padding-left: 15px;
-}
-
-.detail-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.detail-item i {
-    margin-right: 10px;
-    color: #7f8c8d;
-}
-
-.dialogue-box {
-    background: #f8f9fa;
-    border-left: 4px solid #e74c3c;
-    padding: 15px;
-    border-radius: 0 5px 5px 0;
-}
-
-.present-intro {
-    font-size: 1.1em;
-    color: #2c3e50;
-    margin-bottom: 25px;
-    text-align: center;
-}
-
-.stats-container {
-    display: flex;
-    justify-content: space-around;
-    margin: 30px 0;
-}
-
-/* Corrected .stat-item */
-.stats-container .stat-item {
-    text-align: center;
-}
-
-
-/* Corrected .stat-icon */
-.stats-container .stat-icon {
-    font-size: 2em;
-    color: #2ecc71;
-    margin-bottom: 10px;
-}
-
-
-/* Corrected .stat-number */
-.stats-container .stat-number {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-
-/* Corrected .stat-label */
-.stats-container .stat-label {
-    color: #7f8c8d;
-}
-
-
-.features-title {
-    text-align: center;
-    margin: 30px 0 20px;
-    color: #2c3e50;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-/* Corrected .feature-card */
-.features-grid .feature-card {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-
-.features-grid .feature-card:hover {
-    transform: translateY(-5px);
-}
-
-/* Corrected .feature-card i */
-.features-grid .feature-card i {
-    font-size: 1.8em;
-    color: #3498db;
-    margin-bottom: 10px;
-}
-
-
-/* Corrected .feature-card h5 */
-.features-grid .feature-card h5 {
-    margin: 0 0 8px;
-    color: #2c3e50;
-}
-
-
-/* Corrected .feature-card p */
-.features-grid .feature-card p {
-    margin: 0;
-    color: #7f8c8d;
-    font-size: 0.9em;
-}
-
-
-@media (max-width: 992px) {
-    .past-present-container {
-        grid-template-columns: 1fr;
-    }
-
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-}
-/* 现有样式保持不变 */
-
-/* 空间分布部分样式 */
-.spatial-distribution {
-    max-width: 1200px;
-    margin: 0 auto 50px;
-    text-align: center;
-    padding: 30px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-    border-left: 5px solid #8e44ad;
-}
-
-/* Re-use section-title defined earlier */
-/*.section-title { ... }*/
-
-.section-description {
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-.map-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.map-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 25px;
-    background-color: #8e44ad;
-    color: white;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    min-width: 200px;
-}
-
-.map-button:hover {
-    background-color: #9b59b6;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.map-button .icon {
-    font-size: 18px;
-    margin-right: 8px;
-}
-
-.map-button.reading-circle {
-    background-color: #8e44ad;
-}
-
-.map-button.population-heat {
-    background-color: #9b59b6;
-}
-
-@media (max-width: 600px) {
-    .map-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .map-button {
-        width: 100%;
-    }
-}
-/* Re-use .link-item defined earlier */
-/* .link-item { ... } */
-/* Re-use .icon-wrapper defined earlier */
-/* .icon-wrapper { ... } */
 
 /* --- Library Showcase Styles --- */
-.library-showcase {
-    text-align: center;
+.library-showcase-section {
+     text-align: left; /* Default align left for this section */
+}
+.library-showcase-section .section-title {
+    text-align: center; /* Keep section title centered */
+}
+.library-showcase-section > p { /* Intro paragraph */
+    text-align: center; /* Keep intro centered */
+    max-width: 850px;
+    margin: 0 auto 40px;
+    font-size: 1.15em;
+    line-height: 1.8;
+    color: #34495e;
+    text-indent: 0; /* No indent for centered intro */
 }
 
 .showcase-grid {
     display: flex;
-    flex-wrap: nowrap;  /* 防止自动换行 */
-    justify-content: space-between;
-    gap: 20px;
-    overflow-x: auto;  /* 在窄屏上允许水平滚动而不是换行 */
-    padding-bottom: 10px;  /* 为可能的滚动条留出空间 */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center items */
+    gap: 30px;
+    margin: 0 auto;
+    max-width: 1000px; /* Limit width */
 }
 .showcase-item {
-    flex: 0 0 31%;  /* 三张图片时每张分配大约1/3的宽度（稍小点以留出间距） */
-    min-width: 250px;  /* 设置最小宽度，确保内容可见 */
+    flex: 1 1 300px; /* Flex basis, allow grow/shrink */
+    max-width: 350px;
+    min-width: 250px; /* Ensure minimum width */
 }
 
 .showcase-item.library-card {
@@ -2174,38 +1952,58 @@ h1 {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Reuse .library-image defined earlier */
-/*.library-card .library-image { ... }*/
+.library-card .library-image {
+    height: 220px;
+    overflow: hidden;
+}
 
-/* Reuse .library-image img defined earlier */
-/*.library-card .library-image img { ... }*/
+.library-card .library-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
 
-/* Reuse .library-card:hover .library-image img */
-/*.library-card:hover .library-image img { ... }*/
+.library-card:hover .library-image img {
+    transform: scale(1.05);
+}
 
-/* Reuse .library-caption defined earlier */
-/*.library-card .library-caption { ... }*/
+.library-card .library-caption {
+    padding: 18px 15px;
+    text-align: center; /* Keep caption centered */
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+    flex-grow: 1; /* Allow caption to grow */
+}
 
 .library-caption h5 {
-    margin: 0 0 5px 0;
+    margin: 0 0 8px 0;
     font-size: 1.1em;
     color: #333;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
 .library-caption p {
-    font-size: 0.9em;
-    color: #666;
+    font-size: 0.95em;
+    color: #6c757d;
     margin: 0;
+    text-align: center; /* Keep centered */
+    text-indent: 0;
 }
 
-.library-showcase .data-source { /* Style the data source specifically */
-    margin-top: 25px;
-    text-align: center;
+.library-showcase-section .data-source { /* Style the data source specifically */
+    margin-top: 35px;
+    text-align: center; /* Keep centered */
     font-size: 0.9em;
     color: #888;
     font-style: italic;
 }
-
+.library-showcase-section .data-source p {
+    text-align: center; /* Keep centered */
+    text-indent: 0;
+    margin-bottom: 0;
+}
 
 /* --- Modal Styles --- */
 .modal {
@@ -2218,7 +2016,6 @@ h1 {
     height: 100%;
     overflow-y: auto;
     background-color: rgba(0, 0, 0, 0.6);
-    /* display: flex; // Removed conflicting rule */
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -2240,11 +2037,7 @@ h1 {
     position: relative;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     animation: slideDown 0.4s ease-out; /* Slide in content */
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    text-align: left; /* Default align left */
 }
 
 @keyframes slideDown {
@@ -2277,6 +2070,8 @@ h1 {
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
     font-size: 1.6em;
+    text-align: left; /* Ensure left */
+    text-indent: 0;
 }
 
 .modal-body-grid {
@@ -2293,6 +2088,8 @@ h1 {
     object-fit: contain; /* Fit image within container */
     border-radius: 5px;
     border: 1px solid #eee;
+    display: block; /* Prevent extra space below image */
+    margin: 0 auto; /* Center if grid column is wider */
 }
 
 .modal-details h4,
@@ -2303,6 +2100,12 @@ h1 {
     margin-top: 0;
     display: flex;
     align-items: center;
+    text-align: left; /* Ensure left */
+    text-indent: 0;
+}
+.modal-details h4:first-of-type,
+.modal-description h4:first-of-type {
+     margin-top: 0; /* Remove top margin for first heading */
 }
 .modal-details h4 i,
 .modal-description h4 i {
@@ -2311,13 +2114,25 @@ h1 {
 }
 
 
-.modal-details p,
-.modal-description p {
+.modal-details p { /* Basic info paragraphs */
     font-size: 1em;
     line-height: 1.7;
     color: #444;
     margin-top: 0;
+    margin-bottom: 0.5em;
+    text-indent: 0 !important; /* No indent for features/basic info */
 }
+
+.modal-description p { /* Long description */
+    font-size: 1em;
+    line-height: 1.7;
+    color: #444;
+    margin-top: 0;
+    margin-bottom: 1em;
+    text-indent: 2em !important; /* INDENT the main description */
+}
+.modal-description p:last-child { margin-bottom: 0;}
+
 
 .modal-details ul {
     list-style: none;
@@ -2331,6 +2146,7 @@ h1 {
     margin-bottom: 6px;
     display: flex;
     align-items: center;
+    text-indent: 0; /* List items no indent */
 }
 .modal-details ul li i {
     color: #28a745; /* Green checkmark */
@@ -2344,7 +2160,69 @@ h1 {
     border-top: 1px solid #f0f0f0;
 }
 
-/* Responsive adjustments for modal */
+/* Chart specific styles */
+.chart-container-pie, .chart-container-bar {
+    position: relative;
+    margin: auto;
+    min-height: 350px;
+}
+
+.chart-box {
+    margin-bottom: 30px;
+}
+.chart-box h4 {
+    text-align: center; /* Keep chart titles centered */
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #495057;
+    text-indent: 0;
+}
+
+#heatmap_container, #feedback-heatmap {
+    min-height: 400px;
+}
+
+/* Ensure ECharts containers have necessary styles */
+#costTrendEChart, #nationalDistributionChart, #feedbackMonthlyTrendChart, #perCapitaChart, #populationChart, #districtChart, #midSizeLibraryCostChart, #costStructurePieChart, #subjectChart, #dailyChart, #hourlyChart, #bookstoreTreemap {
+     min-height: 300px;
+     width: 100%; /* Ensure width is handled */
+}
+/* Treemap Legend Styles */
+.treemap-legend {
+    text-align: center; /* Center legend content */
+}
+.treemap-legend p {
+    text-align: center; /* Center legend title */
+    text-indent: 0;
+    margin-bottom: 8px;
+}
+.treemap-legend span {
+    text-indent: 0; /* Spans don't indent */
+}
+
+/* Final check on chart descriptions */
+.chart-description {
+    margin-top: 15px;
+    font-size: 1.05em;
+    color: #555; /* Reverted color slightly */
+    line-height: 1.6;
+    text-align: left; /* Keep left */
+    text-indent: 2em; /* Keep indent */
+    font-style: normal;
+    max-width: 900px; /* Constrain width if needed */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px; /* Add padding if max-width is used */
+}
+.chart-analysis p {
+    text-indent: 2em !important; /* Ensure analysis text is indented */
+    text-align: left;
+    margin-bottom: 0.5em;
+}
+.chart-analysis p:last-child { margin-bottom: 0; }
+.chart-analysis h4 { text-indent: 0; }
+
+/* Responsive adjustments for modal and others */
 @media (max-width: 768px) {
     .modal-content {
         width: 95%;
@@ -2354,32 +2232,108 @@ h1 {
         grid-template-columns: 1fr; /* Stack image and details */
     }
     .modal-image-container img {
-        max-height: 200px; /* Adjust image height */
+        max-height: 200px;
         margin-bottom: 15px;
     }
     .modal-content h3 { font-size: 1.4em; }
     .modal-details h4, .modal-description h4 { font-size: 1.1em; }
+
+    .past-present-container,
+    .beliefs,
+    .impact-grid,
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    .achievement-list {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        flex-direction: column;
+    }
+    .stat-box {
+        width: 100%;
+        margin: 5px 0;
+    }
+    .chart-container { height: 300px; }
+    .wordcloud-container { height: 350px; }
+    .map-buttons { flex-direction: column; align-items: center; }
+    .map-button { width: 100%; }
 }
 
-/* Chart specific styles (e.g., for Chart.js canvas containers if needed) */
-.chart-container-pie, .chart-container-bar {
-    position: relative;
-    margin: auto;
-    /* Adjust height/width as needed, or let parent div control it */
-     min-height: 350px; /* Ensure minimum height */
+@media (max-width: 480px) {
+    .chart-container { height: 250px; }
+    .wordcloud-container { height: 300px; }
 }
 
-/* Fix conflicting styles if any */
-.chart-box {
-    margin-bottom: 30px; /* Add some space between chart boxes */
+
+
+
+
+
+
+/* END OF MODIFIED style.css */
+/* --- Timeline Story Preview Thumbnail Styles --- */
+.story-preview {
+    /* Add some padding if needed, especially if thumbnail is inside */
+    padding: 15px;
+    /* Consider making it a flex container if structure demands */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* gap: 10px; */
 }
 
-/* Ensure Plotly containers have necessary styles */
-#heatmap_container, #feedback-heatmap {
-    min-height: 400px; /* Ensure they have a minimum height */
+.story-thumbnail {
+    width: 100%; /* Take full width of its container */
+    height: 80px; /* Or adjust height as desired */
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    position: relative; /* For positioning the overlay */
+    overflow: hidden; /* Ensure overlay corners are clipped */
+    margin-bottom: 12px; /* Space between thumbnail and text */
+    border: 1px solid #eee; /* Subtle border */
+    cursor: pointer; /* Reinforce clickability */
 }
 
-/* Ensure ECharts containers have necessary styles */
-#costTrendEChart, #nationalDistributionChart, #feedbackMonthlyTrendChart, #perCapitaChart, #populationChart, #districtChart, #midSizeLibraryCostChart, #costStructurePieChart, #subjectChart, #dailyChart, #hourlyChart, #bookstoreTreemap {
-     min-height: 300px; /* Ensure minimum height */
+.thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Dark semi-transparent overlay */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease;
+    font-size: 0.9em;
+    padding: 5px;
+}
+
+.story-thumbnail:hover .thumbnail-overlay {
+    opacity: 1; /* Show overlay on hover */
+}
+
+.thumbnail-overlay i {
+    font-size: 1.5em; /* Icon size */
+    margin-bottom: 5px;
+}
+
+
+.timeline-item.right .story-preview {
+     /* Potentially align items differently */
+     text-align: left; /* Ensure text stays left aligned */
+}
+.timeline-item.right .story-preview .read-full-story {
+    text-align: left; /* Keep "read more" link aligned left */
+}
+/* --- 优化建议总结列表文本样式 --- */
+.improvement-summary ul li div {
+    text-align: left;     /* 确保左对齐 */
+    text-indent: 2em;     /* 添加首行缩进 */
+    margin-bottom: 0;     /* 确保div本身没有多余的底部边距 */
 }
