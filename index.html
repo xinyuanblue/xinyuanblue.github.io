@@ -237,179 +237,125 @@
     <p class="section-description" data-i18n="isochrone_map_desc_v3">
         交互式地图直观展示了“河洛书苑”的广泛覆盖，尤其是在中心城区，便捷的“十五分钟阅读圈”已初步成型。
     </p>
+<!-- Refined Two-Column Map Legend Container -->
 
-    <!-- Refined Map Guide Container -->
-    <div class="map-guide-container refined" style="max-width: 1200px; margin: 25px auto; padding: 20px; background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.07);">
+<!-- Refined Two-Column Map Legend Container with Center Visual & Lines -->
+<!-- Refined Two-Column Map Legend Container with Center Visual & Single Left Line -->
 
-        <!-- Always Visible Key Information -->
-        <div class="map-guide-visible">
-            <h4 style="color: #2980b9; margin-bottom: 15px; font-size: 1.2em; display: flex; align-items: center;">
-                <i class="fas fa-info-circle" style="margin-right: 8px;"></i><span data-i18n="map_guide_quick_start_title">地图快速上手</span>
+
+<!-- Refined Two-Column Map Legend Container with Center Visual -->
+<div class="map-guide-container two-column-legend-visual" style="max-width: 1200px; margin: 25px auto; padding: 20px; background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.07);">
+
+    <h3 class="legend-main-title">地图图例说明 (圆半径模式)</h3>
+
+    <div class="legend-content-wrapper-visual">
+
+        <!-- ========== 左侧列：书房标记点说明 ========== -->
+        <div class="legend-column legend-column-left">
+            <h4 class="legend-column-title">
+                 <svg width="16" height="16" viewbox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;"><circle cx="8" cy="8" r="6" fill="#FFAB40" stroke="#E69A38" stroke-width="1"/></svg>
+                书房标记点
             </h4>
-            <ul style="list-style: none; padding-left: 0; font-size: 1em; line-height: 1.8; color: #34495e;">
-                <li style="margin-bottom: 10px; display: flex; align-items: baseline;">
-                    <i class="fas fa-map-marker-alt" style="color: #e74c3c; margin-right: 10px; width: 18px; text-align: center; font-size: 0.9em; padding-top: 4px;"></i>
-                    <div data-i18n="map_guide_marker_info"><strong>彩色圆点:</strong> 代表书房位置 (颜色区分区域, 大小/深浅有含义，详见详情)。点击圆点可查看书房信息。</div>
-                </li>
-                <li style="margin-bottom: 10px; display: flex; align-items: baseline;">
-                    <i class="fas fa-sync-alt" style="color: #27ae60; margin-right: 10px; width: 18px; text-align: center; font-size: 0.9em; padding-top: 4px;"></i>
-                    <div data-i18n="map_guide_mode_switch_brief"><strong>两种模式:</strong> 地图右上角可切换 <strong style="color:#3498db;">[圆形半径模式]</strong> (估算范围) 和 <strong style="color:#e67e22;">[精确等时圈模式]</strong> (基于路网)。</div>
-                </li>
-                <li style="margin-bottom: 10px; display: flex; align-items: baseline;">
-                    <i class="fas fa-search-plus" style="color: #27ae60; margin-right: 10px; width: 18px; text-align: center; font-size: 0.9em; padding-top: 4px;"></i>
-                    <div data-i18n="map_guide_basic_ops"><strong>基本操作:</strong> 滚轮缩放，拖动平移。右上角 <i class="fas fa-expand" style="font-size:0.9em;"></i> 可全屏查看（推荐）。</div>
-                </li>
-            </ul>
-             <!-- Toggle Button -->
-            <button id="toggleMapDetails" class="map-guide-toggle" aria-expanded="false" style="margin-top: 15px; padding: 8px 15px; background-color: #e9ecef; border: 1px solid #dee2e6; color: #495057; border-radius: 4px; cursor: pointer; font-size: 0.9em;">
-                <span data-i18n="map_guide_show_details">显示详细说明与图例</span> <i class="fas fa-chevron-down" style="margin-left: 5px;"></i>
-            </button>
+            <!-- 1. 基本含义 -->
+             <div class="explanation-item marker-base-item">
+                 <div class="item-text">
+                     <p><strong>彩色圆点:</strong> 代表书房位置。<br><strong>不同颜色</strong> 区分不同行政区域。</p>
+                 </div>
+                 <div class="item-visuals">
+                     <span class="marker-example-base district-color-placeholder"></span>
+                 </div>
+            </div>
+
+            <!-- 2. 大小含义: 容纳人数 -->
+            <div class="explanation-item size-explanation">
+                 <div class="item-text">
+                     <p><strong>圆点大小:</strong><br>越大 → 可容纳人数越多。</p>
+                 </div>
+                 <div class="item-visuals">
+                     <span class="marker-example-s"></span>
+                     <span class="marker-example-m"></span>
+                     <span class="marker-example-l"></span>
+                 </div>
+            </div>
+
+            <!-- 3. 颜色深浅含义: 藏书量 -->
+            <div class="explanation-item opacity-explanation">
+                 <div class="item-text">
+                    <p><strong>颜色深浅 (透明度):</strong><br>越深 (不透明) → 藏书量越多。</p>
+                 </div>
+                 <div class="item-visuals">
+                     <span class="marker-example-light"></span>
+                     <span class="marker-example-mid"></span>
+                     <span class="marker-example-dark"></span>
+                 </div>
+            </div>
+
         </div>
 
-        <!-- Collapsible Detailed Information -->
-        <div id="mapGuideDetails" class="map-guide-collapsible" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; margin-top: 0; padding-top: 0; border-top: none;">
-             <hr style="border: none; border-top: 1px dashed #ccc; margin: 20px 0;">
-             <div style="display: flex; flex-wrap: wrap; gap: 30px;">
-                 <!-- Left Column: Mode Explanations & Legend -->
-                 <div class="guide-column-left" style="flex: 1; min-width: 300px;">
-                    <h5 style="color: #2c3e50; margin-bottom: 10px; font-size: 1.1em;" data-i18n="map_guide_mode_details_title">模式详解</h5>
-                    <p style="font-size: 1em; line-height: 1.7; color: #34495e; margin-bottom: 15px;" data-i18n="map_guide_interpret_mode1_detail">
-                        <strong style="color:#27ae60;">默认 - 圆半径模式:</strong> 显示基于直线距离估算的<strong style="color:#2ecc71;">5分钟</strong>、<strong style="color:#3498db;">10分钟</strong>和<strong style="color:#9b59b6;">15分钟</strong>步行半径圈（分别为浅绿、浅蓝、浅紫圈），提供大致范围概念。彩色圆点代表书房(颜色区分区域，<strong style="color:#e74c3c;">大小</strong>区分容纳人数，<strong style="color:#c0392b;">深浅</strong>区分图书数量)。
-                    </p>
-                     <p style="font-size: 1em; line-height: 1.7; color: #34495e; margin-bottom: 20px;" data-i18n="map_guide_interpret_mode2_detail">
-                         <strong style="color:#e67e22;">可选 - 精确等时圈模式:</strong> 基于<strong style="color:#e67e22;">实际路网</strong>计算生成精准的15分钟步行可达区域（彩色多边形，颜色区分区域）。
-                     </p>
-
-                    <h5 style="color: #2c3e50; margin-bottom: 10px; font-size: 1.1em;" data-i18n="map_guide_legend_title_full">完整图例</h5>
-                    <ul style="list-style: none; padding-left: 0; font-size: 0.95em; color: #555;">
-                        <li style="margin-bottom: 8px; display: flex; align-items: center;">
-                            <span style="display: inline-block; width: 16px; height: 16px; background-color: #FF5733; border-radius: 50%; border: 1px solid #C70039; margin-right: 10px;"></span>
-                            <span data-i18n="map_legend_marker_amap_detail">书房位置 (彩色圆点)</span>
-                        </li>
-                         <li style="margin-bottom: 8px; display: flex; align-items: center;">
-                            <span style="display: inline-block; width: 16px; height: 16px; background-color: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; border-radius: 50%; margin-right: 10px;"></span>
-                            <span data-i18n="map_legend_radius_5">圆半径模式: 5分钟步行圈</span>
-                        </li>
-                        <li style="margin-bottom: 8px; display: flex; align-items: center;">
-                            <span style="display: inline-block; width: 16px; height: 16px; background-color: rgba(52, 152, 219, 0.15); border: 1px solid #3498db; border-radius: 50%; margin-right: 10px;"></span>
-                            <span data-i18n="map_legend_radius_10">圆半径模式: 10分钟步行圈</span>
-                        </li>
-                        <li style="margin-bottom: 8px; display: flex; align-items: center;">
-                            <span style="display: inline-block; width: 16px; height: 16px; background-color: rgba(155, 89, 182, 0.1); border: 1px solid #9b59b6; border-radius: 50%; margin-right: 10px;"></span>
-                            <span data-i18n="map_legend_radius_15">圆半径模式: 15分钟步行圈</span>
-                        </li>
-                        <li style="display: flex; align-items: center;">
-                             <span style="display: inline-block; width: 16px; height: 16px; background: linear-gradient(45deg, #FF5252, #FFAB40, #4CAF50); border-radius: 3px; border: 1px solid #ccc; margin-right: 10px;"></span>
-                            <span data-i18n="map_legend_isochrone_mapbox_detail">精确等时圈模式: 15分钟步行范围</span>
-                        </li>
-                    </ul>
-                 </div>
-                 <!-- Right Column: Interaction Details -->
-                 <div class="guide-column-right" style="flex: 1; min-width: 300px;">
-                     <h5 style="color: #2c3e50; margin-bottom: 10px; font-size: 1.1em;" data-i18n="map_guide_interact_details_title">模式交互详解</h5>
-                      <ul style="list-style: none; padding-left: 0; font-size: 1em; line-height: 1.8; color: #34495e;">
-                          <li style="margin-bottom: 12px; background:#f0f8ff; padding:8px; border-radius:4px;">
-                              <div><strong data-i18n="map_guide_interact_amap_mode_detail">圆半径模式交互:</strong><br>
-                                  • 点击彩色圆点：查看详情并<strong style="color:#e67e22;">高亮</strong>其半径圈。<br>
-                                  • 右侧按钮：<strong style="color:#3498db;">[隐藏/显示所有圈]</strong> / 切换3D视图 / 切换视角 / 重置视图。
-                              </div>
-                          </li>
-                          <li style="margin-bottom: 12px; background:#fff8f0; padding:8px; border-radius:4px;">
-                               <div><strong data-i18n="map_guide_interact_mapbox_mode_detail">精确等时圈模式交互:</strong><br>
-                                   • 右侧按钮：<br>
-                                     <strong style="color:#3498db;">[显/隐书房点]</strong> / <strong style="color:#3498db;">[点击地图生成圈]</strong> (特殊模式) / <strong style="color:#3498db;">[生成所有圈]</strong> (耗时)。<br>
-                                   • 点击书房标记：弹窗内可单独生成该点等时圈。
-                              </div>
-                          </li>
-                      </ul>
-                       <p style="font-size: 0.9em; line-height: 1.6; color: #667; margin-top: 15px; font-style: italic;" data-i18n="map_guide_tooltip_dismiss_detail">
-                           <i class="fas fa-info-circle" style="color: #3498db; margin-right: 5px;"></i>提示：地图加载时的初始提示框，在首次点击<strong style="color:#e74c3c;">彩色书房圆点</strong>后会自动消失。
-                       </p>
-                       <p style="font-size: 0.9em; color: #7f8c8d; margin-top: 10px; font-style: italic;" data-i18n="map_guide_note_detail">
-                           注意：圆半径为估算，精确等时圈基于路网，实际步行时间或有差异。
-                       </p>
-                 </div>
-             </div>
+        <!-- ========== 中间视觉元素 ========== -->
+        <div class="legend-visual-center">
+            <div class="circle-15"></div>
+            <div class="circle-10"></div>
+            <div class="circle-5"></div>
+            <div class="center-dot"></div>
+            <!-- Anchors removed as lines are removed -->
         </div>
-    </div> <!-- End Refined Map Guide Container -->
+
+        <!-- ========== 右侧列：步行圈说明 ========== -->
+        <div class="legend-column legend-column-right">
+             <h4 class="legend-column-title">
+                  <svg width="16" height="16" viewbox="0 0 16 16" style="vertical-align: middle; margin-right: 5px;">
+                     <circle cx="8" cy="8" r="7" fill="none" stroke="#9b59b6" stroke-width="1.5"/>
+                     <circle cx="8" cy="8" r="5" fill="none" stroke="#3498db" stroke-width="1.5"/>
+                     <circle cx="8" cy="8" r="3" fill="none" stroke="#2ecc71" stroke-width="1.5"/>
+                  </svg>
+                 步行圈 (估算)
+             </h4>
+            <!-- 1. 5分钟 -->
+            <div class="explanation-item circle-5-item">
+                 <div class="item-visuals">
+                     <span class="circle-swatch radius-5"></span>
+                 </div>
+                 <div class="item-text">
+                    <p><strong>5分钟</strong><br>(约400m, 浅绿)</p>
+                 </div>
+            </div>
+            <!-- 2. 10分钟 -->
+            <div class="explanation-item circle-10-item">
+                 <div class="item-visuals">
+                     <span class="circle-swatch radius-10"></span>
+                 </div>
+                 <div class="item-text">
+                     <p><strong>10分钟</strong><br>(约800m, 浅蓝)</p>
+                 </div>
+            </div>
+            <!-- 3. 15分钟 -->
+            <div class="explanation-item circle-15-item">
+                 <div class="item-visuals">
+                     <span class="circle-swatch radius-15"></span>
+                 </div>
+                 <div class="item-text">
+                     <p><strong>15分钟</strong><br>(约1.2km, 浅紫)</p>
+                 </div>
+            </div>
+             <p class="note">基于直线距离估算。</p>
+        </div>
+
+    </div> <!-- End legend-content-wrapper-visual -->
+</div> <!-- End map-guide-container -->
+    <!-- Always Visible Key Information (AMap Focused) -->
+
+
+        
+
+
 
     <!-- Map Preview Container (Remains the same) -->
     <div class="map-preview-container" style="margin: 30px auto; max-width: 1200px; background: rgba(255, 255, 255, 0.9); padding: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
-        <iframe id="mapPreview" src="isochrone_map.html?preview=true" width="100%" height="600px" frameborder="0" style="border: none; display: block;" title="洛阳市十五分钟阅读圈分布地图预览" allowfullscreen></iframe>
+        <iframe id="mapPreview" src="radius_map_amap.html?preview=true" width="100%" height="600px" frameborder="0" style="border: none; display: block;" title="洛阳市十五分钟阅读圈分布地图预览" allowfullscreen></iframe>
     </div>
 </div>
 
-<!-- Add JavaScript for the toggle functionality -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.getElementById('toggleMapDetails');
-    const detailsPanel = document.getElementById('mapGuideDetails');
-    const buttonIcon = toggleButton.querySelector('i');
-    const buttonTextSpan = toggleButton.querySelector('span'); // Assuming you add a span around the text
-
-    // Get initial text from data-i18n or hardcode if not using i18n for button
-    const showText = toggleButton.querySelector('span') ? (toggleButton.querySelector('span').getAttribute('data-i18n') ? '显示详细说明与图例' : toggleButton.querySelector('span').textContent) : '显示详细说明与图例'; // Fallback
-    const hideText = '隐藏详细说明与图例'; // Define hide text
-
-    if (toggleButton && detailsPanel) {
-        toggleButton.addEventListener('click', function() {
-            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-
-            if (isExpanded) {
-                // Collapse
-                detailsPanel.style.maxHeight = '0';
-                detailsPanel.style.paddingTop = '0'; // Remove padding when collapsed
-                detailsPanel.style.marginTop = '0'; // Remove margin when collapsed
-                detailsPanel.style.borderTop = 'none'; // Remove border when collapsed
-
-                toggleButton.setAttribute('aria-expanded', 'false');
-                buttonIcon.classList.remove('fa-chevron-up');
-                buttonIcon.classList.add('fa-chevron-down');
-                 if(buttonTextSpan) buttonTextSpan.textContent = showText; // Use stored showText
-            } else {
-                // Expand
-                // Set maxHeight to scrollHeight for dynamic content height
-                detailsPanel.style.borderTop = '1px dashed #ccc'; // Add border back
-                detailsPanel.style.marginTop = '20px'; // Add margin back
-                detailsPanel.style.paddingTop = '20px'; // Add padding back (adjust as needed)
-                detailsPanel.style.maxHeight = detailsPanel.scrollHeight + 'px';
-
-                toggleButton.setAttribute('aria-expanded', 'true');
-                buttonIcon.classList.remove('fa-chevron-down');
-                buttonIcon.classList.add('fa-chevron-up');
-                 if(buttonTextSpan) buttonTextSpan.textContent = hideText; // Set hideText
-            }
-        });
-
-        // Optional: Adjust maxHeight on resize if content inside might change height significantly
-        window.addEventListener('resize', function() {
-             if (toggleButton.getAttribute('aria-expanded') === 'true') {
-                 // Recalculate scrollHeight in case content reflowed
-                 detailsPanel.style.maxHeight = detailsPanel.scrollHeight + 'px';
-             }
-        });
-    }
-});
-</script>
-
-<!-- Add some basic CSS for the toggle button and panel if needed -->
-<style>
-    .map-guide-toggle {
-        transition: background-color 0.3s ease;
-    }
-    .map-guide-toggle:hover {
-        background-color: #d1d9e1 !important; /* Slightly darker on hover */
-    }
-    .map-guide-toggle i {
-        transition: transform 0.3s ease;
-    }
-    /* Style for the collapsible panel */
-    .map-guide-collapsible {
-       /* max-height is controlled by JS */
-       /* overflow: hidden; */ /* Already set inline */
-       /* transition: max-height 0.4s ease-out; */ /* Already set inline */
-    }
-</style>
 
 
    
@@ -1426,29 +1372,14 @@ document.addEventListener('DOMContentLoaded', function() {
             </ul>
         </div>
 
-        <!-- 交互式气泡图 -->
-        <div class="analysis-section interactive-chart-area" style="margin-bottom: 50px; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
-            <h3 style="font-size: 1.5em; color: #8e44ad; margin-bottom: 10px; text-align: center;">
-                <i class="fas fa-chart-pie" style="margin-right: 8px;"></i>各区县书房资源配置透视
-            </h3>
-            <p style="text-align: center; font-size: 0.95em; color: #777; margin-bottom: 25px;">
-                (气泡大小代表人口，X轴代表人均面积，Y轴代表每万人书房数，悬停查看详情)
-            </p>
-            
-            <div id="districtResourceBubbleChart" style="width: 100%; height: 550px; /* 增加高度以容纳气泡 */">
-                <!-- ECharts 气泡图将在此渲染 -->
-            </div>
-             <p style="text-align: center; font-size: 0.85em; color: #666; margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
-                注：人口数据源自第七次全国人口普查。每万人书房数 = (书房数 / 人口) * 10000；人均面积 = (书房总面积 / 人口)。
-             </p>
-             <!-- 气泡图解读 -->
-             <div class="chart-analysis" style="margin-top: 25px; padding: 15px; background-color: #f0f8ff; border-radius: 6px;">
-                <h4 style="color: #3498db; margin-bottom: 10px; font-size: 1.2em;">图表解读：</h4>
-                <p style="line-height: 1.7; color: #34495e; font-size: 1em;">
-                    观察上图：<strong>洛龙区、涧西区</strong> 等气泡较大（人口多），且位于图表中上或右上区域，显示其书房总量多、人均资源相对较好。而 <strong>伊川县</strong> 气泡也较大，但位置偏左下，表明其人口众多但人均书房资源（数量和面积）相对不足。部分县区如 <strong>孟津区</strong> 虽然人口规模中等，但位置相对靠右或靠上，人均资源表现亮眼。整体分布验证了布局优先考虑人口，但也存在区域差异和优化潜力。
-                </p>
-            </div>
+
+        <div class="map-preview-container" style="margin: 30px auto; max-width: 1200px; background: rgba(255, 255, 255, 0.9); padding: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative;">
+            <iframe id="mapPreview" src="isochrone_map_mapbox.html?preview=true" width="100%" height="600px" frameborder="0" style="border: none; display: block;" title="洛阳市十五分钟阅读圈分布地图预览" allowfullscreen></iframe>
         </div>
+
+
+
+
 
         <!-- 人口热力图叠加 -->
         <div class="analysis-section population-map-overlay" style="margin-bottom: 50px; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
@@ -1484,6 +1415,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
            </div>
        </div>
+
+        <!-- 交互式气泡图 -->
+        <div class="analysis-section interactive-chart-area" style="margin-bottom: 50px; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+            <h3 style="font-size: 1.5em; color: #8e44ad; margin-bottom: 10px; text-align: center;">
+                <i class="fas fa-chart-pie" style="margin-right: 8px;"></i>各区县书房资源配置透视
+            </h3>
+            <p style="text-align: center; font-size: 0.95em; color: #777; margin-bottom: 25px;">
+                (气泡大小代表人口，X轴代表人均面积，Y轴代表每万人书房数，悬停查看详情)
+            </p>
+            
+            <div id="districtResourceBubbleChart" style="width: 100%; height: 550px; /* 增加高度以容纳气泡 */">
+                <!-- ECharts 气泡图将在此渲染 -->
+            </div>
+             <p style="text-align: center; font-size: 0.85em; color: #666; margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-radius: 4px;">
+                注：人口数据源自第七次全国人口普查。每万人书房数 = (书房数 / 人口) * 10000；人均面积 = (书房总面积 / 人口)。
+             </p>
+             <!-- 气泡图解读 -->
+             <div class="chart-analysis" style="margin-top: 25px; padding: 15px; background-color: #f0f8ff; border-radius: 6px;">
+                <h4 style="color: #3498db; margin-bottom: 10px; font-size: 1.2em;">图表解读：</h4>
+                <p style="line-height: 1.7; color: #34495e; font-size: 1em;">
+                    观察上图：<strong>洛龙区、涧西区</strong> 等气泡较大（人口多），且位于图表中上或右上区域，显示其书房总量多、人均资源相对较好。而 <strong>伊川县</strong> 气泡也较大，但位置偏左下，表明其人口众多但人均书房资源（数量和面积）相对不足。部分县区如 <strong>孟津区</strong> 虽然人口规模中等，但位置相对靠右或靠上，人均资源表现亮眼。整体分布验证了布局优先考虑人口，但也存在区域差异和优化潜力。
+                </p>
+            </div>
+        </div>
+
+
 
        <!-- 优化建议总结 -->
         <div class="improvement-summary" style="margin-top: 40px; padding: 25px; background-color: #e8f8f5; border-radius: 8px; border-left: 5px solid #1abc9c;">

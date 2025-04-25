@@ -471,18 +471,8 @@
             background: #f5f5f5;
             transform: scale(1.02);
         }
-        
-        .bottom-controls button.active {
-            background: #2ecc71;
-            color: white;
-            border-color: #2ecc71;
-        }
 
-        .bottom-controls button.click-mode {
-            background: #e74c3c;
-            color: white;
-            border-color: #e74c3c;
-        }
+        /* 修改HTML结构，将底部按钮包裹在一个容器中 */
     </style>
 </head>
 <body>
@@ -490,16 +480,14 @@
  
         
         <div id="map-container" class="map-container">
-            <div id="amap-container" style="display: none;"></div>
-            <div id="mapbox-container" style="display: block;"></div>
+            <div id="amap-container"></div>
+            <div id="mapbox-container"></div>
             
             <div class="map-controls">
+                <button id="show-all">显示所有阅读圈</button>
+                <button id="toggle-view">切换3D视图</button>
                 <button id="toggle-view-range">切换全市视角</button>
                 <button id="reset-view">重置视图</button>
-                <button id="toggle-bookstores">显示书房点</button>
-                
-                <button id="generate-all-isochrones">生成所有等时圈</button>
-                <button id="toggle-click-mode">点击地图生成等时圈</button>
             </div>
             
             <div class="fullscreen-legend">
@@ -531,13 +519,15 @@
                 </svg>
             </button>
 
-            <div class="map-switch" style="display: none;">
-                <button id="switch-amap">圆形半径模式</button>
-                <button id="switch-mapbox" class="active">精确等时圈模式</button>
+            <div class="map-switch">
+                <button id="switch-amap" class="active">圆形半径模式</button>
+                <button id="switch-mapbox">精确等时圈模式</button>
             </div>
             
             <div class="bottom-controls">
-               
+                <button id="toggle-bookstores">显示书房点</button>
+                <button id="toggle-click-mode">点击地图生成等时圈</button>
+                <button id="generate-all-isochrones">生成所有等时圈</button>
             </div>
             
             <div id="mapbox-tooltip" class="mapbox-isochrone-tooltip">
@@ -558,7 +548,7 @@
         <div class="map-legend">
             <h3 class="legend-title">图例说明</h3>
             
-            <div id="radius-legend" style="display: none;">
+            <div id="radius-legend">
                 <div class="legend-item">
                     <div class="legend-color" style="background-color: rgba(46, 204, 113, 0.7);"></div>
                     <span>5分钟步行圈 (约400m)</span>
@@ -573,7 +563,7 @@
                 </div>
             </div>
             
-            <div id="isochrone-legend" class="isochrone-legend" style="display: block;">
+            <div id="isochrone-legend" class="isochrone-legend" style="display: none;">
                 <div class="legend-item">
                     <div class="legend-color" style="background-color: rgba(0, 0, 0, 0);">
                         <span style="display: block; width: 15px; height: 15px; border-radius: 50%; background: linear-gradient(45deg, #FF5252, #FFAB40, #4CAF50, #42A5F5, #AB47BC);"></span>
@@ -701,12 +691,9 @@
                 // 初始化为主城区视角
                 this.setDowntownView();
 
-                // 默认切换到Mapbox精确等时圈模式
-                this.switchToMapbox();
-
                 // 显示初始提示
                 const mapboxTooltip = document.getElementById('mapbox-tooltip');
-                mapboxTooltip.innerHTML = `点击"显示书房点"查看书房位置，点击"生成所有等时圈"显示精确步行范围<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击任意彩色圆点即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
+                mapboxTooltip.innerHTML = `点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击任意彩色圆点即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
                 mapboxTooltip.style.display = 'block';
                 this.tooltipShown = true;
             }
@@ -886,9 +873,14 @@
             }
 
             setupEventListeners() {
+                // 地图切换事件
+                document.getElementById('switch-amap').addEventListener('click', () => this.switchToAMap());
+                document.getElementById('switch-mapbox').addEventListener('click', () => this.switchToMapbox());
+
                 // 视图控制事件
                 document.getElementById('reset-view').addEventListener('click', () => this.resetView());
-                document.getElementById('toggle-view-range').addEventListener('click', () => this.toggleViewRange());
+                document.getElementById('show-all').addEventListener('click', () => this.toggleShowAll());
+                document.getElementById('toggle-view').addEventListener('click', () => this.toggle3DView());
 
                 // 全屏控制事件
                 document.getElementById('fullscreen-toggle').addEventListener('click', () => {
@@ -917,8 +909,11 @@
                 document.getElementById('toggle-click-mode').addEventListener('click', () => this.toggleClickMode());
                 document.getElementById('generate-all-isochrones').addEventListener('click', () => this.generateAllIsochrones());
 
+                // 添加视角切换事件监听
+                document.getElementById('toggle-view-range').addEventListener('click', () => this.toggleViewRange());
+
                 // 为所有控件添加点击事件，点击后隐藏提示
-                document.querySelectorAll('.map-controls button, .bottom-controls button')
+                document.querySelectorAll('.map-controls button, .map-switch button, .bottom-controls button')
                     .forEach(button => {
                         button.addEventListener('click', () => this.hideTooltip());
                     });
@@ -932,10 +927,10 @@
                 document.getElementById('radius-legend').style.display = 'block';
                 document.getElementById('isochrone-legend').style.display = 'none';
                 document.getElementById('mapbox-click-tooltip').style.display = 'none';
-                document.querySelector('.bottom-controls').style.display = 'none';
+                document.querySelector('.mapbox-controls').style.display = 'none';
                 
                 // 显示圆半径模式的提示
-                this.showTooltip('点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角');
+                this.showTooltip('点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角，点击右上角全屏展示效果更佳');
             }
 
             switchToMapbox() {
@@ -951,11 +946,6 @@
                 const dataLoader = new DataLoader(this);
                 dataLoader.initMapboxLayers(this.allBookstores);
                 
-                console.log('切换到Mapbox模式，当前书房点状态:', {
-                    bookstoresVisible: this.bookstoresVisible,
-                    markersCount: this.mapboxMarkers ? this.mapboxMarkers.length : 0
-                });
-                
                 // 根据当前显示状态设置标记点
                 setTimeout(() => {
                     if (this.mapboxMarkers && this.mapboxMarkers.length > 0) {
@@ -965,17 +955,13 @@
                                 marker.getElement().style.display = displayStyle;
                             }
                         });
-                        console.log(`设置了 ${this.mapboxMarkers.length} 个标记点为 ${displayStyle}`);
-                    } else {
-                        console.log('没有找到标记点');
                     }
                 }, 500);
                 
-                // 显示底部控件
-                document.querySelector('.bottom-controls').style.display = 'flex';
+                document.querySelector('.mapbox-controls').style.display = 'block';
                 
                 // 显示精确等时圈模式的提示
-                this.showTooltip('点击"显示书房点"查看书房位置，点击"生成所有等时圈"可显示所有书房的精确步行范围');
+                this.showTooltip('点击"生成所有等时圈"按钮可显示所有书房的精确步行范围');
             }
 
             toggleShowAll() {
@@ -1041,99 +1027,25 @@
 
                     console.log('切换书房点显示状态:', {
                         visible: this.bookstoresVisible,
-                        markersCount: this.mapboxMarkers ? this.mapboxMarkers.length : 0,
-                        allBookstores: this.allBookstores ? this.allBookstores.length : 0
+                        markersCount: this.mapboxMarkers ? this.mapboxMarkers.length : 0
                     });
 
                     // 如果没有标记点，先初始化
                     if (!this.mapboxMarkers || this.mapboxMarkers.length === 0) {
-                        console.log('没有标记点，重新初始化标记点...');
-                        
-                        // 确保this.allBookstores不为空
-                        if (!this.allBookstores || this.allBookstores.length === 0) {
-                            console.error('没有书房数据可用');
-                            return;
-                        }
-                        
+                        console.log('重新初始化标记点...');
                         const dataLoader = new DataLoader(this);
-                        // 直接调用initMapboxLayers而不通过on('load')事件
-                        try {
-                            // 立即执行初始化
-                            if (this.mapbox.loaded()) {
-                                const uniqueLocations = new Map();
-                                
-                                this.allBookstores.forEach(bookstore => {
-                                    const coordinates = Array.isArray(bookstore.coordinates) 
-                                        ? bookstore.coordinates 
-                                        : bookstore.coordinates.split(',').map(Number);
-                                    const locationKey = coordinates.join(',');
-                                    
-                                    if (!uniqueLocations.has(locationKey)) {
-                                        uniqueLocations.set(locationKey, [bookstore]);
-                                    } else {
-                                        uniqueLocations.get(locationKey).push(bookstore);
-                                    }
-                                });
-                                
-                                console.log('处理后的唯一位置数:', uniqueLocations.size);
-                                
-                                // 清除现有标记
-                                if (this.mapboxMarkers) {
-                                    this.mapboxMarkers.forEach(marker => marker.remove());
-                                }
-                                this.mapboxMarkers = [];
-                                
-                                // 为每个唯一位置创建标记
-                                this.mapboxMarkers = Array.from(uniqueLocations.entries()).map(([locationKey, locationBookstores]) => {
-                                    const [lng, lat] = locationKey.split(',').map(Number);
-                                    const mainBookstore = locationBookstores[0];
-                                    
-                                    const popupContent = locationBookstores.length > 1 
-                                        ? this.createMultipleBookstoresPopupContent(locationBookstores)
-                                        : this.createMapboxPopupContent(mainBookstore.details);
-                                        
-                                    const marker = new mapboxgl.Marker({
-                                        color: CONFIG.DISTRICT_COLORS[mainBookstore.district],
-                                        scale: 0.8
-                                    })
-                                    .setLngLat([lng, lat])
-                                    .setPopup(new mapboxgl.Popup({
-                                        closeButton: false,
-                                        closeOnClick: true,
-                                        maxWidth: '300px'
-                                    }).setHTML(popupContent));
-                                    
-                                    // 设置显示状态
+                        dataLoader.initMapboxLayers(this.allBookstores);
+                        
+                        // 等待标记点初始化完成
+                        setTimeout(() => {
+                            this.mapboxMarkers.forEach(marker => {
+                                if (marker && marker.getElement()) {
                                     marker.getElement().style.display = displayStyle;
-                                    marker.addTo(this.mapbox);
-                                    return marker;
-                                });
-                                
-                                console.log(`成功创建了 ${this.mapboxMarkers.length} 个标记点`);
-                            } else {
-                                console.log('地图尚未加载完成，等待加载...');
-                                // 如果地图尚未加载，等待加载完成后再初始化
-                                this.mapbox.once('load', () => {
-                                    dataLoader.initMapboxLayers(this.allBookstores);
-                                    // 等待标记点初始化完成
-                                    setTimeout(() => {
-                                        if (this.mapboxMarkers && this.mapboxMarkers.length > 0) {
-                                            this.mapboxMarkers.forEach(marker => {
-                                                if (marker && marker.getElement()) {
-                                                    marker.getElement().style.display = displayStyle;
-                                                }
-                                            });
-                                            console.log(`设置了 ${this.mapboxMarkers.length} 个标记点为 ${displayStyle}`);
-                                        }
-                                    }, 500);
-                                });
-                            }
-                        } catch (err) {
-                            console.error('初始化标记点时出错:', err);
-                        }
+                                }
+                            });
+                        }, 500);
                     } else {
                         // 直接更新现有标记点的显示状态
-                        console.log(`更新 ${this.mapboxMarkers.length} 个现有标记点为 ${displayStyle}`);
                         this.mapboxMarkers.forEach(marker => {
                             if (marker && marker.getElement()) {
                                 marker.getElement().style.display = displayStyle;
@@ -2330,30 +2242,6 @@
                             console.log("已显示所有阅读圈");
                         }
                     }
-                    
-                    // 默认显示书房点
-                    console.log('正在设置默认显示书房点...');
-                    setTimeout(() => {
-                        if (window.mapManager && !window.mapManager.bookstoresVisible) {
-                            const toggleButton = document.getElementById('toggle-bookstores');
-                            toggleButton.classList.add('active');
-                            toggleButton.textContent = '隐藏书房点';
-                            window.mapManager.bookstoresVisible = true;
-                            
-                            // 直接设置所有标记点为可见
-                            if (window.mapManager.mapboxMarkers && window.mapManager.mapboxMarkers.length > 0) {
-                                window.mapManager.mapboxMarkers.forEach(marker => {
-                                    if (marker && marker.getElement()) {
-                                        marker.getElement().style.display = 'block';
-                                    }
-                                });
-                                console.log(`直接设置了 ${window.mapManager.mapboxMarkers.length} 个标记点为可见`);
-                            } else {
-                                console.log('没有找到可用的标记点，尝试调用toggleBookstores');
-                                window.mapManager.toggleBookstores();
-                            }
-                        }
-                    }, 1000);
                 } catch (error) {
                     console.error('数据加载错误:', error);
                     if (!window.mapManager.allBookstores || window.mapManager.allBookstores.length === 0) {

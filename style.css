@@ -2337,3 +2337,215 @@ div[style*="background-color: #f8f9fa"] > p.intro-text:last-child {
     text-indent: 2em;     /* 添加首行缩进 */
     margin-bottom: 0;     /* 确保div本身没有多余的底部边距 */
 }
+/* ====================================================== */
+/* CSS for Three-Column Visual Legend (Enlarged Version)  */
+/* ====================================================== */
+
+/* --- Main Container and Title --- */
+.two-column-legend-visual {
+    /* Inherits styles from .map-guide-container */
+    /* Add specific overrides if needed */
+}
+.two-column-legend-visual .legend-main-title {
+    text-align: center;
+    margin: 0 0 25px 0; /* Increased bottom margin */
+    font-size: 18px;    /* Increased font size */
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 12px; /* Increased padding */
+    border-bottom: 1px solid #eee;
+}
+
+/* --- Three-Column Wrapper --- */
+.two-column-legend-visual .legend-content-wrapper-visual {
+    display: flex;
+    align-items: center; /* Vertically center align columns */
+    justify-content: center; /* Center the whole block */
+    gap: 70px;           /* Increased gap between columns */
+    flex-wrap: wrap;     /* Allow wrapping on small screens */
+    padding: 10px 0;     /* Add some vertical padding */
+}
+
+/* --- Side Columns (Left & Right) --- */
+.two-column-legend-visual .legend-column {
+    flex: 1;            /* Allow columns to grow/shrink */
+    max-width: 260px;   /* Increased max width */
+    min-width: 200px;   /* Adjusted min width */
+    display: flex;
+    flex-direction: column; /* Stack title and items vertically */
+    gap: 15px;           /* Increased space between items */
+    padding: 10px;       /* Add some internal padding */
+    /* Optional: Add subtle background/border to columns */
+    /* background-color: #fff; */
+    /* border: 1px solid #e9ecef; */
+    /* border-radius: 4px; */
+}
+
+.two-column-legend-visual .legend-column-title {
+    font-size: 20px;    /* Increased font size */
+    font-weight: bold;
+    color: #34495e;
+    margin: 0 0 10px 0; /* Adjusted margin */
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+/* Adjust title icon size */
+.two-column-legend-visual .legend-column-title svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px; /* Increased margin */
+}
+.legend-column-left .legend-column-title { justify-content: flex-end; }
+.legend-column-right .legend-column-title { justify-content: flex-start; }
+
+/* --- Explanation Items (Common Styling) --- */
+.two-column-legend-visual .explanation-item {
+    display: flex;
+    align-items: center;
+    font-size: 15px;    /* Increased font size */
+    line-height: 1.5;   /* Adjusted line height */
+    color: #555;
+    gap: 12px;         /* Increased gap */
+}
+.two-column-legend-visual .explanation-item p { margin: 0; }
+.two-column-legend-visual .explanation-item strong { color: #333; }
+
+.two-column-legend-visual .item-visuals {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;           /* Increased gap */
+    flex-shrink: 0;
+    min-width: 50px;    /* Adjusted min width */
+}
+.two-column-legend-visual .item-text { flex-grow: 1; }
+
+/* --- Left Column Specifics --- */
+.legend-column-left { text-align: right; }
+.legend-column-left .explanation-item { flex-direction: row-reverse; }
+
+/* Left: Base marker example */
+.legend-column-left .marker-example-base {
+    width: 16px; height: 16px; /* Increased size */
+    border-radius: 50%;
+    background: linear-gradient(45deg, #FF5252, #FFAB40, #4CAF50);
+    border: 1px solid #777;
+}
+.legend-column-left .district-color-placeholder { /* Optional specific color */
+    /* background-color: #FFAB40; border-color: #E69A38; */
+}
+
+/* Left: Size explanation visuals */
+.legend-column-left .size-explanation .item-visuals span {
+    display: inline-block; border-radius: 50%; background-color: #FFAB40; border: 1px solid #E69A38;
+}
+.legend-column-left .size-explanation .marker-example-s { width: 12px; height: 12px; } /* Increased */
+.legend-column-left .size-explanation .marker-example-m { width: 16px; height: 16px; } /* Increased */
+.legend-column-left .size-explanation .marker-example-l { width: 20px; height: 20px; } /* Increased */
+
+/* Left: Opacity explanation visuals */
+.legend-column-left .opacity-explanation .item-visuals span {
+    display: inline-block; width: 16px; height: 16px; /* Increased size */
+    border-radius: 50%; border: 1px solid #E69A38;
+}
+.legend-column-left .opacity-explanation .marker-example-light { background-color: rgba(255, 171, 64, 0.6); }
+.legend-column-left .opacity-explanation .marker-example-mid { background-color: rgba(255, 171, 64, 0.8); }
+.legend-column-left .opacity-explanation .marker-example-dark { background-color: rgba(255, 171, 64, 1.0); }
+
+/* --- Right Column Specifics --- */
+.legend-column-right { text-align: left; }
+.legend-column-right .explanation-item { flex-direction: row; }
+
+.legend-column-right .circle-swatch {
+    display: inline-block; width: 16px; height: 16px; /* Increased size */
+    border-radius: 50%; border-width: 1.5px; /* Slightly thicker border */
+    border-style: solid; flex-shrink: 0;
+}
+.circle-swatch.radius-5 { background-color: rgba(46, 204, 113, 0.2); border-color: #2ecc71; }
+.circle-swatch.radius-10 { background-color: rgba(52, 152, 219, 0.15); border-color: #3498db; }
+.circle-swatch.radius-15 { background-color: rgba(155, 89, 182, 0.1); border-color: #9b59b6; }
+
+.legend-column-right .note {
+    font-size: 1em;     /* Increased size */
+    color: #7f8c8d; margin-top: 15px; font-style: italic; text-align: left;
+}
+
+
+/* --- Center Visual Element Styling --- */
+.legend-visual-center {
+    position: relative;
+    width: 150px;       /* Significantly larger */
+    height: 150px;
+    flex-shrink: 0;
+    /* margin: 0 10px; */ /* Adjust margin if needed */
+}
+.legend-visual-center > div {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%; box-sizing: border-box;
+}
+.legend-visual-center .circle-15 { width: 100%; height: 100%; background-color: rgba(155, 89, 182, 0.1); border: 2px solid #9b59b6; z-index: 1;} /* Thicker border */
+.legend-visual-center .circle-10 { width: 75%; height: 75%; background-color: rgba(52, 152, 219, 0.15); border: 2px solid #3498db; z-index: 2;} /* Thicker border */
+.legend-visual-center .circle-5 { width: 50%; height: 50%; background-color: rgba(46, 204, 113, 0.2); border: 2px solid #2ecc71; z-index: 3;} /* Thicker border */
+.legend-visual-center .center-dot { width: 20%; height: 20%; background-color: #FFAB40; border: 1.5px solid #E69A38; z-index: 4;} /* Thicker border */
+
+
+/* --- Responsive Adjustments --- */
+@media screen and (max-width: 768px) {
+    .two-column-legend-visual .legend-content-wrapper-visual {
+        flex-direction: column;
+        gap: 25px; /* Adjust gap for vertical stack */
+    }
+    .two-column-legend-visual .legend-column {
+        max-width: 90%; /* Allow columns to take more width */
+        min-width: unset;
+        align-items: center;
+        text-align: center;
+    }
+    .legend-column-left .legend-column-title,
+    .legend-column-right .legend-column-title {
+        justify-content: center;
+    }
+    .two-column-legend-visual .explanation-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px; /* Adjust gap for vertical item stack */
+        font-size: 12px; /* Slightly smaller font on mobile */
+    }
+    .two-column-legend-visual .item-visuals {
+        order: 0; /* Visuals first */
+        margin-bottom: 5px;
+    }
+     /* Ensure text alignment is centered */
+    .legend-column-left .item-text,
+    .legend-column-right .item-text {
+        text-align: center;
+    }
+
+    .legend-visual-center {
+        order: 1; /* Place visual between the two columns */
+        width: 120px; /* Slightly smaller on mobile */
+        height: 120px;
+        margin: 10px 0; /* Adjust vertical margin */
+    }
+    .legend-column-left { order: 0; }
+    .legend-column-right { order: 2; }
+
+    .legend-column-right .note { text-align: center; } /* Center note text */
+
+    /* Adjust visual example sizes for mobile */
+    .legend-column-left .size-explanation .marker-example-s { width: 10px; height: 10px; }
+    .legend-column-left .size-explanation .marker-example-m { width: 14px; height: 14px; }
+    .legend-column-left .size-explanation .marker-example-l { width: 18px; height: 18px; }
+    .legend-column-left .opacity-explanation .item-visuals span { width: 14px; height: 14px; }
+    .legend-column-right .circle-swatch { width: 14px; height: 14px; }
+}
+
+@media screen and (max-width: 480px) {
+     .legend-visual-center { width: 100px; height: 100px; }
+     .two-column-legend-visual .explanation-item { font-size: 11px; }
+     .two-column-legend-visual .legend-column-title { font-size: 13px; }
+     .two-column-legend-visual .legend-main-title { font-size: 16px; }
+}
