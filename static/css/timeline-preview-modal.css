@@ -69,6 +69,7 @@
     left: 50%;
     margin-left: -2px; /* 宽度一半 */
     z-index: 1;
+    transition: left 0.3s ease; /* Add transition for axis movement */
 }
 
 /* 时间轴项目 - 动态加载 */
@@ -79,7 +80,7 @@
     z-index: 2;
     opacity: 0; /* 初始隐藏 */
     transform: translateY(40px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, width 0.3s ease, left 0.3s ease, padding 0.3s ease; /* Add transitions */
     transition-delay: 0.1s; /* 基础延迟 */
     margin-bottom: 50px; /* 增加项目间距 */
 }
@@ -99,7 +100,7 @@
     top: 25px;
     border-radius: 50%;
     z-index: 3;
-    transition: border-color 0.5s ease;
+    transition: border-color 0.5s ease, left 0.3s ease, right 0.3s ease; /* Add transitions */
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
 #journey-timeline-preview .timeline-item.is-visible::after {
@@ -109,8 +110,8 @@
 /* 定位项目和节点 */
 #journey-timeline-preview .timeline-item.left { left: 0; padding-right: 45px; /* 为预览区留空间 */ }
 #journey-timeline-preview .timeline-item.right { left: 50%; padding-left: 45px; /* 为预览区留空间 */ }
-#journey-timeline-preview .timeline-item.left::after { right: -14px; /* 调整节点位置 */ }
-#journey-timeline-preview .timeline-item.right::after { left: -14px; /* 调整节点位置 */ }
+#journey-timeline-preview .timeline-item.left::after { right: -14px; /* 调整节点位置 */ left: auto; }
+#journey-timeline-preview .timeline-item.right::after { left: -14px; /* 调整节点位置 */ right: auto; }
 
 /* 内容卡片样式 */
 #journey-timeline-preview .content {
@@ -120,9 +121,10 @@
     border-radius: 8px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.08);
     border: 1px solid #eee;
+    transition: margin 0.3s ease; /* Add transition */
 }
-#journey-timeline-preview .timeline-item.left .content { margin-right: 15px; /* 与预览空间隔 */ }
-#journey-timeline-preview .timeline-item.right .content { margin-left: 15px; /* 与预览空间隔 */ }
+#journey-timeline-preview .timeline-item.left .content { margin-right: 15px; /* 与预览空间隔 */ margin-left: 0;}
+#journey-timeline-preview .timeline-item.right .content { margin-left: 15px; /* 与预览空间隔 */ margin-right: 0;}
 
 #journey-timeline-preview .content h2 { margin-top: 0; margin-bottom: 5px; font-size: 1.4em; color: #34495e; font-weight: 600; }
 #journey-timeline-preview .growth-stage { font-size: 0.9em; color: #7f8c8d; margin-bottom: 15px; font-style: italic; }
@@ -148,13 +150,16 @@
     opacity: 0; /* 初始隐藏 */
     transform: scale(0.95) translateY(10px); /* 初始状态 */
     z-index: 4; /* 确保在内容卡片之上（如果需要） */
+    display: block; /* Make sure it's block by default */
 }
 /* 定位预览区 */
 .timeline-item.left .story-preview {
     left: calc(100% + 15px); /* 放在右侧空白处 */
+    right: auto;
 }
 .timeline-item.right .story-preview {
     right: calc(100% + 15px); /* 放在左侧空白处 */
+    left: auto;
     text-align: left; /* 左侧预览文本左对齐 */
     border-left: none;
     border-right: 4px solid; /* 边框颜色由 style 设置 */
@@ -188,39 +193,147 @@
 /* --- 全局模态框样式 --- */
 .story-modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow-y: auto; background-color: rgba(0, 0, 0, 0.7); opacity: 0; transition: opacity 0.3s ease; padding: 20px; box-sizing: border-box; }
 .story-modal.show { display: block; opacity: 1; }
-.story-modal-content { position: relative; background-color: #fff; margin: 8vh auto; padding: 30px 40px; border-radius: 10px; max-width: 800px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-30px) scale(0.98); transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s; }
+.story-modal-content { position: relative; background-color: #fff; margin: 8vh auto; padding: 30px 40px; border-radius: 10px; max-width: 800px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-30px) scale(0.98); transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s, padding 0.3s ease, max-width 0.3s ease; } /* Add transitions for responsive changes */
 .story-modal.show .story-modal-content { opacity: 1; transform: translateY(0) scale(1); }
 .story-modal-close { position: absolute; top: 10px; right: 15px; font-size: 2.5em; color: #aaa; cursor: pointer; line-height: 1; transition: color 0.2s ease; font-weight: lighter; background: none; border: none; padding: 0;}
 .story-modal-close:hover { color: #333; }
-.story-modal-title { font-size: 1.6em; margin-top: 0; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; color: #333; display: flex; align-items: center; }
+.story-modal-title { font-size: 1.6em; margin-top: 0; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; color: #333; display: flex; align-items: center; transition: font-size 0.3s ease; }
 .story-modal-title i { margin-right: 10px; font-size: 0.9em; }
 .story-modal-body { max-height: 70vh; overflow-y: auto; }
 .story-modal-body h4 { display: none; } /* Hide original h4 in modal */
-.story-modal-body p { font-size: 1.05em; line-height: 1.8; color: #444; margin-bottom: 15px; }
+.story-modal-body p { font-size: 1.05em; line-height: 1.8; color: #444; margin-bottom: 15px; transition: font-size 0.3s ease; }
 
 /* 响应式调整 */
 @media screen and (max-width: 992px) {
-    /* 在中屏幕隐藏预览区 */
-    .story-preview { display: none !important; }
+    /* 在中屏幕不再强制隐藏预览区，但布局调整主要在768px */
+    /* .story-preview { display: none !important; } */ /* <<< COMMENTED OUT or DELETE THIS LINE */
+
+    /* 中屏幕下调整，使内容区居中，为768px以下布局做准备 */
     #journey-timeline-preview .timeline-item.left,
-    #journey-timeline-preview .timeline-item.right { padding-left: 0; padding-right: 0; }
+    #journey-timeline-preview .timeline-item.right {
+        padding-left: 20px; /* Reduce padding slightly */
+        padding-right: 20px;
+    }
     #journey-timeline-preview .timeline-item.right .content,
-    #journey-timeline-preview .timeline-item.left .content { margin-left: 0; margin-right: 0; }
-    #journey-timeline-preview .timeline-item { width: 85%; margin-left: auto; margin-right: auto; }
-    #journey-timeline-preview .timeline::after { left: 7.5%; } /* Adjust axis position */
-    #journey-timeline-preview .timeline-item::after { left: calc(7.5% - 14px); } /* Adjust node position */
-    #journey-timeline-preview .timeline-item.left,
-    #journey-timeline-preview .timeline-item.right { left: 0; }
+    #journey-timeline-preview .timeline-item.left .content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    #journey-timeline-preview .timeline-item {
+        width: 85%; /* Center item content area */
+        margin-left: auto;
+        margin-right: auto;
+        left: 0; /* Ensure items are not offset by left: 50% */
+    }
+    /* Axis remains centered for now, node position adjusts */
+    #journey-timeline-preview .timeline::after {
+        left: 50%; /* Keep centered for mid-screens */
+        margin-left: -2px;
+    }
+    #journey-timeline-preview .timeline-item::after {
+         /* Node position needs to adapt based on item centering */
+         /* This might become visually awkward, consider moving axis left earlier */
+         /* Or hide node if layout is too complex */
+         /* Let's try moving axis left already at 992px for consistency */
+         left: 7.5%; /* Example: Align with the centered item block */
+         margin-left: -14px; /* Adjust node to be on the line */
+         right: auto;
+    }
+     #journey-timeline-preview .timeline-item.left::after,
+     #journey-timeline-preview .timeline-item.right::after {
+         left: 7.5%;
+         margin-left: -14px; /* Adjust node to be on the line */
+         right: auto;
+     }
+
+     /* Hide preview on medium screens if vertical stacking is only for small screens */
+     /* If you want vertical stacking already here, apply 768px rules */
+     .story-preview { display: none !important; } /* <<< KEEPING THIS HIDDEN FOR 992px breakpoint based on initial design intent, change if vertical stack desired here */
+
+
 }
 
 @media screen and (max-width: 768px) {
-    /* 时间轴居左 */
-    #journey-timeline-preview .timeline::after { left: 20px; }
-    #journey-timeline-preview .timeline-item { width: 100%; padding-left: 45px; padding-right: 10px; margin-left: 0; margin-right: 0;}
-    #journey-timeline-preview .timeline-item.left,
-    #journey-timeline-preview .timeline-item.right { left: 0; }
-    #journey-timeline-preview .timeline-item::after { left: 9px; }
-    .story-modal-content { padding: 20px; max-width: 95%; }
+    /* 时间轴和节点移到左侧 */
+    #journey-timeline-preview .timeline::after {
+        left: 20px;
+        margin-left: 0;
+    }
+    #journey-timeline-preview .timeline-item::after {
+        left: 9px; /* (20px axis pos - (20px node width / 2) - (4px border)) ~ 6px? Let's try 9px visual center */
+        right: auto;
+    }
+    #journey-timeline-preview .timeline-item.left::after, /* Ensure specificity */
+    #journey-timeline-preview .timeline-item.right::after {
+        left: 9px;
+        right: auto;
+    }
+
+    /* 时间轴项目全宽，左侧留出空间 */
+    #journey-timeline-preview .timeline-item {
+        width: 100%;
+        padding-left: 45px; /* Space for axis and node */
+        padding-right: 10px; /* Minimal right padding */
+        margin-left: 0;
+        margin-right: 0;
+        left: 0 !important; /* Override desktop positioning */
+    }
+    #journey-timeline-preview .timeline-item.left, /* Ensure specificity */
+    #journey-timeline-preview .timeline-item.right {
+        left: 0 !important;
+        padding-left: 45px;
+        padding-right: 10px;
+    }
+
+    /* 内容卡片边距调整 */
+    #journey-timeline-preview .content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    #journey-timeline-preview .timeline-item.left .content, /* Ensure specificity */
+    #journey-timeline-preview .timeline-item.right .content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* --- 关键修改：显示并堆叠故事预览区 --- */
+    .story-preview {
+        display: block !important; /* 强制显示，覆盖 992px 的隐藏规则 */
+        position: static;         /* 取消绝对定位，回到文档流 */
+        width: 100%;              /* 占据父元素（timeline-item）的宽度 */
+        margin-top: 15px;         /* 在内容卡片下方添加间距 */
+        margin-left: 0;
+        margin-right: 0;
+        padding: 15px 20px;       /* 保留内边距 */
+        border-left: 4px solid;   /* 统一使用左边框 */
+        border-right: none;       /* 移除右边框 */
+        text-align: left;         /* 统一左对齐 */
+        opacity: 1;               /* 直接显示，移除淡入效果 */
+        transform: none;          /* 移除缩放/位移动画 */
+        transition: none;         /* 移除过渡效果 */
+        z-index: auto;            /* 重置层级 */
+    }
+    /* 移除特定左右定位规则 */
+    .timeline-item.left .story-preview,
+    .timeline-item.right .story-preview {
+        left: auto;
+        right: auto;
+    }
+    /* 简化悬停效果 */
+    .story-preview:hover {
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1); /* 稍微深一点的阴影 */
+        transform: translateY(-2px) !important; /* 轻微上移 */
+    }
+    .story-preview .read-full-story {
+        text-align: left; /* 统一左对齐 */
+    }
+
+    /* 调整模态框样式 */
+    .story-modal-content {
+        padding: 20px;
+        max-width: 95%; /* 适应屏幕宽度 */
+        margin: 5vh auto; /* 调整垂直边距 */
+    }
     .story-modal-title { font-size: 1.4em; }
     .story-modal-body p { font-size: 1em; }
 }

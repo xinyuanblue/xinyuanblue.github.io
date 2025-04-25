@@ -693,7 +693,7 @@
 
                 // 显示初始提示
                 const mapboxTooltip = document.getElementById('mapbox-tooltip');
-                mapboxTooltip.innerHTML = `点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 双击地图可快速放大<br>• 按ESC键可退出全屏</small>`;
+                mapboxTooltip.innerHTML = `点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击任意彩色圆点即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
                 mapboxTooltip.style.display = 'block';
                 this.tooltipShown = true;
             }
@@ -1539,7 +1539,7 @@
             showTooltip(text) {
                 const mapboxTooltip = document.getElementById('mapbox-tooltip');
                 const [line1, line2] = text.split('，点击');
-                mapboxTooltip.innerHTML = `${line1}<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 双击地图可快速放大<br>• 按ESC键可退出全屏</small>`;
+                mapboxTooltip.innerHTML = `${line1}<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击任意彩色圆点即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
                 mapboxTooltip.style.display = 'block';
                 this.tooltipShown = true;
             }
