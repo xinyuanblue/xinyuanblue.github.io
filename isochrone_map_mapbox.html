@@ -483,6 +483,26 @@
             color: white;
             border-color: #e74c3c;
         }
+
+        /* 脉冲动画效果 */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 0.2; }
+            100% { opacity: 0.6; }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        .click-isochrone-label {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -499,6 +519,7 @@
                 <button id="toggle-bookstores">显示书房点</button>
                 
                 <button id="generate-all-isochrones">生成所有等时圈</button>
+                <button id="clear-all-isochrones">清除所有等时圈</button>
                 <button id="toggle-click-mode">点击地图生成等时圈</button>
             </div>
             
@@ -534,10 +555,6 @@
             <div class="map-switch" style="display: none;">
                 <button id="switch-amap">圆形半径模式</button>
                 <button id="switch-mapbox" class="active">精确等时圈模式</button>
-            </div>
-            
-            <div class="bottom-controls">
-               
             </div>
             
             <div id="mapbox-tooltip" class="mapbox-isochrone-tooltip">
@@ -604,6 +621,7 @@
     <script src="./static/js/isochrone-map/amapManager.js"></script>
     <script src="./static/js/isochrone-map/dataLoader.js"></script>
     <script src="./static/js/isochrone-map/controls.js"></script>
+    <script src="./static/js/mapyindao.js"></script>
 
     <script>
         // 全局函数，用于生成等时圈
@@ -690,6 +708,8 @@
                 this.allBookstores = [];
                 this.isDowntownView = true; // 默认显示主城区视角
                 this.tooltipShown = false;
+                this.clickCounter = 0; // 点击计数器
+                this.clickPointMarkers = []; // 用于跟踪点击位置的标记
             }
 
             init() {
@@ -706,7 +726,7 @@
 
                 // 显示初始提示
                 const mapboxTooltip = document.getElementById('mapbox-tooltip');
-                mapboxTooltip.innerHTML = `点击"显示书房点"查看书房位置，点击"生成所有等时圈"显示精确步行范围<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击任意彩色圆点即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
+                mapboxTooltip.innerHTML = `点击"显示书房点"查看书房位置，点击"生成所有等时圈"显示精确步行范围<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击右侧任意按钮即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
                 mapboxTooltip.style.display = 'block';
                 this.tooltipShown = true;
             }
@@ -916,9 +936,10 @@
                 document.getElementById('toggle-bookstores').addEventListener('click', () => this.toggleBookstores());
                 document.getElementById('toggle-click-mode').addEventListener('click', () => this.toggleClickMode());
                 document.getElementById('generate-all-isochrones').addEventListener('click', () => this.generateAllIsochrones());
+                document.getElementById('clear-all-isochrones').addEventListener('click', () => this.clearAllIsochrones());
 
                 // 为所有控件添加点击事件，点击后隐藏提示
-                document.querySelectorAll('.map-controls button, .bottom-controls button')
+                document.querySelectorAll('.map-controls button')
                     .forEach(button => {
                         button.addEventListener('click', () => this.hideTooltip());
                     });
@@ -932,7 +953,6 @@
                 document.getElementById('radius-legend').style.display = 'block';
                 document.getElementById('isochrone-legend').style.display = 'none';
                 document.getElementById('mapbox-click-tooltip').style.display = 'none';
-                document.querySelector('.bottom-controls').style.display = 'none';
                 
                 // 显示圆半径模式的提示
                 this.showTooltip('点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角');
@@ -970,9 +990,6 @@
                         console.log('没有找到标记点');
                     }
                 }, 500);
-                
-                // 显示底部控件
-                document.querySelector('.bottom-controls').style.display = 'flex';
                 
                 // 显示精确等时圈模式的提示
                 this.showTooltip('点击"显示书房点"查看书房位置，点击"生成所有等时圈"可显示所有书房的精确步行范围');
@@ -1192,22 +1209,37 @@
                 
                 const coordinates = e.lngLat;
                 const id = `click-${Date.now()}`;
-                const color = '#FF5252'; // 默认颜色
+                // 使用明显不同的颜色，与区域颜色形成对比
+                const color = '#00BFFF'; // 亮蓝色
+                
+                // 增加计数器
+                this.clickCounter++;
+                const clickNumber = this.clickCounter;
                 
                 Utils.generateIsochrone(
                     this.mapbox,
                     [coordinates.lng, coordinates.lat],
                     id,
                     color,
-                    '点击位置',
-                    '自定义位置'
+                    `书房规划点${clickNumber}`,
+                    `书房规划点${clickNumber}`,
+                    true, // 添加一个标记参数，表示这是点击生成的
+                    clickNumber // 传递序号
                 ).then(result => {
                     if (result.success) {
                         this.activeIsochrones.push({
                             id: `isochrone-${id}`,
-                            name: '点击位置',
-                            district: '自定义位置'
+                            name: `书房规划点${clickNumber}`,
+                            district: `书房规划点${clickNumber}`,
+                            isClickGenerated: true, // 标记为点击生成
+                            number: clickNumber // 保存序号
                         });
+                        
+                        // 添加特殊边框样式
+                        if (this.mapbox.getLayer(`isochrone-${id}-outline`)) {
+                            this.mapbox.setPaintProperty(`isochrone-${id}-outline`, 'line-dasharray', [3, 3]); // 虚线边框
+                            this.mapbox.setPaintProperty(`isochrone-${id}-outline`, 'line-width', 3); // 更粗的边框
+                        }
                     }
                 });
                 
@@ -1627,7 +1659,7 @@
             showTooltip(text) {
                 const mapboxTooltip = document.getElementById('mapbox-tooltip');
                 const [line1, line2] = text.split('，点击');
-                mapboxTooltip.innerHTML = `${line1}<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击任意彩色圆点即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
+                mapboxTooltip.innerHTML = `${line1}<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击右侧任意按钮即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
                 mapboxTooltip.style.display = 'block';
                 this.tooltipShown = true;
             }
@@ -1689,6 +1721,75 @@
                     marker.on('mouseout', () => this.mapManager.amap.setDefaultCursor('default'));
                 } catch (error) {
                     console.error('设置标记点击事件时出错:', error);
+                }
+            }
+
+            clearAllIsochrones() {
+                try {
+                    if (this.activeIsochrones.length === 0 && this.clickPointMarkers.length === 0) {
+                        console.log('没有等时圈或标记需要清除');
+                        return;
+                    }
+                    
+                    console.log(`清除 ${this.activeIsochrones.length} 个等时圈和 ${this.clickPointMarkers.length} 个标记...`);
+                    
+                    // 显示加载提示
+                    const tooltip = document.getElementById('mapbox-tooltip');
+                    tooltip.textContent = `正在清除所有等时圈...`;
+                    tooltip.style.display = 'block';
+                    
+                    // 移除所有等时圈图层和源
+                    this.activeIsochrones.forEach(isochrone => {
+                        const id = isochrone.id;
+                        const outlineId = `${id}-outline`;
+                        const pulseId = `${id}-pulse`;
+                        
+                        if (this.mapbox.getLayer(id)) {
+                            this.mapbox.removeLayer(id);
+                        }
+                        
+                        if (this.mapbox.getLayer(outlineId)) {
+                            this.mapbox.removeLayer(outlineId);
+                        }
+                        
+                        if (this.mapbox.getLayer(pulseId)) {
+                            this.mapbox.removeLayer(pulseId);
+                        }
+                        
+                        if (this.mapbox.getSource(id)) {
+                            this.mapbox.removeSource(id);
+                        }
+                    });
+                    
+                    // 移除所有点击位置标记
+                    this.clickPointMarkers.forEach(marker => {
+                        if (marker) marker.remove();
+                    });
+                    
+                    // 清空等时圈数组和标记数组
+                    this.activeIsochrones = [];
+                    this.clickPointMarkers = [];
+                    
+                    // 重置点击计数器
+                    this.clickCounter = 0;
+                    
+                    // 隐藏提示
+                    setTimeout(() => {
+                        tooltip.style.display = 'none';
+                    }, 1500);
+                    
+                    console.log('所有等时圈和标记已清除');
+                } catch (error) {
+                    console.error('清除等时圈时出错:', error);
+                    
+                    // 显示错误提示
+                    const tooltip = document.getElementById('mapbox-tooltip');
+                    tooltip.textContent = `清除等时圈时出错: ${error.message}`;
+                    tooltip.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        tooltip.style.display = 'none';
+                    }, 3000);
                 }
             }
         }
@@ -2200,92 +2301,161 @@
 
         // 工具函数
         class Utils {
-            static async generateIsochrone(mapbox, coordinates, id, color, name, district) {
-                    const isochroneId = `isochrone-${id}`;
-                    
-                    // 移除之前的等时圈
-                    if (mapbox.getLayer(isochroneId)) {
-                        mapbox.removeLayer(isochroneId);
-                    }
-                    if (mapbox.getSource(isochroneId)) {
-                        mapbox.removeSource(isochroneId);
-                    }
-                    if (mapbox.getLayer(`${isochroneId}-outline`)) {
-                        mapbox.removeLayer(`${isochroneId}-outline`);
-                    }
-                    
-                    // 显示加载提示
+            static async generateIsochrone(mapbox, coordinates, id, color, name, district, isClickGenerated = false, clickNumber = 0) {
+                const isochroneId = `isochrone-${id}`;
+
+                // 移除之前的等时圈
+                if (mapbox.getLayer(isochroneId)) mapbox.removeLayer(isochroneId);
+                if (mapbox.getLayer(`${isochroneId}-outline`)) mapbox.removeLayer(`${isochroneId}-outline`);
+                if (mapbox.getLayer(`${isochroneId}-pulse`)) mapbox.removeLayer(`${isochroneId}-pulse`);
+                if (mapbox.getSource(isochroneId)) mapbox.removeSource(isochroneId);
+
+                // 显示加载提示
                 const tooltip = document.getElementById('mapbox-tooltip');
-                tooltip.textContent = `正在加载 ${name} (${district}) 的15分钟等时圈...`;
+                tooltip.textContent = `正在加载 ${name} 的15分钟等时圈...`;
                 tooltip.style.display = 'block';
-                    
+
                 try {
-                    // 构建Mapbox等时圈API URL
-                    const url = `https://api.mapbox.com/isochrone/v1/mapbox/walking/${coordinates[0]},${coordinates[1]}?contours_minutes=15&polygons=true&access_token=${mapboxgl.accessToken}`;
-                    
-                    // 请求等时圈数据
-                    const response = await fetch(url);
+                    // === NEW: 指向Flask后端代理 ===
+                    // 默认Flask端口是5000，如果在.env/命令行中设置了则为5001
+                    const proxyBaseUrl = 'http://heluoshuyuan.cn:5001'; // <<< 已更新为局域网IP地址
+                    // === END NEW ===
+
+                    const proxyUrl = `${proxyBaseUrl}/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
+
+                    console.log(`向 Flask 代理请求: ${proxyUrl}`);
+
+                    const response = await fetch(proxyUrl);
+
+                    console.log(`Flask 代理响应状态: ${response.status}`);
+
                     if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+                        let errorData = { message: `代理请求失败 (HTTP ${response.status})` };
+                        try {
+                            // 尝试解析Flask代理的JSON错误
+                            errorData = await response.json();
+                        } catch (e) {
+                            // 如果解析失败，使用状态文本
+                            errorData.message = response.statusText || errorData.message;
+                        }
+                        // 使用Flask代理提供的错误消息
+                        throw new Error(errorData.error || errorData.message || `代理请求失败 (HTTP ${response.status})`);
                     }
-                    const data = await response.json();
+
+                    const data = await response.json(); // 预期为GeoJSON
+
+                    // 添加等时圈数据源
+                    mapbox.addSource(isochroneId, {
+                        type: 'geojson',
+                        data: data
+                    });
                     
-                            // 添加等时圈数据源
-                            mapbox.addSource(isochroneId, {
-                                type: 'geojson',
-                                data: data
-                            });
+                    // 如果是点击生成的等时圈，使用不同的样式
+                    const fillOpacity = isClickGenerated ? 0.5 : 0.35; // 更高的不透明度
+                    const outlineWidth = isClickGenerated ? 3 : 2; // 更粗的边框
+                    
+                    // 添加等时圈图层
+                    mapbox.addLayer({
+                        'id': isochroneId,
+                        'type': 'fill',
+                        'source': isochroneId,
+                        'layout': {},
+                        'paint': {
+                            'fill-color': color,
+                            'fill-opacity': fillOpacity,
+                            'fill-outline-color': color
+                        }
+                    });
+                    
+                    // 添加等时圈轮廓图层
+                    mapbox.addLayer({
+                        'id': `${isochroneId}-outline`,
+                        'type': 'line',
+                        'source': isochroneId,
+                        'layout': {},
+                        'paint': {
+                            'line-color': color,
+                            'line-width': outlineWidth,
+                            'line-opacity': 0.8,
+                            // 如果是点击生成的等时圈，使用虚线样式
+                            'line-dasharray': isClickGenerated ? [3, 3] : [1, 0]
+                        }
+                    });
+                    
+                    // 为点击生成的等时圈添加脉冲效果图层
+                    if (isClickGenerated) {
+                        // 添加脉冲效果外层
+                        mapbox.addLayer({
+                            'id': `${isochroneId}-pulse`,
+                            'type': 'line',
+                            'source': isochroneId,
+                            'layout': {},
+                            'paint': {
+                                'line-color': 'white',
+                                'line-width': outlineWidth + 2,
+                                'line-opacity': 0.6
+                            }
+                        });
+                        
+                        // 通过DOM操作添加动画类
+                        setTimeout(() => {
+                            // 获取图层元素并添加动画
+                            const pulseLayer = document.querySelector(`[id^="layer-${isochroneId}-pulse"]`);
+                            if (pulseLayer) {
+                                pulseLayer.classList.add('pulse-animation');
+                            }
                             
-                            // 添加等时圈图层
-                            mapbox.addLayer({
-                                'id': isochroneId,
-                                'type': 'fill',
-                                'source': isochroneId,
-                                'layout': {},
-                                'paint': {
-                                    'fill-color': color,
-                                    'fill-opacity': 0.35,
-                                    'fill-outline-color': color
-                                }
-                            });
+                            // 添加标记标签
+                            const center = data.features[0].properties.center || coordinates;
+                            const marker = new mapboxgl.Marker({
+                                element: Utils.createCustomMarker(`书房规划点${clickNumber}`),
+                                anchor: 'bottom'
+                            })
+                            .setLngLat(center)
+                            .addTo(mapbox);
                             
-                            // 添加等时圈轮廓图层
-                            mapbox.addLayer({
-                                'id': `${isochroneId}-outline`,
-                                'type': 'line',
-                                'source': isochroneId,
-                                'layout': {},
-                                'paint': {
-                                    'line-color': color,
-                                    'line-width': 2,
-                                    'line-opacity': 0.8
-                                }
-                            });
+                            // 将标记添加到跟踪数组中
+                            if (window.mapManager) {
+                                window.mapManager.clickPointMarkers.push(marker);
+                            }
+                        }, 300);
+                    }
                     
                     // 隐藏提示
                     setTimeout(() => {
                         tooltip.style.display = 'none';
                     }, 2000);
-                            
-                            return {
-                                success: true,
-                                name: name,
-                                district: district
-                            };
+                    
+                    return {
+                        success: true,
+                        id: id,
+                        name: name,
+                        district: district
+                    };
                 } catch (error) {
-                            console.error('等时圈生成错误:', error);
-                    tooltip.textContent = `生成 ${name} 的等时圈时出错`;
+                    console.error(`等时圈生成错误 for ${name} via Flask Proxy:`, error);
+                    // 显示从代理/获取捕获的错误消息
+                    tooltip.textContent = `错误: ${name} 等时圈加载失败 (${error.message})`;
                     setTimeout(() => {
                         tooltip.style.display = 'none';
-                    }, 3000);
+                    }, 4000); // 显示错误更长时间
                     
-                            return {
-                                success: false,
-                                name: name,
-                                district: district,
-                                error: error
-                            };
+                    return {
+                        success: false,
+                        id: id,
+                        name: name,
+                        district: district,
+                        error: error
+                    };
                 }
+            }
+            
+            // 辅助函数：创建自定义标记
+            static createCustomMarker(text) {
+                const el = document.createElement('div');
+                el.className = 'click-isochrone-label';
+                el.innerHTML = text;
+                return el;
             }
         }
 

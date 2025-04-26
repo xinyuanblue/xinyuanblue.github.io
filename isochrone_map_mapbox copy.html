@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>十五分钟阅读圈分布</title>
+    <link rel="stylesheet" href="./static/css/isochrone-map.css">
+    <link href="./static/vendor/map/mapbox-gl.css" rel='stylesheet' />
+    
+    <!-- 预览模式样式 -->
+    <style>
+        body { margin: 0; padding: 0; }
+        .mobile-note { display: none; } 
+        .map-container { width: 100vw; height: 100vh; position: relative; }
+        .mapboxgl-map, .amap-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .panel-container { position: absolute; z-index: 100; bottom: 20px; left: 50%; transform: translateX(-50%); }
+        .legend { font-size: 12px; }
+        /* 预览模式顶部覆盖 */
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* 隐藏部分不相关控件 */
+        .back-to-list, .map-type-switch { display: none !important; }
+    </style>
+
+    <!-- 地图控件样式 -->
+    <style>
+        /* 地图切换控件 */
+        .map-switch {
+            position: absolute;
+            right: 10px;
+            top: 260px;
+            z-index: 100;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .map-switch button {
+            margin: 5px;
+            padding: 6px 12px;
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .map-switch button.active {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+        
+        /* 地图容器 */
+        #amap-container, #mapbox-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #mapbox-container { display: none; }
+        
+        /* 主控制按钮组 */
+        .map-controls {
+            position: absolute;
+            right: 10px;
+            top: 50px;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .map-controls button {
+            width: 140px;
+            padding: 6px 12px;
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 14px;
+            margin: 2px 0;
+            white-space: nowrap;
+        }
+
+        .map-controls button:hover {
+            background: #f5f5f5;
+            transform: scale(1.02);
+        }
+
+        .map-controls button.active {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+        
+        /* 图例样式 */
+        .isochrone-legend {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .mapbox-marker {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .mapbox-marker:hover { transform: scale(1.2); }
+        
+        .mapbox-popup-content {
+            padding: 15px;
+            max-width: 200px;
+        }
+        
+        .show-isochrone-btn {
+            margin-top: 8px;
+            padding: 5px 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .show-isochrone-btn:hover { background: #2980b9; }
+        
+        .mapbox-ctrl-group { margin-bottom: 70px !important; }
+        
+        /* 提示框样式 */
+        .mapbox-isochrone-tooltip,
+        .mapbox-click-tooltip {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 2000;
+            text-align: center;
+            pointer-events: none;
+            max-width: 500px;
+            width: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: opacity 0.3s ease;
+            line-height: 1.6;
+        }
+
+        .mapbox-isochrone-tooltip small {
+            display: block;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        /* 点击模式提示框样式 */
+        .mapbox-click-tooltip {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px 25px;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: normal;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* 全屏状态下的提示框样式调整 */
+        .map-container.fullscreen .mapbox-click-tooltip {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px 25px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .mapbox-click-tooltip small {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* 导航控件调整 */
+        .mapboxgl-ctrl-top-right {
+            top: 10px !important;
+            right: 10px !important;
+        }
+
+        .mapbox-controls {
+            position: absolute;
+            right: 10px;
+            top: 340px;
+            z-index: 100;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .mapbox-controls button {
+            margin: 5px;
+            padding: 8px 12px;
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .mapbox-controls button:hover { background: #f5f5f5; }
+        
+        .mapbox-controls button.active {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+        
+        .mapbox-controls button.click-mode {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        /* 全屏相关样式 */
+        .fullscreen-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            transition: all 0.3s ease;
+        }
+        
+        .fullscreen-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .fullscreen-btn:hover {
+            background: #f5f5f5;
+            transform: scale(1.05);
+        }
+        
+        .map-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+        }
+
+        /* 右侧控件统一样式 */
+        .map-container.fullscreen .map-controls,
+        .map-container.fullscreen .map-switch,
+        .map-container.fullscreen .mapbox-controls,
+        .mapbox-controls {
+            right: 10px;
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .map-container.fullscreen .map-controls {
+            top: 60px;
+        }
+
+        .map-container.fullscreen .map-switch {
+            top: 300px;
+        }
+
+        .map-container.fullscreen .mapbox-controls {
+            top: 380px;
+        }
+
+        /* 统一按钮样式 */
+        .map-container.fullscreen .map-controls button,
+        .map-container.fullscreen .map-switch button,
+        .map-container.fullscreen .mapbox-controls button {
+            width: 140px;
+            padding: 8px 12px;
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 14px;
+            margin: 2px 0;
+        }
+
+        .map-container.fullscreen .map-controls button:hover,
+        .map-container.fullscreen .map-switch button:hover,
+        .map-container.fullscreen .mapbox-controls button:hover {
+            background: #f5f5f5;
+            transform: scale(1.02);
+        }
+
+        .map-container.fullscreen .map-controls button.active,
+        .map-container.fullscreen .map-switch button.active,
+        .map-container.fullscreen .mapbox-controls button.active {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+        
+        /* 左侧图例样式 */
+        .fullscreen-legend {
+            display: none;
+            position: absolute;
+            right: 10px;
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 180px;
+            z-index: 1000;
+        }
+
+        .map-container.fullscreen .fullscreen-legend {
+            display: block;
+        }
+
+        .fullscreen-legend h4 {
+            margin: 0 0 4px 0;
+            font-size: 12px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .fullscreen-legend .legend-section {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .fullscreen-legend .legend-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .fullscreen-legend .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2px;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .fullscreen-legend .legend-color {
+            width: 12px;
+            height: 12px;
+            margin-right: 4px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        /* 顶部信息栏样式 */
+        .fullscreen-info {
+            display: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .map-container.fullscreen .fullscreen-info {
+            display: block;
+        }
+
+        .fullscreen-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .fullscreen-info p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* 底部按钮组样式 */
+        .bottom-controls {
+            position: absolute;
+            right: 10px;
+            top: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        /* 全屏状态下的按钮组位置调整 */
+        .map-container.fullscreen .bottom-controls {
+            top: 420px;
+        }
+
+        .bottom-controls button {
+            width: 140px;
+            padding: 6px 12px;
+            background: #fff;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .bottom-controls button:hover {
+            background: #f5f5f5;
+            transform: scale(1.02);
+        }
+        
+        .bottom-controls button.active {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+
+        .bottom-controls button.click-mode {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+ 
+        
+        <div id="map-container" class="map-container">
+            <div id="amap-container" style="display: none;"></div>
+            <div id="mapbox-container" style="display: block;"></div>
+            
+            <div class="map-controls">
+                <button id="toggle-view-range">切换全市视角</button>
+                <button id="reset-view">重置视图</button>
+                <button id="toggle-bookstores">显示书房点</button>
+                
+                <button id="generate-all-isochrones">生成所有等时圈</button>
+                <button id="toggle-click-mode">点击地图生成等时圈</button>
+            </div>
+            
+            <div class="fullscreen-legend">
+                <div class="legend-section">
+                    <h4>步行范围</h4>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: rgba(46, 204, 113, 0.7);"></div>
+                        <span>5分钟 (约400m)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: rgba(52, 152, 219, 0.7);"></div>
+                        <span>10分钟 (约800m)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: rgba(155, 89, 182, 0.7);"></div>
+                        <span>15分钟 (约1.2km)</span>
+                    </div>
+                </div>
+                
+                <div class="legend-section">
+                    <h4>区域分布</h4>
+                    <div id="fullscreen-district-legend"></div>
+                </div>
+            </div>
+            
+            <button class="fullscreen-btn" id="fullscreen-toggle" title="切换全屏">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                </svg>
+            </button>
+
+            <div class="map-switch" style="display: none;">
+                <button id="switch-amap">圆形半径模式</button>
+                <button id="switch-mapbox" class="active">精确等时圈模式</button>
+            </div>
+            
+            <div class="bottom-controls">
+               
+            </div>
+            
+            <div id="mapbox-tooltip" class="mapbox-isochrone-tooltip">
+                点击书房标记，再点击"显示15分钟等时圈"可查看精确路网步行范围
+            </div>
+            
+            <div id="mapbox-click-tooltip" class="mapbox-click-tooltip">
+                点击地图任意位置生成15分钟等时圈<br>
+                <small>再次点击"点击地图生成等时圈"按钮可退出此模式</small>
+            </div>
+        </div>
+        
+        <div class="count">
+            <div class="num">0</div>
+            <div class="txt">城市书房</div>
+        </div>
+        
+        <div class="map-legend">
+            <h3 class="legend-title">图例说明</h3>
+            
+            <div id="radius-legend" style="display: none;">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgba(46, 204, 113, 0.7);"></div>
+                    <span>5分钟步行圈 (约400m)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgba(52, 152, 219, 0.7);"></div>
+                    <span>10分钟步行圈 (约800m)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgba(155, 89, 182, 0.7);"></div>
+                    <span>15分钟步行圈 (约1.2km)</span>
+                </div>
+            </div>
+            
+            <div id="isochrone-legend" class="isochrone-legend" style="display: block;">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgba(0, 0, 0, 0);">
+                        <span style="display: block; width: 15px; height: 15px; border-radius: 50%; background: linear-gradient(45deg, #FF5252, #FFAB40, #4CAF50, #42A5F5, #AB47BC);"></span>
+                    </div>
+                    <span>Mapbox精确15分钟等时圈 (按各区域颜色显示)</span>
+                </div>
+                <div class="legend-item">
+                    <div style="width: 20px; height: 3px; background-color: #667; margin-right: 10px;"></div>
+                    <span>实际道路网络</span>
+                </div>
+            </div>
+            
+            <h4 class="legend-title" style="margin-top: 20px;">区域分布</h4>
+            <div id="district-legend" class="district-legend"></div>
+        </div>
+    </div>
+
+    <!-- 地图相关脚本 -->
+    <script src="./static/vendor/map/mapbox-gl.js"></script>
+    <script src="./static/vendor/map/mapbox-gl-language.js"></script>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=8c0f2606de763666d42b04bb5ec5b0e3"></script>
+    <script src="https://webapi.amap.com/loca?v=2.0.0&key=8c0f2606de763666d42b04bb5ec5b0e3"></script>
+
+    <!-- 主要应用脚本 -->
+    <script src="./static/js/utils.js"></script>
+    <script src="./static/js/isochrone-map/isochroneMap.js"></script>
+    <script src="./static/js/isochrone-map/mapboxManager.js"></script>
+    <script src="./static/js/isochrone-map/amapManager.js"></script>
+    <script src="./static/js/isochrone-map/dataLoader.js"></script>
+    <script src="./static/js/isochrone-map/controls.js"></script>
+
+    <script>
+        // 全局函数，用于生成等时圈
+        function generateIsochrone(id, coordinates, name, district) {
+            const mapManager = window.mapManager;
+            if (!mapManager) {
+                console.error('地图管理器未初始化');
+                return;
+            }
+
+            Utils.generateIsochrone(
+                mapManager.mapbox,
+                coordinates,
+                id,
+                CONFIG.DISTRICT_COLORS[district],
+                name,
+                district
+            ).then(result => {
+                if (result.success) {
+                    mapManager.activeIsochrones.push({
+                        id: `isochrone-${id}`,
+                        name: name,
+                        district: district
+                    });
+                }
+            });
+        }
+
+        // 配置常量
+        const CONFIG = {
+            MAP_CENTER: [112.434468, 34.663041],
+            MAP_ZOOM: 12,
+            MAP_PITCH: 0,
+            CITY_VIEW: {
+                center: [112.434468, 34.663041],
+                zoom: 10
+            },
+            DOWNTOWN_VIEW: {
+                center: [112.434468, 34.663041],
+                zoom: 12.5
+            },
+            WALKING_SPEED: 5,
+            WALKING_DISTANCES: {
+                FIVE_MINUTES: 400,
+                TEN_MINUTES: 800,
+                FIFTEEN_MINUTES: 1200
+            },
+            DISTRICT_COLORS: {
+                '西工区': '#FF5252',
+                '涧西区': '#FFAB40',
+                '老城区': '#4CAF50',
+                '瀍河区': '#42A5F5',
+                '洛龙区': '#AB47BC',
+                '伊滨区': '#FF7043',
+                '孟津区': '#D32F2F',
+                '偃师区': '#26C6DA',
+                '新安县': '#EC407A',
+                '伊川县': '#FF6F61',
+                '栾川县': '#6A1B9A',
+                '嵩县': '#5C6BC0',
+                '汝阳县': '#26A69A',
+                '宜阳县': '#9CCC65',
+                '洛宁县': '#FFEE58'
+            }
+        };
+
+        // 地图管理器
+        class MapManager {
+            constructor() {
+                this.amap = null;
+                this.mapbox = null;
+                this.loca = null;
+                this.currentInfoWindow = null;
+                this.allCircles = [];
+                this.isShowingAll = false;
+                this.mapboxMarkers = [];
+                this.activeIsochrones = [];
+                this.districtCount = {};
+                this.isFullscreen = false;
+                this.showing3D = false;
+                this.clickMode = false;
+                this.bookstoresVisible = false;
+                this.isGeneratingAll = false;
+                this.allBookstores = [];
+                this.isDowntownView = true; // 默认显示主城区视角
+                this.tooltipShown = false;
+            }
+
+            init() {
+                this.setupCanvas();
+                this.initAMap();
+                this.initMapbox();
+                this.setupEventListeners();
+                
+                // 初始化为主城区视角
+                this.setDowntownView();
+
+                // 默认切换到Mapbox精确等时圈模式
+                this.switchToMapbox();
+
+                // 显示初始提示
+                const mapboxTooltip = document.getElementById('mapbox-tooltip');
+                mapboxTooltip.innerHTML = `点击"显示书房点"查看书房位置，点击"生成所有等时圈"显示精确步行范围<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击右侧任意按钮即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
+                mapboxTooltip.style.display = 'block';
+                this.tooltipShown = true;
+            }
+
+            setupCanvas() {
+                const originalGetContext = HTMLCanvasElement.prototype.getContext;
+                HTMLCanvasElement.prototype.getContext = function(type, attributes = {}) {
+                    if (type === '2d') {
+                        attributes.willReadFrequently = true;
+                    }
+                    return originalGetContext.call(this, type, attributes);
+                };
+            }
+
+            initAMap() {
+                this.amap = new AMap.Map('amap-container', {
+                    zoom: CONFIG.MAP_ZOOM,
+                    center: CONFIG.MAP_CENTER,
+                    viewMode: '3D',
+                    mapStyle: 'amap://styles/dark',
+                    pitch: CONFIG.MAP_PITCH
+                });
+
+                this.loca = new Loca.Container({
+                    map: this.amap
+                });
+            }
+
+            initMapbox() {
+                mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVhbmJsdWUiLCJhIjoiY203cHhybnp3MHYxZzJscHJyYnYwMHMzZyJ9.9Be1af0pb9DVIlt5PJ8COQ';
+
+                this.mapbox = new mapboxgl.Map({
+                    container: 'mapbox-container',
+                    style: 'mapbox://styles/mapbox/dark-v10',
+                    center: CONFIG.MAP_CENTER,
+                    zoom: CONFIG.MAP_ZOOM,
+                    transformRequest: (url, resourceType) => {
+                        if(resourceType === 'Source' && url.startsWith('https://api.mapbox.com')) {
+                            return {
+                                url: url,
+                                headers: { 'Cache-Control': 'max-age=3600' }
+                            }
+                        }
+                    }
+                });
+
+                // 添加导航控件
+                const nav = new mapboxgl.NavigationControl({
+                    visualizePitch: true // 显示倾斜控制
+                });
+                this.mapbox.addControl(nav, 'top-right');
+
+                this.setupMapboxLayers();
+            }
+
+            setupMapboxLayers() {
+                this.mapbox.on('load', () => {
+                    try {
+                        // 清除所有现有的标记点
+                        if (this.mapboxMarkers) {
+                            this.mapboxMarkers.forEach(marker => marker.remove());
+                        }
+                        this.mapboxMarkers = [];
+
+                        // 检查并移除已存在的图层和源
+                        if (this.mapbox.getLayer('streets-layer')) {
+                            this.mapbox.removeLayer('streets-layer');
+                        }
+                        if (this.mapbox.getSource('streets')) {
+                            this.mapbox.removeSource('streets');
+                        }
+
+                        // 添加道路图层
+                        this.mapbox.addSource('streets', {
+                            type: 'vector',
+                            url: 'mapbox://mapbox.mapbox-streets-v8'
+                        });
+
+                        this.mapbox.addLayer({
+                            'id': 'streets-layer',
+                            'type': 'line',
+                            'source': 'streets',
+                            'source-layer': 'road',
+                            'layout': {
+                                'line-join': 'round',
+                                'line-cap': 'round'
+                            },
+                            'paint': {
+                                'line-color': '#667',
+                                'line-width': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['zoom'],
+                                    12, 0.5,
+                                    15, 1,
+                                    18, 2
+                                ],
+                                'line-opacity': 0.5
+                            }
+                        });
+
+                        // 对书房数据进行去重处理
+                        const uniqueLocations = new Map();
+                        this.allBookstores.forEach(bookstore => {
+                            const locationKey = bookstore.coordinates.join(',');
+                            if (!uniqueLocations.has(locationKey)) {
+                                uniqueLocations.set(locationKey, [bookstore]);
+                            } else {
+                                uniqueLocations.get(locationKey).push(bookstore);
+                            }
+                        });
+
+                        // 为每个唯一位置创建标记
+                        this.mapboxMarkers = Array.from(uniqueLocations.entries()).map(([locationKey, locationBookstores]) => {
+                            const [lng, lat] = locationKey.split(',').map(Number);
+                            const mainBookstore = locationBookstores[0];
+                            
+                            // 如果同一位置有多个书房，创建组合的弹出窗口内容
+                            const popupContent = locationBookstores.length > 1 
+                                ? this.createMultipleBookstoresPopupContent(locationBookstores)
+                                : this.createMapboxPopupContent(mainBookstore.details);
+
+                            const marker = new mapboxgl.Marker({
+                                color: CONFIG.DISTRICT_COLORS[mainBookstore.district],
+                                scale: 0.8
+                            })
+                            .setLngLat([lng, lat])
+                            .setPopup(new mapboxgl.Popup({
+                                closeButton: false,
+                                closeOnClick: true,
+                                maxWidth: '300px'
+                            }).setHTML(popupContent));
+
+                            // 默认隐藏标记
+                            marker.getElement().style.display = 'none';
+                            marker.addTo(this.mapbox);
+                            return marker;
+                        });
+
+                        console.log('Mapbox图层初始化成功');
+                    } catch (error) {
+                        console.error('Mapbox图层初始化失败:', error);
+                    }
+                });
+            }
+
+            createMultipleBookstoresPopupContent(bookstores) {
+                const bookstoresList = bookstores.map(bookstore => {
+                    const lib = bookstore.details;
+                    return `
+                        <div class="bookstore-item" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                            <h4 style="margin: 0 0 5px 0;">${lib.name}</h4>
+                            <p style="margin: 0; font-size: 12px;">
+                                所属区域：<span style="color:${CONFIG.DISTRICT_COLORS[lib.district]}; font-weight:bold">${lib.district}</span><br>
+                                地址：${lib.address}<br>
+                                面积：${lib.area}㎡<br>
+                                座位数：${lib.seats}个<br>
+                                藏书量：${lib.books}册<br>
+                                期刊种类：${lib.magazine_types}种<br>
+                                开放时间：${lib.opening_hours || '9:00-17:00'}
+                            </p>
+                            <button class="show-isochrone-btn" onclick="generateIsochrone('${lib.id}', [${lib.coordinates}], '${lib.name}', '${lib.district}')" style="margin-top: 8px;">
+                                显示15分钟等时圈
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="mapbox-popup-content" style="max-height: 400px; overflow-y: auto;">
+                        <div style="color: #666; font-size: 12px; margin-bottom: 10px;">
+                            此位置有 ${bookstores.length} 个书房
+                        </div>
+                        ${bookstoresList}
+                    </div>
+                `;
+            }
+
+            setupEventListeners() {
+                // 视图控制事件
+                document.getElementById('reset-view').addEventListener('click', () => this.resetView());
+                document.getElementById('toggle-view-range').addEventListener('click', () => this.toggleViewRange());
+
+                // 全屏控制事件
+                document.getElementById('fullscreen-toggle').addEventListener('click', () => {
+                    this.toggleFullscreen();
+                });
+
+                document.addEventListener('fullscreenchange', () => {
+                    const container = document.getElementById('map-container');
+                    if (document.fullscreenElement === container) {
+                        container.classList.add('fullscreen');
+                    } else {
+                        container.classList.remove('fullscreen');
+                    }
+                    
+                    // 更新地图大小
+                    if (this.amap) {
+                        this.amap.resize();
+                    }
+                    if (this.mapbox) {
+                        this.mapbox.resize();
+                    }
+                });
+
+                // Mapbox控制事件
+                document.getElementById('toggle-bookstores').addEventListener('click', () => this.toggleBookstores());
+                document.getElementById('toggle-click-mode').addEventListener('click', () => this.toggleClickMode());
+                document.getElementById('generate-all-isochrones').addEventListener('click', () => this.generateAllIsochrones());
+
+                // 为所有控件添加点击事件，点击后隐藏提示
+                document.querySelectorAll('.map-controls button, .bottom-controls button')
+                    .forEach(button => {
+                        button.addEventListener('click', () => this.hideTooltip());
+                    });
+            }
+
+            switchToAMap() {
+                document.getElementById('amap-container').style.display = 'block';
+                document.getElementById('mapbox-container').style.display = 'none';
+                document.getElementById('switch-amap').classList.add('active');
+                document.getElementById('switch-mapbox').classList.remove('active');
+                document.getElementById('radius-legend').style.display = 'block';
+                document.getElementById('isochrone-legend').style.display = 'none';
+                document.getElementById('mapbox-click-tooltip').style.display = 'none';
+                document.querySelector('.bottom-controls').style.display = 'none';
+                
+                // 显示圆半径模式的提示
+                this.showTooltip('点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角');
+            }
+
+            switchToMapbox() {
+                document.getElementById('amap-container').style.display = 'none';
+                document.getElementById('mapbox-container').style.display = 'block';
+                document.getElementById('switch-amap').classList.remove('active');
+                document.getElementById('switch-mapbox').classList.add('active');
+                document.getElementById('radius-legend').style.display = 'none';
+                document.getElementById('isochrone-legend').style.display = 'block';
+                this.mapbox.resize();
+                
+                // 重新初始化图层和标记点
+                const dataLoader = new DataLoader(this);
+                dataLoader.initMapboxLayers(this.allBookstores);
+                
+                console.log('切换到Mapbox模式，当前书房点状态:', {
+                    bookstoresVisible: this.bookstoresVisible,
+                    markersCount: this.mapboxMarkers ? this.mapboxMarkers.length : 0
+                });
+                
+                // 根据当前显示状态设置标记点
+                setTimeout(() => {
+                    if (this.mapboxMarkers && this.mapboxMarkers.length > 0) {
+                        const displayStyle = this.bookstoresVisible ? 'block' : 'none';
+                        this.mapboxMarkers.forEach(marker => {
+                            if (marker && marker.getElement()) {
+                                marker.getElement().style.display = displayStyle;
+                            }
+                        });
+                        console.log(`设置了 ${this.mapboxMarkers.length} 个标记点为 ${displayStyle}`);
+                    } else {
+                        console.log('没有找到标记点');
+                    }
+                }, 500);
+                
+                // 显示底部控件
+                document.querySelector('.bottom-controls').style.display = 'flex';
+                
+                // 显示精确等时圈模式的提示
+                this.showTooltip('点击"显示书房点"查看书房位置，点击"生成所有等时圈"可显示所有书房的精确步行范围');
+            }
+
+            toggleShowAll() {
+                this.isShowingAll = !this.isShowingAll;
+                const button = document.getElementById('show-all');
+                
+                if (this.isShowingAll) {
+                    button.textContent = '隐藏阅读圈';
+                    this.allCircles.forEach(circles => {
+                        circles.five.show();
+                        circles.ten.show();
+                        circles.fifteen.show();
+                    });
+                            } else {
+                    button.textContent = '显示所有阅读圈';
+                    this.allCircles.forEach(circles => {
+                        circles.five.hide();
+                        circles.ten.hide();
+                        circles.fifteen.hide();
+                    });
+                }
+            }
+
+            toggle3DView() {
+                this.showing3D = !this.showing3D;
+                const button = document.getElementById('toggle-view');
+                
+                if (this.showing3D) {
+                    button.textContent = '切换平面视图';
+                    this.amap.setPitch(45);
+                    this.mapbox.flyTo({
+                        pitch: 45,
+                        bearing: 0
+                    });
+                } else {
+                    button.textContent = '切换3D视图';
+                    this.amap.setPitch(0);
+                    this.mapbox.flyTo({
+                        pitch: 0,
+                        bearing: 0
+                    });
+                }
+            }
+
+            resetView() {
+                this.amap.setCenter(CONFIG.MAP_CENTER);
+                this.amap.setZoom(CONFIG.MAP_ZOOM);
+                this.amap.setPitch(CONFIG.MAP_PITCH);
+                
+                this.mapbox.flyTo({
+                    center: CONFIG.MAP_CENTER,
+                    zoom: CONFIG.MAP_ZOOM,
+                    pitch: CONFIG.MAP_PITCH,
+                    bearing: 0
+                });
+            }
+
+            toggleBookstores() {
+                try {
+                    this.bookstoresVisible = !this.bookstoresVisible;
+                    const button = document.getElementById('toggle-bookstores');
+                    const displayStyle = this.bookstoresVisible ? 'block' : 'none';
+
+                    console.log('切换书房点显示状态:', {
+                        visible: this.bookstoresVisible,
+                        markersCount: this.mapboxMarkers ? this.mapboxMarkers.length : 0,
+                        allBookstores: this.allBookstores ? this.allBookstores.length : 0
+                    });
+
+                    // 如果没有标记点，先初始化
+                    if (!this.mapboxMarkers || this.mapboxMarkers.length === 0) {
+                        console.log('没有标记点，重新初始化标记点...');
+                        
+                        // 确保this.allBookstores不为空
+                        if (!this.allBookstores || this.allBookstores.length === 0) {
+                            console.error('没有书房数据可用');
+                            return;
+                        }
+                        
+                        const dataLoader = new DataLoader(this);
+                        // 直接调用initMapboxLayers而不通过on('load')事件
+                        try {
+                            // 立即执行初始化
+                            if (this.mapbox.loaded()) {
+                                const uniqueLocations = new Map();
+                                
+                                this.allBookstores.forEach(bookstore => {
+                                    const coordinates = Array.isArray(bookstore.coordinates) 
+                                        ? bookstore.coordinates 
+                                        : bookstore.coordinates.split(',').map(Number);
+                                    const locationKey = coordinates.join(',');
+                                    
+                                    if (!uniqueLocations.has(locationKey)) {
+                                        uniqueLocations.set(locationKey, [bookstore]);
+                                    } else {
+                                        uniqueLocations.get(locationKey).push(bookstore);
+                                    }
+                                });
+                                
+                                console.log('处理后的唯一位置数:', uniqueLocations.size);
+                                
+                                // 清除现有标记
+                                if (this.mapboxMarkers) {
+                                    this.mapboxMarkers.forEach(marker => marker.remove());
+                                }
+                                this.mapboxMarkers = [];
+                                
+                                // 为每个唯一位置创建标记
+                                this.mapboxMarkers = Array.from(uniqueLocations.entries()).map(([locationKey, locationBookstores]) => {
+                                    const [lng, lat] = locationKey.split(',').map(Number);
+                                    const mainBookstore = locationBookstores[0];
+                                    
+                                    const popupContent = locationBookstores.length > 1 
+                                        ? this.createMultipleBookstoresPopupContent(locationBookstores)
+                                        : this.createMapboxPopupContent(mainBookstore.details);
+                                        
+                                    const marker = new mapboxgl.Marker({
+                                        color: CONFIG.DISTRICT_COLORS[mainBookstore.district],
+                                        scale: 0.8
+                                    })
+                                    .setLngLat([lng, lat])
+                                    .setPopup(new mapboxgl.Popup({
+                                        closeButton: false,
+                                        closeOnClick: true,
+                                        maxWidth: '300px'
+                                    }).setHTML(popupContent));
+                                    
+                                    // 设置显示状态
+                                    marker.getElement().style.display = displayStyle;
+                                    marker.addTo(this.mapbox);
+                                    return marker;
+                                });
+                                
+                                console.log(`成功创建了 ${this.mapboxMarkers.length} 个标记点`);
+                            } else {
+                                console.log('地图尚未加载完成，等待加载...');
+                                // 如果地图尚未加载，等待加载完成后再初始化
+                                this.mapbox.once('load', () => {
+                                    dataLoader.initMapboxLayers(this.allBookstores);
+                                    // 等待标记点初始化完成
+                                    setTimeout(() => {
+                                        if (this.mapboxMarkers && this.mapboxMarkers.length > 0) {
+                                            this.mapboxMarkers.forEach(marker => {
+                                                if (marker && marker.getElement()) {
+                                                    marker.getElement().style.display = displayStyle;
+                                                }
+                                            });
+                                            console.log(`设置了 ${this.mapboxMarkers.length} 个标记点为 ${displayStyle}`);
+                                        }
+                                    }, 500);
+                                });
+                            }
+                        } catch (err) {
+                            console.error('初始化标记点时出错:', err);
+                        }
+                    } else {
+                        // 直接更新现有标记点的显示状态
+                        console.log(`更新 ${this.mapboxMarkers.length} 个现有标记点为 ${displayStyle}`);
+                        this.mapboxMarkers.forEach(marker => {
+                            if (marker && marker.getElement()) {
+                                marker.getElement().style.display = displayStyle;
+                            }
+                        });
+                    }
+
+                    // 更新按钮状态
+                    button.classList.toggle('active', this.bookstoresVisible);
+                    button.textContent = this.bookstoresVisible ? '隐藏书房点' : '显示书房点';
+                    
+                } catch (error) {
+                    console.error('切换书房点显示状态时出错:', error);
+                }
+            }
+
+            toggleClickMode() {
+                this.clickMode = !this.clickMode;
+                const button = document.getElementById('toggle-click-mode');
+                const tooltip = document.getElementById('mapbox-click-tooltip');
+                
+                if (this.clickMode) {
+                    button.classList.add('click-mode');
+                    button.textContent = '退出点击模式';
+                    tooltip.style.display = 'block';
+                    this.mapbox.getCanvas().style.cursor = 'crosshair';
+                    
+                    // 添加点击事件监听器
+                    this.mapbox.once('click', this.handleMapClick.bind(this));
+
+                    // 5秒后自动隐藏提示
+                    setTimeout(() => {
+                        if (this.clickMode) { // 只有在仍处于点击模式时才隐藏
+                            tooltip.style.opacity = '0';
+                            setTimeout(() => {
+                                if (this.clickMode) {
+                                    tooltip.style.display = 'none';
+                                }
+                            }, 300);
+                        }
+                    }, 5000);
+                } else {
+                    button.classList.remove('click-mode');
+                    button.textContent = '点击地图生成等时圈';
+                    tooltip.style.display = 'none';
+                    tooltip.style.opacity = '1';
+                    this.mapbox.getCanvas().style.cursor = '';
+                    
+                    // 移除点击事件监听器
+                    this.mapbox.off('click', this.handleMapClick.bind(this));
+                }
+            }
+
+            handleMapClick(e) {
+                if (!this.clickMode) return;
+                
+                const coordinates = e.lngLat;
+                const id = `click-${Date.now()}`;
+                const color = '#FF5252'; // 默认颜色
+                
+                Utils.generateIsochrone(
+                    this.mapbox,
+                    [coordinates.lng, coordinates.lat],
+                    id,
+                    color,
+                    '点击位置',
+                    '自定义位置'
+                ).then(result => {
+                    if (result.success) {
+                        this.activeIsochrones.push({
+                            id: `isochrone-${id}`,
+                            name: '点击位置',
+                            district: '自定义位置'
+                        });
+                    }
+                });
+                
+                // 重新添加点击事件监听器
+                this.mapbox.once('click', this.handleMapClick.bind(this));
+            }
+
+            generateAllIsochrones() {
+                if (this.isGeneratingAll) return;
+                this.isGeneratingAll = true;
+                
+                const button = document.getElementById('generate-all-isochrones');
+                button.textContent = '正在生成等时圈...';
+                button.disabled = true;
+                
+                const tooltip = document.getElementById('mapbox-tooltip');
+                tooltip.textContent = '正在生成所有书房的等时圈，请稍候...';
+                tooltip.style.display = 'block';
+                
+                const BATCH_SIZE = 50; // 每批处理50个
+                let completed = 0;
+                const total = this.allBookstores.length;
+                
+                const generateBatch = async (startIndex) => {
+                    if (startIndex >= total) {
+                        this.isGeneratingAll = false;
+                        button.textContent = '生成所有等时圈';
+                        button.disabled = false;
+                        tooltip.style.display = 'none';
+                        return;
+                    }
+                    
+                    const endIndex = Math.min(startIndex + BATCH_SIZE, total);
+                    const batch = this.allBookstores.slice(startIndex, endIndex);
+                                
+                                // 并行处理当前批次
+                                const promises = batch.map(bookstore => 
+                        Utils.generateIsochrone(
+                            this.mapbox,
+                                        bookstore.coordinates,
+                            bookstore.details.id,
+                            CONFIG.DISTRICT_COLORS[bookstore.district],
+                                        bookstore.name,
+                                        bookstore.district
+                                    )
+                                );
+                                
+                    try {
+                                const results = await Promise.all(promises);
+                        results.forEach(result => {
+                                    if (result.success) {
+                                this.activeIsochrones.push({
+                                    id: `isochrone-${result.id}`,
+                                    name: result.name,
+                                    district: result.district
+                                });
+                            }
+                        });
+                        
+                        completed += batch.length;
+                        tooltip.textContent = `已完成 ${completed}/${total} 个书房的等时圈生成`;
+                        
+                        // 使用setTimeout来避免阻塞UI，并处理下一批
+                        setTimeout(() => generateBatch(endIndex), 100);
+                    } catch (error) {
+                        console.error('批量生成等时圈时出错:', error);
+                        tooltip.textContent = '生成等时圈时出错，正在重试...';
+                        // 出错时重试当前批次
+                        setTimeout(() => generateBatch(startIndex), 1000);
+                    }
+                };
+                
+                generateBatch(0);
+            }
+
+            initializeDistrictCounts() {
+                Object.keys(CONFIG.DISTRICT_COLORS).forEach(district => {
+                    this.mapManager.districtCount[district] = 0;
+                });
+            }
+
+            createBookstoreMarkers(data, ranges) {
+                    const allBookstores = [];
+                let count = 0;
+                    
+                try {
+                    Object.values(data.districts).forEach(district => {
+                        if (!district.libraries) return;
+                        district.libraries.forEach(lib => {
+                            try {
+                            count++;
+                                
+                                // 直接从原始数据中获取opening_hours
+                                const opening_hours = lib.opening_hours;
+                                console.log(`${lib.name} 的opening_hours:`, {
+                                    value: opening_hours,
+                                    type: typeof opening_hours,
+                                    exists: 'opening_hours' in lib
+                                });
+                                
+                                // 创建一个新的对象来存储书房数据
+                                const processedLib = {
+                                    id: lib.id,
+                                name: lib.name,
+                                district: lib.district,
+                                    address: lib.address,
+                                    area: parseFloat(lib.area) || 0,
+                                    seats: parseInt(lib.seats) || 0,
+                                    books: lib.books,
+                                    magazine_types: lib.magazine_types,
+                                    opening_hours: opening_hours,  // 直接赋值
+                                    coordinates: lib.coordinates
+                                };
+
+                                if (lib.name === '朱樱塔城市书房') {
+                                    console.log('处理朱樱塔城市书房数据:', {
+                                        original: {
+                                            ...lib,
+                                            opening_hours_raw: lib.opening_hours
+                                        },
+                                        processed: {
+                                            ...processedLib,
+                                            opening_hours_processed: processedLib.opening_hours
+                                        }
+                                    });
+                                }
+
+                                const [lng, lat] = processedLib.coordinates.split(',').map(Number);
+                                
+                                if (isNaN(lng) || isNaN(lat)) {
+                                    console.error('无效的坐标:', processedLib.coordinates);
+                                return;
+                            }
+                            
+                                const bookstore = {
+                                    name: processedLib.name,
+                                    district: processedLib.district,
+                                coordinates: [lng, lat],
+                                    details: {...processedLib}
+                                };
+
+                                allBookstores.push(bookstore);
+                                this.createAMapMarker({...processedLib}, lng, lat, ranges);
+                                this.createMapboxMarker({...processedLib}, lng, lat);
+                            } catch (error) {
+                                console.error('处理单个书房数据时出错:', error, lib);
+                            }
+                        });
+                    });
+
+                    this.mapManager.allBookstores = allBookstores;
+                    document.querySelector('.num').innerText = count;
+                } catch (error) {
+                    console.error('处理书房数据时出错:', error);
+                }
+            }
+
+            createAMapMarker(lib, lng, lat, ranges) {
+                if (lib.name === '朱樱塔城市书房') {
+                    console.log('创建AMap标记时的数据:', {
+                        name: lib.name,
+                        opening_hours: lib.opening_hours,
+                        fullData: lib
+                    });
+                }
+                            
+                            const areaRatio = (lib.area - ranges.minArea) / (ranges.maxArea - ranges.minArea);
+                const booksIntensity = this.getColorIntensity(parseInt(lib.books.replace(/,/g, '')), ranges.minBooks, ranges.maxBooks);
+                            const baseSize = 15 + areaRatio * 25;
+                            const seatScale = 1 + (lib.seats / ranges.maxSeats) * 0.5;
+                            const finalSize = baseSize * seatScale;
+                const baseColor = CONFIG.DISTRICT_COLORS[lib.district];
+                            const opacity = 0.6 + booksIntensity * 0.4;
+                            const hexOpacity = Math.round(opacity * 255).toString(16).padStart(2, '0');
+
+                // 创建书房标记
+                            const marker = new AMap.Marker({
+                                position: new AMap.LngLat(lng, lat),
+                                content: `
+                                    <div style="
+                                        width: ${finalSize}px;
+                                        height: ${finalSize}px;
+                                        background: ${baseColor}${hexOpacity};
+                                        border-radius: 50%;
+                                        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                                        border: 2px solid ${baseColor};
+                                    "></div>
+                                `,
+                    offset: new AMap.Pixel(-finalSize/2, -finalSize/2),
+                    extData: {...lib}  // 存储完整的书房数据
+                });
+
+                // 创建步行圈
+                const circles = this.createWalkingCircles(lng, lat);
+                this.mapManager.allCircles.push(circles);
+
+                // 设置点击事件
+                this.setupMarkerClickEvent(marker, circles);
+
+                marker.setMap(this.mapManager.amap);
+            }
+
+            createWalkingCircles(lng, lat) {
+                        const circle5min = new AMap.Circle({
+                            center: new AMap.LngLat(lng, lat),
+                    radius: CONFIG.WALKING_DISTANCES.FIVE_MINUTES,
+                            strokeColor: "#2ecc71",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#2ecc71",
+                            fillOpacity: 0.2,
+                            visible: false
+                        });
+                        
+                        const circle10min = new AMap.Circle({
+                            center: new AMap.LngLat(lng, lat),
+                    radius: CONFIG.WALKING_DISTANCES.TEN_MINUTES,
+                            strokeColor: "#3498db",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#3498db",
+                            fillOpacity: 0.15,
+                            visible: false
+                        });
+                        
+                        const circle15min = new AMap.Circle({
+                            center: new AMap.LngLat(lng, lat),
+                    radius: CONFIG.WALKING_DISTANCES.FIFTEEN_MINUTES,
+                            strokeColor: "#9b59b6",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#9b59b6",
+                            fillOpacity: 0.1,
+                            visible: false
+                        });
+                        
+                circle5min.setMap(this.mapManager.amap);
+                circle10min.setMap(this.mapManager.amap);
+                circle15min.setMap(this.mapManager.amap);
+
+                return { five: circle5min, ten: circle10min, fifteen: circle15min };
+            }
+
+            createInfoWindowContent(lib) {
+                // 调试输出
+                if (lib.name === '朱樱塔城市书房') {
+                    console.log('创建信息窗口时的数据:', {
+                        name: lib.name,
+                        opening_hours: lib.opening_hours,
+                        opening_hours_type: typeof lib.opening_hours,
+                        hasOwn: Object.hasOwn(lib, 'opening_hours'),
+                        propertyDescriptor: Object.getOwnPropertyDescriptor(lib, 'opening_hours'),
+                        keys: Object.keys(lib)
+                    });
+                }
+                
+                // 使用更安全的方式处理开放时间
+                let opening_hours = '9:00-17:00';  // 默认值
+                if (typeof lib.opening_hours === 'string' && lib.opening_hours.trim()) {
+                    opening_hours = lib.opening_hours;
+                } else if (lib.name === '朱樱塔城市书房') {
+                    opening_hours = '9:00-21:00';  // 特定值
+                }
+                
+                return `
+                                    <div style="padding: 15px; background-color: rgba(0,0,0,0.8); color: #fff; border-radius: 5px;">
+                                        <h4 style="margin: 0 0 5px 0; color: #fff;">${lib.name}</h4>
+                                        <p style="margin: 0; font-size: 12px; line-height: 1.8;">
+                                            所属区域：${lib.district}<br>
+                                            地址：${lib.address}<br>
+                                            面积：${lib.area}㎡<br>
+                                            座位数：${lib.seats}个<br>
+                                            藏书量：${lib.books}册<br>
+                                            期刊种类：${lib.magazine_types}种<br>
+                            开放时间：${opening_hours}
+                                        </p>
+                                    </div>
+                `;
+            }
+
+            createMapboxMarker(lib, lng, lat) {
+                const marker = new mapboxgl.Marker({
+                    color: CONFIG.DISTRICT_COLORS[lib.district],
+                    draggable: false
+                })
+                .setLngLat([lng, lat])
+                .setPopup(new mapboxgl.Popup({
+                    closeButton: false,
+                    closeOnClick: true,
+                    maxWidth: '300px'
+                }).setHTML(this.createMapboxPopupContent(lib)));
+
+                // 添加点击事件监听器到标记元素
+                const markerElement = marker.getElement();
+                markerElement.addEventListener('click', () => {
+                    if (this.mapManager && typeof this.mapManager.hideTooltip === 'function') {
+                        this.mapManager.hideTooltip();
+                    }
+                });
+
+                marker.addTo(this.mapManager.mapbox);
+                this.mapManager.mapboxMarkers.push(marker);
+            }
+
+            createMapboxPopupContent(lib) {
+                return `
+                    <div class="mapbox-popup-content" onclick="window.mapManager.hideTooltip()">
+                        <h4 style="margin: 0 0 5px 0;">${lib.name}</h4>
+                        <p style="margin: 0; font-size: 12px;">
+                            所属区域：<span style="color:${CONFIG.DISTRICT_COLORS[lib.district]}; font-weight:bold">${lib.district}</span><br>
+                            地址：${lib.address}<br>
+                            面积：${lib.area}㎡<br>
+                            座位数：${lib.seats}个<br>
+                            藏书量：${lib.books}册<br>
+                            期刊种类：${lib.magazine_types}种<br>
+                            开放时间：${lib.opening_hours || '9:00-17:00'}
+                        </p>
+                        <button class="show-isochrone-btn" onclick="generateIsochrone('${lib.id}', [${lib.coordinates}], '${lib.name}', '${lib.district}')" style="margin-top: 8px;">
+                            显示15分钟等时圈
+                        </button>
+                    </div>
+                `;
+            }
+
+            updateCounters() {
+                const districtLegend = document.getElementById('district-legend');
+                Object.entries(this.mapManager.districtCount).forEach(([district, count]) => {
+                    const districtElement = Array.from(districtLegend.querySelectorAll('.legend-item')).find(item => 
+                        item.textContent.trim() === district
+                    );
+                    
+                    if (districtElement) {
+                        const countSpan = document.createElement('span');
+                        countSpan.style.marginLeft = '5px';
+                        countSpan.style.color = '#777';
+                        countSpan.textContent = `(${count})`;
+                        districtElement.querySelector('span').appendChild(countSpan);
+                    }
+                });
+            }
+
+            createDistrictLegends() {
+                const districtLegend = document.getElementById('district-legend');
+                const fullscreenDistrictLegend = document.getElementById('fullscreen-district-legend');
+
+                Object.entries(CONFIG.DISTRICT_COLORS).forEach(([district, color]) => {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    item.innerHTML = `
+                        <div class="legend-color" style="background-color: ${color}"></div>
+                        <span>${district}</span>
+                    `;
+                    districtLegend.appendChild(item.cloneNode(true));
+                    fullscreenDistrictLegend.appendChild(item);
+                });
+            }
+
+            getColorIntensity(value, min, max) {
+                const intensity = (value - min) / (max - min);
+                return Math.min(Math.max(intensity, 0), 1);
+            }
+
+            toggleFullscreen() {
+                const container = document.getElementById('map-container');
+                
+                if (!document.fullscreenElement) {
+                    container.requestFullscreen().catch(err => {
+                        console.error(`全屏请求失败: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+                
+                // 更新地图大小
+                setTimeout(() => {
+                    if (this.amap) {
+                        this.amap.resize();
+                    }
+                    if (this.mapbox) {
+                        this.mapbox.resize();
+                    }
+                }, 100);
+            }
+
+            setDowntownView() {
+                this.isDowntownView = true;
+                this.amap.setZoomAndCenter(CONFIG.DOWNTOWN_VIEW.zoom, CONFIG.DOWNTOWN_VIEW.center);
+                this.mapbox.flyTo({
+                    center: CONFIG.DOWNTOWN_VIEW.center,
+                    zoom: CONFIG.DOWNTOWN_VIEW.zoom,
+                    essential: true
+                });
+                document.getElementById('toggle-view-range').textContent = '切换全市视角';
+                document.getElementById('toggle-view-range').classList.add('active');
+            }
+
+            setCityView() {
+                this.isDowntownView = false;
+                this.amap.setZoomAndCenter(CONFIG.CITY_VIEW.zoom, CONFIG.CITY_VIEW.center);
+                this.mapbox.flyTo({
+                    center: CONFIG.CITY_VIEW.center,
+                    zoom: CONFIG.CITY_VIEW.zoom,
+                    essential: true
+                });
+                document.getElementById('toggle-view-range').textContent = '切换主城区视角';
+                document.getElementById('toggle-view-range').classList.remove('active');
+            }
+
+            toggleViewRange() {
+                if (this.isDowntownView) {
+                    this.setCityView();
+                } else {
+                    this.setDowntownView();
+                }
+            }
+
+            showTooltip(text) {
+                const mapboxTooltip = document.getElementById('mapbox-tooltip');
+                const [line1, line2] = text.split('，点击');
+                mapboxTooltip.innerHTML = `${line1}<br>点击右上角全屏展示效果更佳<br><small style="display: block; margin-top: 8px; opacity: 0.8;">• 点击右侧任意按钮即可关闭该提示框<br>• 按ESC键可退出全屏</small>`;
+                mapboxTooltip.style.display = 'block';
+                this.tooltipShown = true;
+            }
+
+            hideTooltip() {
+                if (this.tooltipShown) {
+                    document.getElementById('mapbox-tooltip').style.display = 'none';
+                    this.tooltipShown = false;
+                }
+            }
+
+            setupMarkerClickEvent(marker, circles) {
+                try {
+                    marker.on('click', () => {
+                        // 隐藏提示
+                        this.mapManager.hideTooltip();
+
+                        if (this.mapManager.currentInfoWindow) {
+                            this.mapManager.currentInfoWindow.close();
+                        }
+
+                        if (!this.mapManager.isShowingAll) {
+                            this.mapManager.allCircles.forEach(c => {
+                                c.five.hide();
+                                c.ten.hide();
+                                c.fifteen.hide();
+                            });
+                        }
+
+                        circles.five.show();
+                        circles.ten.show();
+                        circles.fifteen.show();
+
+                        // 从marker的extData中获取数据
+                        const markerData = marker.getExtData();
+                        
+                        const infoWindow = new AMap.InfoWindow({
+                            content: this.createInfoWindowContent(markerData),
+                            offset: new AMap.Pixel(0, -10),
+                            closeWhenClickMap: true
+                        });
+
+                        this.mapManager.currentInfoWindow = infoWindow;
+                        infoWindow.open(this.mapManager.amap, marker.getPosition());
+
+                        // 修复事件监听器
+                        if (infoWindow && typeof infoWindow.on === 'function') {
+                            infoWindow.on('close', () => {
+                                if (!this.mapManager.isShowingAll) {
+                                    circles.five.hide();
+                                    circles.ten.hide();
+                                    circles.fifteen.hide();
+                                }
+                            });
+                        }
+                    });
+
+                    marker.on('mouseover', () => this.mapManager.amap.setDefaultCursor('pointer'));
+                    marker.on('mouseout', () => this.mapManager.amap.setDefaultCursor('default'));
+                } catch (error) {
+                    console.error('设置标记点击事件时出错:', error);
+                }
+            }
+        }
+
+        // 数据加载器
+        class DataLoader {
+            constructor(mapManager) {
+                this.mapManager = mapManager;
+            }
+
+            async loadData() {
+                try {
+                    console.log('开始加载数据...');
+                    const response = await fetch('/static/data/城市书房数据.json');
+                    console.log('数据请求响应状态:', response.status);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    
+                    const rawData = await response.text();
+                    const data = JSON.parse(rawData);
+                    
+                    // 检查数据完整性
+                    if (!data || !data.districts) {
+                        throw new Error('无效的数据格式');
+                    }
+
+                    // 检查是否有实际的书房数据
+                    let hasLibraries = false;
+                    Object.values(data.districts).forEach(district => {
+                        if (district.libraries && district.libraries.length > 0) {
+                            hasLibraries = true;
+                        }
+                    });
+
+                    if (!hasLibraries) {
+                        throw new Error('没有找到书房数据');
+                    }
+
+                    const ranges = this.calculateDataRanges(data);
+                    this.initializeDistrictCounts();
+                    await this.createBookstoreMarkers(data, ranges);
+                    this.updateCounters();
+                    this.createDistrictLegends();
+                    
+                    // 等待地图加载完成后再初始化图层
+                    if (this.mapManager.mapbox.loaded()) {
+                        await this.initMapboxLayers(this.mapManager.allBookstores);
+                    } else {
+                        this.mapManager.mapbox.on('load', () => {
+                            this.initMapboxLayers(this.mapManager.allBookstores);
+                        });
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('数据加载详细错误:', error);
+                    // 只有在确实没有加载到数据时才抛出错误
+                    if (!this.mapManager.allBookstores || this.mapManager.allBookstores.length === 0) {
+                        throw error;
+                    }
+                    return false;
+                }
+            }
+
+            initMapboxLayers(bookstores) {
+                console.log('开始初始化Mapbox图层，书房数据:', bookstores);
+                
+                // 保存对 mapManager 的引用
+                const mapManager = this.mapManager;
+                
+                mapManager.mapbox.on('load', () => {
+                    try {
+                        // 清除所有现有的标记点
+                        if (mapManager.mapboxMarkers) {
+                            mapManager.mapboxMarkers.forEach(marker => marker.remove());
+                        }
+                        mapManager.mapboxMarkers = [];
+
+                        // 检查并移除已存在的图层和源
+                        if (mapManager.mapbox.getLayer('streets-layer')) {
+                            mapManager.mapbox.removeLayer('streets-layer');
+                        }
+                        if (mapManager.mapbox.getSource('streets')) {
+                            mapManager.mapbox.removeSource('streets');
+                        }
+
+                        // 添加道路图层
+                        mapManager.mapbox.addSource('streets', {
+                            type: 'vector',
+                            url: 'mapbox://mapbox.mapbox-streets-v8'
+                        });
+
+                        mapManager.mapbox.addLayer({
+                            'id': 'streets-layer',
+                            'type': 'line',
+                            'source': 'streets',
+                            'source-layer': 'road',
+                            'layout': {
+                                'line-join': 'round',
+                                'line-cap': 'round'
+                            },
+                            'paint': {
+                                'line-color': '#667',
+                                'line-width': [
+                                    'interpolate',
+                                    ['linear'],
+                                    ['zoom'],
+                                    12, 0.5,
+                                    15, 1,
+                                    18, 2
+                                ],
+                                'line-opacity': 0.5
+                            }
+                        });
+
+                        // 对书房数据进行去重处理
+                        const uniqueLocations = new Map();
+                        bookstores.forEach(bookstore => {
+                            const coordinates = Array.isArray(bookstore.coordinates) 
+                                ? bookstore.coordinates 
+                                : bookstore.coordinates.split(',').map(Number);
+                            const locationKey = coordinates.join(',');
+                            
+                            if (!uniqueLocations.has(locationKey)) {
+                                uniqueLocations.set(locationKey, [bookstore]);
+                            } else {
+                                uniqueLocations.get(locationKey).push(bookstore);
+                            }
+                        });
+
+                        console.log('处理后的唯一位置数:', uniqueLocations.size);
+
+                        // 为每个唯一位置创建标记
+                        mapManager.mapboxMarkers = Array.from(uniqueLocations.entries()).map(([locationKey, locationBookstores]) => {
+                            const [lng, lat] = locationKey.split(',').map(Number);
+                            const mainBookstore = locationBookstores[0];
+                            
+                            console.log('创建标记点:', {
+                                location: [lng, lat],
+                                bookstoreName: mainBookstore.name,
+                                district: mainBookstore.district
+                            });
+
+                            const marker = new mapboxgl.Marker({
+                                color: CONFIG.DISTRICT_COLORS[mainBookstore.district],
+                                scale: 0.8
+                            })
+                            .setLngLat([lng, lat])
+                            .setPopup(new mapboxgl.Popup({
+                                closeButton: false,
+                                closeOnClick: true,
+                                maxWidth: '300px'
+                            }).setHTML(this.createMapboxPopupContent(mainBookstore.details)));
+
+                            // 默认隐藏标记
+                            marker.getElement().style.display = 'none';
+                            marker.addTo(mapManager.mapbox);
+                            return marker;
+                        });
+
+                        console.log('创建的标记点数量:', mapManager.mapboxMarkers.length);
+                    } catch (error) {
+                        console.error('Mapbox图层初始化失败:', error);
+                    }
+                });
+            }
+
+            createMapboxPopupContent(lib) {
+                return `
+                    <div class="mapbox-popup-content" onclick="window.mapManager.hideTooltip()">
+                        <h4 style="margin: 0 0 5px 0;">${lib.name}</h4>
+                        <p style="margin: 0; font-size: 12px;">
+                            所属区域：<span style="color:${CONFIG.DISTRICT_COLORS[lib.district]}; font-weight:bold">${lib.district}</span><br>
+                            地址：${lib.address}<br>
+                            面积：${lib.area}㎡<br>
+                            座位数：${lib.seats}个<br>
+                            藏书量：${lib.books}册<br>
+                            期刊种类：${lib.magazine_types}种<br>
+                            开放时间：${lib.opening_hours || '9:00-17:00'}
+                        </p>
+                        <button class="show-isochrone-btn" onclick="generateIsochrone('${lib.id}', [${lib.coordinates}], '${lib.name}', '${lib.district}')" style="margin-top: 8px;">
+                            显示15分钟等时圈
+                        </button>
+                    </div>
+                `;
+            }
+
+            calculateDataRanges(data) {
+                let minArea = Infinity, maxArea = -Infinity;
+                let minSeats = Infinity, maxSeats = -Infinity;
+                let minBooks = Infinity, maxBooks = -Infinity;
+
+                Object.values(data.districts).forEach(district => {
+                    district.libraries.forEach(lib => {
+                        const area = parseFloat(lib.area) || 0;
+                        const seats = parseInt(lib.seats) || 0;
+                        const books = parseInt(lib.books.replace(/,/g, '')) || 0;
+
+                        minArea = Math.min(minArea, area);
+                        maxArea = Math.max(maxArea, area);
+                        minSeats = Math.min(minSeats, seats);
+                        maxSeats = Math.max(maxSeats, seats);
+                        minBooks = Math.min(minBooks, books);
+                        maxBooks = Math.max(maxBooks, books);
+                    });
+                });
+
+                return { minArea, maxArea, minSeats, maxSeats, minBooks, maxBooks };
+            }
+
+            initializeDistrictCounts() {
+                Object.keys(CONFIG.DISTRICT_COLORS).forEach(district => {
+                    this.mapManager.districtCount[district] = 0;
+                });
+            }
+
+            createBookstoreMarkers(data, ranges) {
+                const allBookstores = [];
+                let count = 0;
+
+                try {
+                    Object.values(data.districts).forEach(district => {
+                        if (!district.libraries) return;
+                        district.libraries.forEach(lib => {
+                            try {
+                                count++;
+                                
+                                // 直接从原始数据中获取opening_hours
+                                const opening_hours = lib.opening_hours;
+                                console.log(`${lib.name} 的opening_hours:`, {
+                                    value: opening_hours,
+                                    type: typeof opening_hours,
+                                    exists: 'opening_hours' in lib
+                                });
+                                
+                                // 创建一个新的对象来存储书房数据
+                                const processedLib = {
+                                    id: lib.id,
+                                    name: lib.name,
+                                    district: lib.district,
+                                    address: lib.address,
+                                    area: parseFloat(lib.area) || 0,
+                                    seats: parseInt(lib.seats) || 0,
+                                    books: lib.books,
+                                    magazine_types: lib.magazine_types,
+                                    opening_hours: opening_hours,  // 直接赋值
+                                    coordinates: lib.coordinates
+                                };
+
+                                if (lib.name === '朱樱塔城市书房') {
+                                    console.log('处理朱樱塔城市书房数据:', {
+                                        original: {
+                                            ...lib,
+                                            opening_hours_raw: lib.opening_hours
+                                        },
+                                        processed: {
+                                            ...processedLib,
+                                            opening_hours_processed: processedLib.opening_hours
+                                        }
+                                    });
+                                }
+
+                                const [lng, lat] = processedLib.coordinates.split(',').map(Number);
+                                
+                                if (isNaN(lng) || isNaN(lat)) {
+                                    console.error('无效的坐标:', processedLib.coordinates);
+                                    return;
+                                }
+
+                                const bookstore = {
+                                    name: processedLib.name,
+                                    district: processedLib.district,
+                                    coordinates: [lng, lat],
+                                    details: {...processedLib}
+                                };
+
+                                allBookstores.push(bookstore);
+                                this.createAMapMarker({...processedLib}, lng, lat, ranges);
+                                this.createMapboxMarker({...processedLib}, lng, lat);
+                            } catch (error) {
+                                console.error('处理单个书房数据时出错:', error, lib);
+                            }
+                        });
+                    });
+
+                    this.mapManager.allBookstores = allBookstores;
+                    document.querySelector('.num').innerText = count;
+                } catch (error) {
+                    console.error('处理书房数据时出错:', error);
+                }
+            }
+
+            createAMapMarker(lib, lng, lat, ranges) {
+                if (lib.name === '朱樱塔城市书房') {
+                    console.log('创建AMap标记时的数据:', {
+                        name: lib.name,
+                        opening_hours: lib.opening_hours,
+                        fullData: lib
+                    });
+                }
+
+                const areaRatio = (lib.area - ranges.minArea) / (ranges.maxArea - ranges.minArea);
+                const booksIntensity = this.getColorIntensity(parseInt(lib.books.replace(/,/g, '')), ranges.minBooks, ranges.maxBooks);
+                const baseSize = 15 + areaRatio * 25;
+                const seatScale = 1 + (lib.seats / ranges.maxSeats) * 0.5;
+                const finalSize = baseSize * seatScale;
+                const baseColor = CONFIG.DISTRICT_COLORS[lib.district];
+                const opacity = 0.6 + booksIntensity * 0.4;
+                const hexOpacity = Math.round(opacity * 255).toString(16).padStart(2, '0');
+
+                // 创建书房标记
+                const marker = new AMap.Marker({
+                    position: new AMap.LngLat(lng, lat),
+                    content: `
+                        <div style="
+                            width: ${finalSize}px;
+                            height: ${finalSize}px;
+                            background: ${baseColor}${hexOpacity};
+                            border-radius: 50%;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                            border: 2px solid ${baseColor};
+                        "></div>
+                    `,
+                    offset: new AMap.Pixel(-finalSize/2, -finalSize/2),
+                    extData: {...lib}  // 存储完整的书房数据
+                });
+
+                // 创建步行圈
+                const circles = this.createWalkingCircles(lng, lat);
+                this.mapManager.allCircles.push(circles);
+
+                // 设置点击事件
+                this.setupMarkerClickEvent(marker, circles);
+
+                marker.setMap(this.mapManager.amap);
+            }
+
+            createWalkingCircles(lng, lat) {
+                        const circle5min = new AMap.Circle({
+                            center: new AMap.LngLat(lng, lat),
+                    radius: CONFIG.WALKING_DISTANCES.FIVE_MINUTES,
+                            strokeColor: "#2ecc71",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#2ecc71",
+                            fillOpacity: 0.2,
+                            visible: false
+                        });
+                        
+                        const circle10min = new AMap.Circle({
+                            center: new AMap.LngLat(lng, lat),
+                    radius: CONFIG.WALKING_DISTANCES.TEN_MINUTES,
+                            strokeColor: "#3498db",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#3498db",
+                            fillOpacity: 0.15,
+                            visible: false
+                        });
+                        
+                        const circle15min = new AMap.Circle({
+                            center: new AMap.LngLat(lng, lat),
+                    radius: CONFIG.WALKING_DISTANCES.FIFTEEN_MINUTES,
+                            strokeColor: "#9b59b6",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#9b59b6",
+                            fillOpacity: 0.1,
+                            visible: false
+                        });
+                        
+                circle5min.setMap(this.mapManager.amap);
+                circle10min.setMap(this.mapManager.amap);
+                circle15min.setMap(this.mapManager.amap);
+
+                return { five: circle5min, ten: circle10min, fifteen: circle15min };
+            }
+
+            createInfoWindowContent(lib) {
+                // 调试输出
+                if (lib.name === '朱樱塔城市书房') {
+                    console.log('创建信息窗口时的数据:', {
+                        name: lib.name,
+                        opening_hours: lib.opening_hours,
+                        opening_hours_type: typeof lib.opening_hours,
+                        hasOwn: Object.hasOwn(lib, 'opening_hours'),
+                        propertyDescriptor: Object.getOwnPropertyDescriptor(lib, 'opening_hours'),
+                        keys: Object.keys(lib)
+                    });
+                }
+                
+                // 使用更安全的方式处理开放时间
+                let opening_hours = '9:00-17:00';  // 默认值
+                if (typeof lib.opening_hours === 'string' && lib.opening_hours.trim()) {
+                    opening_hours = lib.opening_hours;
+                } else if (lib.name === '朱樱塔城市书房') {
+                    opening_hours = '9:00-21:00';  // 特定值
+                }
+                
+                return `
+                    <div style="padding: 15px; background-color: rgba(0,0,0,0.8); color: #fff; border-radius: 5px;">
+                        <h4 style="margin: 0 0 5px 0; color: #fff;">${lib.name}</h4>
+                        <p style="margin: 0; font-size: 12px; line-height: 1.8;">
+                            所属区域：${lib.district}<br>
+                            地址：${lib.address}<br>
+                            面积：${lib.area}㎡<br>
+                            座位数：${lib.seats}个<br>
+                            藏书量：${lib.books}册<br>
+                            期刊种类：${lib.magazine_types}种<br>
+                            开放时间：${opening_hours}
+                        </p>
+                    </div>
+                `;
+            }
+
+            updateCounters() {
+                const districtLegend = document.getElementById('district-legend');
+                Object.entries(this.mapManager.districtCount).forEach(([district, count]) => {
+                    const districtElement = Array.from(districtLegend.querySelectorAll('.legend-item')).find(item => 
+                        item.textContent.trim() === district
+                    );
+                    
+                    if (districtElement) {
+                        const countSpan = document.createElement('span');
+                        countSpan.style.marginLeft = '5px';
+                        countSpan.style.color = '#777';
+                        countSpan.textContent = `(${count})`;
+                        districtElement.querySelector('span').appendChild(countSpan);
+                    }
+                });
+            }
+
+            createDistrictLegends() {
+                const districtLegend = document.getElementById('district-legend');
+                const fullscreenDistrictLegend = document.getElementById('fullscreen-district-legend');
+
+                Object.entries(CONFIG.DISTRICT_COLORS).forEach(([district, color]) => {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    item.innerHTML = `
+                        <div class="legend-color" style="background-color: ${color}"></div>
+                        <span>${district}</span>
+                    `;
+                    districtLegend.appendChild(item.cloneNode(true));
+                    fullscreenDistrictLegend.appendChild(item);
+                });
+            }
+
+            getColorIntensity(value, min, max) {
+                const intensity = (value - min) / (max - min);
+                return Math.min(Math.max(intensity, 0), 1);
+            }
+
+            setupMarkerClickEvent(marker, circles) {
+                try {
+                    marker.on('click', () => {
+                        // 隐藏提示
+                        this.mapManager.hideTooltip();
+
+                        if (this.mapManager.currentInfoWindow) {
+                            this.mapManager.currentInfoWindow.close();
+                        }
+
+                        if (!this.mapManager.isShowingAll) {
+                            this.mapManager.allCircles.forEach(c => {
+                                c.five.hide();
+                                c.ten.hide();
+                                c.fifteen.hide();
+                            });
+                        }
+
+                        circles.five.show();
+                        circles.ten.show();
+                        circles.fifteen.show();
+
+                        // 从marker的extData中获取数据
+                        const markerData = marker.getExtData();
+                        
+                        const infoWindow = new AMap.InfoWindow({
+                            content: this.createInfoWindowContent(markerData),
+                            offset: new AMap.Pixel(0, -10),
+                            closeWhenClickMap: true
+                        });
+
+                        this.mapManager.currentInfoWindow = infoWindow;
+                        infoWindow.open(this.mapManager.amap, marker.getPosition());
+
+                        // 修复事件监听器
+                        if (infoWindow && typeof infoWindow.on === 'function') {
+                            infoWindow.on('close', () => {
+                                if (!this.mapManager.isShowingAll) {
+                                    circles.five.hide();
+                                    circles.ten.hide();
+                                    circles.fifteen.hide();
+                                }
+                            });
+                        }
+                    });
+
+                    marker.on('mouseover', () => this.mapManager.amap.setDefaultCursor('pointer'));
+                    marker.on('mouseout', () => this.mapManager.amap.setDefaultCursor('default'));
+                } catch (error) {
+                    console.error('设置标记点击事件时出错:', error);
+                }
+            }
+        }
+
+        // 工具函数
+        class Utils {
+            static async generateIsochrone(mapbox, coordinates, id, color, name, district) {
+                    const isochroneId = `isochrone-${id}`;
+                    
+                    // 移除之前的等时圈
+                    if (mapbox.getLayer(isochroneId)) {
+                        mapbox.removeLayer(isochroneId);
+                    }
+                    if (mapbox.getSource(isochroneId)) {
+                        mapbox.removeSource(isochroneId);
+                    }
+                    if (mapbox.getLayer(`${isochroneId}-outline`)) {
+                        mapbox.removeLayer(`${isochroneId}-outline`);
+                    }
+                    
+                    // 显示加载提示
+                const tooltip = document.getElementById('mapbox-tooltip');
+                tooltip.textContent = `正在加载 ${name} (${district}) 的15分钟等时圈...`;
+                tooltip.style.display = 'block';
+                    
+                try {
+                    // 构建Mapbox等时圈API URL
+                    const url = `https://api.mapbox.com/isochrone/v1/mapbox/walking/${coordinates[0]},${coordinates[1]}?contours_minutes=15&polygons=true&access_token=${mapboxgl.accessToken}`;
+                    
+                    // 请求等时圈数据
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    
+                            // 添加等时圈数据源
+                            mapbox.addSource(isochroneId, {
+                                type: 'geojson',
+                                data: data
+                            });
+                            
+                            // 添加等时圈图层
+                            mapbox.addLayer({
+                                'id': isochroneId,
+                                'type': 'fill',
+                                'source': isochroneId,
+                                'layout': {},
+                                'paint': {
+                                    'fill-color': color,
+                                    'fill-opacity': 0.35,
+                                    'fill-outline-color': color
+                                }
+                            });
+                            
+                            // 添加等时圈轮廓图层
+                            mapbox.addLayer({
+                                'id': `${isochroneId}-outline`,
+                                'type': 'line',
+                                'source': isochroneId,
+                                'layout': {},
+                                'paint': {
+                                    'line-color': color,
+                                    'line-width': 2,
+                                    'line-opacity': 0.8
+                                }
+                            });
+                    
+                    // 隐藏提示
+                    setTimeout(() => {
+                        tooltip.style.display = 'none';
+                    }, 2000);
+                            
+                            return {
+                                success: true,
+                                name: name,
+                                district: district
+                            };
+                } catch (error) {
+                            console.error('等时圈生成错误:', error);
+                    tooltip.textContent = `生成 ${name} 的等时圈时出错`;
+                    setTimeout(() => {
+                        tooltip.style.display = 'none';
+                    }, 3000);
+                    
+                            return {
+                                success: false,
+                                name: name,
+                                district: district,
+                                error: error
+                            };
+                }
+            }
+        }
+
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('页面加载完成，开始初始化...');
+            window.mapManager = new MapManager();
+            const dataLoader = new DataLoader(window.mapManager);
+            
+            window.mapManager.init();
+            console.log('地图管理器初始化完成');
+            
+            document.getElementById('mapbox-click-tooltip').style.display = 'none';
+            
+            let dataLoadAttempted = false;
+            
+            const loadData = async () => {
+                if (dataLoadAttempted) return;
+                dataLoadAttempted = true;
+                
+                try {
+                    await dataLoader.loadData();
+                    console.log('数据加载和处理完成');
+                    
+                    // 数据加载完成后自动显示所有阅读圈
+                    if (window.mapManager && !window.mapManager.isShowingAll) {
+                        window.mapManager.isShowingAll = true;
+                        const showAllButton = document.getElementById('show-all');
+                        if (showAllButton) {
+                            showAllButton.textContent = '隐藏阅读圈';
+                            showAllButton.classList.add('active');
+                        }
+                        
+                        if (window.mapManager.allCircles && window.mapManager.allCircles.length > 0) {
+                            window.mapManager.allCircles.forEach(circles => {
+                                if (circles && circles.five && circles.ten && circles.fifteen) {
+                                    circles.five.show();
+                                    circles.ten.show();
+                                    circles.fifteen.show();
+                                }
+                            });
+                            console.log("已显示所有阅读圈");
+                        }
+                    }
+                    
+                    // 默认显示书房点
+                    console.log('正在设置默认显示书房点...');
+                    setTimeout(() => {
+                        if (window.mapManager && !window.mapManager.bookstoresVisible) {
+                            const toggleButton = document.getElementById('toggle-bookstores');
+                            toggleButton.classList.add('active');
+                            toggleButton.textContent = '隐藏书房点';
+                            window.mapManager.bookstoresVisible = true;
+                            
+                            // 直接设置所有标记点为可见
+                            if (window.mapManager.mapboxMarkers && window.mapManager.mapboxMarkers.length > 0) {
+                                window.mapManager.mapboxMarkers.forEach(marker => {
+                                    if (marker && marker.getElement()) {
+                                        marker.getElement().style.display = 'block';
+                                    }
+                                });
+                                console.log(`直接设置了 ${window.mapManager.mapboxMarkers.length} 个标记点为可见`);
+                            } else {
+                                console.log('没有找到可用的标记点，尝试调用toggleBookstores');
+                                window.mapManager.toggleBookstores();
+                            }
+                        }
+                    }, 1000);
+                } catch (error) {
+                    console.error('数据加载错误:', error);
+                    if (!window.mapManager.allBookstores || window.mapManager.allBookstores.length === 0) {
+                        alert('加载城市书房数据失败，请检查数据文件是否存在。');
+                    }
+                }
+            };
+
+            // 在地图加载完成后加载数据
+            window.mapManager.mapbox.on('load', loadData);
+            window.mapManager.amap.on('complete', loadData);
+        });
+
+        // 数据加载设置
+        if (!window.dataLoader) {
+            window.dataLoader = new DataLoader({
+                dataUrl: './static/data/isochrone-data.json',
+                mapManager: window.mapManager
+            });
+        }
+    </script>
+</body>
+</html>

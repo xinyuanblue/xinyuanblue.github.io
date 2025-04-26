@@ -2549,3 +2549,125 @@ div[style*="background-color: #f8f9fa"] > p.intro-text:last-child {
      .two-column-legend-visual .legend-column-title { font-size: 13px; }
      .two-column-legend-visual .legend-main-title { font-size: 16px; }
 }
+
+/* --- 精确等时圈地图操作指南样式 --- */
+.map-operation-guide.isochrone-guide {
+    background-color: #eaf6ff; /* 淡蓝色背景 */
+    border: 1px solid #bde0ff;
+    box-shadow: 0 3px 10px rgba(0, 123, 255, 0.1); /* 蓝色调阴影 */
+    color: #333;
+}
+
+.isochrone-guide h4 {
+    color: #0056b3; /* 深蓝色标题 */
+    border-bottom: 1px solid #bde0ff; /* 匹配边框颜色 */
+}
+
+.isochrone-guide .guide-steps {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* 步骤垂直排列 */
+    gap: 20px; /* 步骤间距 */
+}
+
+.isochrone-guide .guide-step {
+    display: flex;
+    align-items: flex-start; /* 图标和文字顶部对齐 */
+    gap: 15px; /* 图标和文字间距 */
+    padding: 15px;
+    background-color: #fff; /* 步骤内白色背景 */
+    border-radius: 6px;
+    border-left: 4px solid #007bff; /* 蓝色左边框 */
+}
+
+.isochrone-guide .step-icon {
+    font-size: 1.8em; /* 图标大小 */
+    color: #007bff; /* 图标颜色 */
+    margin-top: 2px; /* 微调垂直对齐 */
+    flex-shrink: 0;
+    width: 30px; /* 固定宽度 */
+    text-align: center;
+}
+
+.isochrone-guide .step-text {
+    font-size: 1em;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.isochrone-guide .step-text strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #0056b3;
+    font-size: 1.05em;
+}
+
+.isochrone-guide .step-text p {
+    margin: 0 0 8px 0;
+    color: #495057;
+}
+
+.isochrone-guide .sub-step {
+    margin-left: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 0.95em;
+    color: #34495e;
+}
+
+/* 模拟按钮样式 */
+.isochrone-guide .btn-example {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 0.85em; /* 按钮内文字稍小 */
+    line-height: 1.4;
+    color: #333;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin: 0 2px; /* 微调按钮边距 */
+    vertical-align: baseline; /* 与文字对齐 */
+    white-space: nowrap;
+}
+.isochrone-guide .btn-example i {
+    margin-right: 3px;
+}
+.isochrone-guide .btn-example.btn-click-mode {
+     background-color: #f8d7da; /* 红色提示背景 */
+     border-color: #f5c6cb;
+     color: #721c24;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    .isochrone-guide h4 {
+        font-size: 1.3em;
+        justify-content: flex-start; /* 小屏幕标题左对齐 */
+    }
+    .isochrone-guide .guide-step {
+        padding: 12px;
+    }
+    .isochrone-guide .step-icon {
+        font-size: 1.6em;
+    }
+    .isochrone-guide .step-text {
+        font-size: 0.95em;
+    }
+     .isochrone-guide .btn-example { font-size: 0.8em; padding: 1px 4px;}
+}
+/* --- Annotation Styles (Optional) --- */
+.chart-annotations {
+    /* Container is already absolutely positioned */
+    /* pointer-events: none; */ /* Set on container */
+}
+
+.chart-annotation-label {
+    /* Styles are set inline via JS for dynamic positioning */
+    transition: all 0.2s ease-out; /* Add transition for potential future interactions */
+}
+
+.chart-annotation-line {
+    /* Styles are set inline via JS */
+    transition: all 0.2s ease-out;
+}
