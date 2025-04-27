@@ -606,6 +606,9 @@
     <script src="./static/js/isochrone-map/controls.js"></script>
 
     <script>
+        // 设置为你的Nginx代理地址
+        window.PROXY_BASE_URL = 'http://192.168.31.47';
+
         // 全局函数，用于生成等时圈
         function generateIsochrone(id, coordinates, name, district) {
             const mapManager = window.mapManager;

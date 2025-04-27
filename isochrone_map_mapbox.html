@@ -756,21 +756,33 @@
             }
 
             initMapbox() {
+                // 保留原始Mapbox访问
                 mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVhbmJsdWUiLCJhIjoiY203cHhybnp3MHYxZzJscHJyYnYwMHMzZyJ9.9Be1af0pb9DVIlt5PJ8COQ';
+                
+                // 全局变量，其他方法可以访问 - 修改为正式服务器地址
+                window.PROXY_BASE_URL = 'https://heluoshuyuan.cn';
+                console.log(`代理服务器地址: ${window.PROXY_BASE_URL}`);
 
                 this.mapbox = new mapboxgl.Map({
                     container: 'mapbox-container',
-                    style: 'mapbox://styles/mapbox/dark-v10',
+                    style: 'mapbox://styles/mapbox/dark-v10', // 使用原始样式
                     center: CONFIG.MAP_CENTER,
                     zoom: CONFIG.MAP_ZOOM,
                     transformRequest: (url, resourceType) => {
-                        if(resourceType === 'Source' && url.startsWith('https://api.mapbox.com')) {
-                            return {
-                                url: url,
-                                headers: { 'Cache-Control': 'max-age=3600' }
-                            }
-                        }
+                        // 打印日志，便于调试
+                        console.log(`Mapbox请求: [${resourceType}] ${url}`);
+                        
+                        // 不修改URL，由服务器端Nginx处理代理
+                        return {
+                            url: url,
+                            headers: { 'Cache-Control': 'max-age=3600' }
+                        };
                     }
+                });
+
+                // 添加错误处理
+                this.mapbox.on('error', (e) => {
+                    console.error('Mapbox错误:', e.error);
                 });
 
                 // 添加导航控件
@@ -799,7 +811,7 @@
                             this.mapbox.removeSource('streets');
                         }
 
-                        // 添加道路图层
+                        // 添加道路图层 - 使用原始Mapbox URL
                         this.mapbox.addSource('streets', {
                             type: 'vector',
                             url: 'mapbox://mapbox.mapbox-streets-v8'
@@ -1878,7 +1890,7 @@
                             mapManager.mapbox.removeSource('streets');
                         }
 
-                        // 添加道路图层
+                        // 添加道路图层 - 使用原始Mapbox URL，由Nginx代理
                         mapManager.mapbox.addSource('streets', {
                             type: 'vector',
                             url: 'mapbox://mapbox.mapbox-streets-v8'
@@ -2316,29 +2328,25 @@
                 tooltip.style.display = 'block';
 
                 try {
-                    // === NEW: 指向Flask后端代理 ===
-                    // 默认Flask端口是5000，如果在.env/命令行中设置了则为5001
-                    const proxyBaseUrl = 'http://heluoshuyuan.cn:5001'; // <<< 已更新为局域网IP地址
-                    // === END NEW ===
+                    // 使用全局代理URL - 确保使用HTTPS和正确的域名
+                    const proxyUrl = `${window.PROXY_BASE_URL}/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
 
-                    const proxyUrl = `${proxyBaseUrl}/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
-
-                    console.log(`向 Flask 代理请求: ${proxyUrl}`);
+                    console.log(`向代理服务器请求等时圈: ${proxyUrl}`);
 
                     const response = await fetch(proxyUrl);
 
-                    console.log(`Flask 代理响应状态: ${response.status}`);
+                    console.log(`代理响应状态: ${response.status}`);
 
                     if (!response.ok) {
                         let errorData = { message: `代理请求失败 (HTTP ${response.status})` };
                         try {
-                            // 尝试解析Flask代理的JSON错误
+                            // 尝试解析代理的JSON错误
                             errorData = await response.json();
                         } catch (e) {
                             // 如果解析失败，使用状态文本
                             errorData.message = response.statusText || errorData.message;
                         }
-                        // 使用Flask代理提供的错误消息
+                        // 使用代理提供的错误消息
                         throw new Error(errorData.error || errorData.message || `代理请求失败 (HTTP ${response.status})`);
                     }
 
@@ -2433,7 +2441,7 @@
                         district: district
                     };
                 } catch (error) {
-                    console.error(`等时圈生成错误 for ${name} via Flask Proxy:`, error);
+                    console.error(`等时圈生成错误 for ${name}:`, error);
                     // 显示从代理/获取捕获的错误消息
                     tooltip.textContent = `错误: ${name} 等时圈加载失败 (${error.message})`;
                     setTimeout(() => {

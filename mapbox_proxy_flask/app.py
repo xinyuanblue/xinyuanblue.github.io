@@ -1,9 +1,10 @@
 # app.py
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 import requests
 from dotenv import load_dotenv
 from flask_cors import CORS # Import Flask-Cors
+import re
 
 load_dotenv() # Load environment variables from .env file
 
@@ -15,7 +16,10 @@ allowed_origins = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://heluoshuyuan.cn", # Your production frontend
-    "http://192.168.137.178:8000" 
+    "http://192.168.137.178:8000",
+    "http://10.7.84.168:8000",
+    "http://192.168.31.47:8000"
+
 ]
 CORS(app, origins=allowed_origins, supports_credentials=True) # Enable CORS for allowed origins
 
@@ -85,6 +89,156 @@ def isochrone_proxy():
         print(f"代理服务器内部错误: {e}")
         return jsonify({"error": "代理服务器内部错误。"}), 500
 
+# === 新增：代理 Mapbox 样式请求 ===
+@app.route('/api/mapbox/styles/v1/<path:style_path>')
+def styles_proxy(style_path):
+    """代理 Mapbox 样式请求，例如：mapbox://styles/mapbox/dark-v10"""
+    mapbox_url = f"https://api.mapbox.com/styles/v1/{style_path}"
+    params = {'access_token': MAPBOX_ACCESS_TOKEN}
+    
+    print(f"样式代理请求: {style_path}")
+    
+    try:
+        response = requests.get(mapbox_url, params=params, timeout=10)
+        response.raise_for_status()
+        return jsonify(response.json())
+    except Exception as e:
+        print(f"样式代理错误: {e}")
+        return jsonify({"error": "无法获取地图样式"}), 500
+
+# === 新增：代理 Mapbox 矢量瓦片数据源请求 ===
+@app.route('/api/mapbox/v4/<path:tile_source_path>.json')
+def vector_source_proxy(tile_source_path):
+    """代理矢量瓦片数据源请求，例如：mapbox://mapbox.mapbox-streets-v8"""
+    mapbox_url = f"https://api.mapbox.com/v4/{tile_source_path}.json"
+    params = {'access_token': MAPBOX_ACCESS_TOKEN, 'secure': True}
+    
+    print(f"矢量数据源代理请求: {tile_source_path}")
+    
+    try:
+        response = requests.get(mapbox_url, params=params, timeout=10)
+        response.raise_for_status()
+        source_json = response.json()
+        
+        # 替换URL，指向我们的代理
+        if 'tiles' in source_json:
+            original_tiles = source_json['tiles']
+            proxied_tiles = []
+            for tile_url in original_tiles:
+                # 从原始URL中提取域名后的路径
+                tile_path = re.sub(r'^https?://[^/]+', '', tile_url)
+                # 指向我们的代理
+                proxied_url = f"/api/mapbox/tiles{tile_path}"
+                proxied_tiles.append(proxied_url)
+            source_json['tiles'] = proxied_tiles
+        
+        return jsonify(source_json)
+    except Exception as e:
+        print(f"矢量数据源代理错误: {e}")
+        return jsonify({"error": "无法获取矢量数据源"}), 500
+
+# === 新增：代理 Mapbox 瓦片请求 ===
+@app.route('/api/mapbox/tiles/<path:tile_path>')
+def tiles_proxy(tile_path):
+    """代理实际的瓦片请求"""
+    mapbox_url = f"https://api.mapbox.com/tiles/{tile_path}"
+    # 对于瓦片，我们需要保留所有查询参数
+    params = dict(request.args)
+    params['access_token'] = MAPBOX_ACCESS_TOKEN
+    
+    print(f"瓦片代理请求: {tile_path}")
+    
+    try:
+        response = requests.get(mapbox_url, params=params, timeout=10)
+        response.raise_for_status()
+        
+        # 创建响应，保留原始内容类型
+        proxied_response = Response(
+            response.content, 
+            status=response.status_code,
+            content_type=response.headers.get('Content-Type')
+        )
+        return proxied_response
+    except Exception as e:
+        print(f"瓦片代理错误: {e}")
+        return jsonify({"error": "无法获取地图瓦片"}), 500
+
+# === 新增：代理 Mapbox 字体请求 ===
+@app.route('/api/mapbox/fonts/v1/<path:font_path>')
+def fonts_proxy(font_path):
+    """代理字体请求，例如：mapbox://fonts/mapbox/{fontstack}/{range}.pbf"""
+    mapbox_url = f"https://api.mapbox.com/fonts/v1/{font_path}"
+    params = {'access_token': MAPBOX_ACCESS_TOKEN}
+    
+    print(f"字体代理请求: {font_path}")
+    
+    try:
+        response = requests.get(mapbox_url, params=params, timeout=10)
+        response.raise_for_status()
+        
+        # 创建响应，保留原始内容类型
+        proxied_response = Response(
+            response.content, 
+            status=response.status_code,
+            content_type=response.headers.get('Content-Type', 'application/x-protobuf')
+        )
+        return proxied_response
+    except Exception as e:
+        print(f"字体代理错误: {e}")
+        return jsonify({"error": "无法获取地图字体"}), 500
+
+# === 新增：代理 Mapbox 精灵图请求 ===
+@app.route('/api/mapbox/sprites/v1/<path:sprite_path>')
+def sprites_proxy(sprite_path):
+    """代理精灵图请求"""
+    mapbox_url = f"https://api.mapbox.com/sprites/v1/{sprite_path}"
+    params = {'access_token': MAPBOX_ACCESS_TOKEN}
+    
+    print(f"精灵图代理请求: {sprite_path}")
+    
+    try:
+        response = requests.get(mapbox_url, params=params, timeout=10)
+        response.raise_for_status()
+        
+        # 创建响应，保留原始内容类型
+        proxied_response = Response(
+            response.content, 
+            status=response.status_code,
+            content_type=response.headers.get('Content-Type')
+        )
+        return proxied_response
+    except Exception as e:
+        print(f"精灵图代理错误: {e}")
+        return jsonify({"error": "无法获取地图精灵图"}), 500
+
+# === 新增：通用 Mapbox API 代理 ===
+@app.route('/api/mapbox/<path:proxy_path>')
+def general_mapbox_proxy(proxy_path):
+    """通用 Mapbox API 代理，处理其他类型的请求"""
+    mapbox_url = f"https://api.mapbox.com/{proxy_path}"
+    params = dict(request.args)
+    params['access_token'] = MAPBOX_ACCESS_TOKEN
+    
+    print(f"通用代理请求: {proxy_path}")
+    
+    try:
+        response = requests.get(mapbox_url, params=params, timeout=10)
+        response.raise_for_status()
+        
+        # 根据响应内容类型返回适当的响应
+        content_type = response.headers.get('Content-Type', '')
+        if 'application/json' in content_type:
+            return jsonify(response.json())
+        else:
+            proxied_response = Response(
+                response.content, 
+                status=response.status_code,
+                content_type=content_type
+            )
+            return proxied_response
+    except Exception as e:
+        print(f"通用代理错误: {e}")
+        return jsonify({"error": f"无法代理请求: {proxy_path}"}), 500
 
 @app.route('/')
 def index():
