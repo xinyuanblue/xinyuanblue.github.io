@@ -1404,12 +1404,18 @@
             </p>
             <div class="map-preview-container" style="margin: 0 auto; max-width: 100%; background: #eee; /*...*/ position: relative;">
                 <iframe id="populationMapPreview" src="population_map.html?preview=true" width="100%" height="500px" frameborder="0" style="border: none; display: block;" title="洛阳市人口热力分布与书房位置叠加图" allowfullscreen></iframe>
-                <!-- Fullscreen link/button removed here, added in paragraph above -->
                 <a href="population_map.html" target="_blank" class="fullscreen-button" style="position: absolute; top: 10px; right: 10px; background: rgba(255, 255, 255, 0.9); padding: 8px 12px; border-radius: 4px; text-decoration: none; color: #333; font-size: 14px; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
                     <span>全屏查看</span>
                 </a>
+                <!-- Fullscreen link/button removed here, added in paragraph above -->
             </div>
+
+
+            <a href="population_map.html" target="_blank" class="fullscreen-button" style="position: absolute; top: 10px; right: 10px; background: rgba(255, 255, 255, 0.9); padding: 8px 12px; border-radius: 4px; text-decoration: none; color: #333; font-size: 14px; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
+                <span>全屏查看</span>
+            </a>
              <!-- 3.2 热力图解读 -->
              <div class="analysis-content" style="margin-top: 25px; display: flex; flex-wrap: wrap; gap: 25px; justify-content: space-around;">
                 <div class="analysis-card coverage-analysis" style="/*...*/ border-left: 4px solid #3498db;">
@@ -1560,7 +1566,7 @@
                      <li style="margin-bottom: 15px; display: flex; align-items: flex-start;"><i class="fas fa-book-reader" style="color: #2ecc71; margin-right: 12px; margin-top: 4px; width: 20px; text-align: center;"></i><div><strong>洛阳市图书馆官方数据/系统:</strong><ul style="margin-top: 5px; padding-left: 20px; color: #555; list-style-type: disc;"><li>205 座城市书房基础信息（位置、面积、藏书量、开放状态等，截至 2025 年初）。</li><li>访客统计系统提供的 样本数据 (2025年3月13日-4月4日): 用于分析分时段客流、日客流特征及图书借阅分类偏好。（注：此为短期样本，结论需谨慎外推）</li></ul></div></li>
                      <li style="margin-bottom: 15px; display: flex; align-items: flex-start;"><i class="fas fa-comments" style="color: #3498db; margin-right: 12px; margin-top: 4px; width: 20px; text-align: center;"></i><div><strong>洛阳网“百姓呼声”平台:</strong><ul style="margin-top: 5px; padding-left: 20px; color: #555; list-style-type: disc;"><li>时间范围：2017年1月 - 2025年4月。</li><li>内容：筛选出 1439 条与“河洛书苑”或城市书房相关的市民反馈、建议与投诉原文及元数据。</li></ul></div></li>
                      <li style="margin-bottom: 15px; display: flex; align-items: flex-start;"><i class="fas fa-file-invoice-dollar" style="color: #e74c3c; margin-right: 12px; margin-top: 4px; width: 20px; text-align: center;"></i><div><strong>洛阳市政府采购网:</strong><ul style="margin-top: 5px; padding-left: 20px; color: #555; list-style-type: disc;"><li>时间范围：2017年 - 2025年初。</li><li>内容：与城市书房相关的招标文件、中标公告、合同公告等，用于分析建设成本构成（合同资金流向）和趋势（基于已成交合同）。</li></ul></div></li>
-                     <li style="margin-bottom: 15px; display: flex; align-items: flex-start;"><i class="fas fa-map-marked-alt" style="color: #f39c12; margin-right: 12px; margin-top: 4px; width: 20px; text-align: center;"></i><div><strong>人口与地理数据:</strong><ul style="margin-top: 5px; padding-left: 20px; color: #555; list-style-type: disc;"><li>LandScan™ Global 2023 (美国橡树岭国家实验室): 提供高分辨率全球人口密度数据，用于生成洛阳区域人口热力图。</li><li>第七次全国人口普查数据: 用于各行政区人均资源分析。</li><li>高德地图/Mapbox API: 用于计算等时圈（15分钟步行范围）和地图底图。</li></ul></div></li>
+                     <li style="margin-bottom: 15px; display: flex; align-items: flex-start;"><i class="fas fa-map-marked-alt" style="color: #f39c12; margin-right: 12px; margin-top: 4px; width: 20px; text-align: center;"></i><div><strong>人口与地理数据:</strong><ul style="margin-top: 5px; padding-left: 20px; color: #555; list-style-type: disc;"><li>LandScan™ Global 2023 (美国橡树岭国家实验室): 提供高分辨率全球人口密度数据，用于生成洛阳区域人口热力图。</li><li>第七次全国人口普查数据: 用于各行政区人均资源分析。</li><li>高德地图/天地图底图；Mapbox API用于计算等时圈（15分钟步行范围）</li></ul></div></li>
                      <li style="margin-bottom: 15px; display: flex; align-items: flex-start;"><i class="fas fa-globe-asia" style="color: #27ae60; margin-right: 12px; margin-top: 4px; width: 20px; text-align: center;"></i><div><strong>全国对比数据:</strong><ul style="margin-top: 5px; padding-left: 20px; color: #555; list-style-type: disc;"><li>全国城市书房合作共享机制官网: 提供截至 2023 年底的全国各省市城市书房数量统计数据。</li></ul></div></li>
                      <li style="display: flex; align-items: flex-start;"><i class="fas fa-newspaper" style="color: #95a5a6; margin-right: 12px; margin-top: 4px; width: 20px; text-align: center;"></i><div><strong>新闻报道与政策文件:</strong><ul style="margin-top: 5px; padding-left: 20px; color: #555; list-style-type: disc;"><li>洛阳日报、洛阳网、河南省政府网等官方媒体关于“河洛书苑”建设、运营、活动及获奖情况的报道。</li><li>《洛阳市“河洛书苑”城市书房建设管理办法》等相关政策文件。</li></ul></div></li>
                 </ul>
