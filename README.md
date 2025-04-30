@@ -37,8 +37,8 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
   * [Chart.js](https://www.chartjs.org/)
   * [Plotly.js](https://plotly.com/javascript/)
 * **地图 (Mapping):**
-  * 高德地图 JavaScript API (用于底图、部分地理编码或服务)
-  * Mapbox GL JS (可能用于等时圈或热力图渲染)
+  * 高德地图 天地图 (用于底图、部分地理编码或服务)
+  * Mapbox api(用于精确等时渲染)
 * **图标 (Icons):** Font Awesome 5 Free
 * **其他 (Others):** Web Speech API
 
@@ -91,10 +91,8 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 
 这是一个静态网站项目。你可以：
 
-1. **访问在线版本:**  https://heluoshuyuan.cn/  ； https://xinyuanblue.github.io/
+1. **访问在线版本:**  https://heluoshuyuan.cn/  
 2. **本地查看:**
-   * 克隆或下载本仓库代码。
-   * python -m http.server 8000
    * *注意: 部分地图功能可能需要网络连接才能正常加载。（注意替换地图api）*
 
 ## 制作
