@@ -35,7 +35,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
   * [Chart.js](https://www.chartjs.org/)
   * [Plotly.js](https://plotly.com/javascript/)
 * **地图服务 (Mapping Services):**
-  * 高德地图 API (用于底图、地理编码和服务)
+  * 高德地图、天地图API (用于底图、地理编码和服务)
   * Mapbox API (用于精确等时圈渲染)
 
 
