@@ -86,6 +86,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
    git clone https://github.com/xinyuanblue/xinyuanblue.github.io.git
 
    # 使用Python的简易HTTP服务器启动项目
+   cd xinyuanblue.github.io.git
    # 在项目根目录下运行：
    python -m http.server 8000
    ```
