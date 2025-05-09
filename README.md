@@ -97,7 +97,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
    python -m http.server 8000
    ```
 
-## 👥 制作团队 (Team)
+##  制作团队 (Team)
 
 * **指导老师 (Advisor):** 万鹏
 * **网页制作与数据分析 (Web Dev & Data Analysis):** 李心愿
