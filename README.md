@@ -19,9 +19,9 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 
 * **数据驱动叙事 (Data-Driven Narrative):** 结合多源数据，讲述洛阳城市书房的"生长故事"，从萌芽到枝繁叶茂。
 * **交互式地图可视化 (Interactive Map Visualizations):**
-  * **15分钟阅读圈:** 基于步行时间的等时圈地图 (`isochrone_map.html`, `isochrone_map_mapbox.html`)
-  * **人口热力图:** 人口密度与书房位置叠加 (`population_map.html`)
-  * **服务半径图:** 基于服务范围的覆盖分析 (`radius_map_amap.html`)
+  * **15分钟阅读圈:** 基于步行时间的等时圈地图 
+  * **人口热力图:** 人口密度与书房位置叠加 
+  * **服务半径图:** 基于服务范围的覆盖分析
 * **多维图表分析 (Multi-dimensional Chart Analysis):**
   * 利用 **ECharts, Chart.js, Plotly** 生成多种交互图表
   * 涵盖书房**面积分布**、**区域资源对比**、**人均拥有量**、**客流时段与日期特征**、**图书借阅偏好**、**成本构成**、**市民反馈热度**与**分类统计**、**全国城市书房对比**等
@@ -37,7 +37,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
   * [Plotly.js](https://plotly.com/javascript/)
 * **地图服务 (Mapping Services):**
   * 高德地图、天地图API (用于底图、地理编码和服务)
-  * Mapbox API (用于精确等时圈渲染)
+  * Mapbox API (仅用于精确等时圈渲染)
 
 
 
@@ -77,6 +77,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 4. **人口与地理数据:** LandScan™ Global 2023, 第七次全国人口普查, 高德地图/Mapbox API
 5. **全国对比数据:** 全国城市书房合作共享机制官网 (截至2023年底)
 6. **新闻报道与政策文件:** 官方媒体报道及相关政策法规
+  ** 详细数据来源请查看数据新闻网页底部数据来源专栏**
 
 ## 🚀 如何运行 (Getting Started)
 
@@ -104,7 +105,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 
 ## 📝 声明 (Disclaimer)
 
-本项目主要用于教育目的（平顶山学院新闻与传播学院毕业设计）。部分数据基于公开信息整理、估算或进行了必要的调整。代码和公开数据集计划在项目完成后于GitHub共享。
+本项目用于教育目的（平顶山学院新闻与传播学院毕业设计）。部分数据基于公开信息整理、估算或进行了必要的调整。代码和公开数据集计划在项目完成后于GitHub共享。
 
 This project is primarily for educational purposes (graduation design). Some data is based on publicly available information and may involve estimations or necessary adjustments. Code and public datasets are planned to be shared on the author's GitHub upon completion.
 
