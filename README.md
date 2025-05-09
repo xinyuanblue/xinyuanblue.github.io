@@ -10,7 +10,7 @@
 
 ## 📍 项目概述 (Project Overview)
 
-本项目是一个**数据新闻作品**，旨在通过交互式数据可视化和叙事分析，深入解读中国河南省洛阳市 **"河洛书苑"** 城市书房项目。我们追溯了这些书房从零星几点到遍布全城超200座的**生长历程**，探索了其**空间布局**的智慧，分析了**运营数据**与**市民反馈**，并解码了支撑这一文化惠民工程快速发展的"洛阳模式"。项目最终目标是揭示洛阳如何成功构建起便捷的 **"15分钟文化阅读圈"**，并以此推动全民阅读和学习型社会建设。
+本项目是一个**数据新闻作品**，旨在通过交互式数据可视化和叙事分析，深入解读中国河南省洛阳市 **"河洛书苑"** 城市书房项目。我们追溯了这些书房从零星几点到遍布全城超200座的**生长历程**，探索了其**空间布局**的智慧，分析了**运营数据**与**市民反馈**，并解码了支撑这一文化惠民工程快速发展的**"洛阳模式"**。项目最终目标是揭示洛阳如何成功构建起便捷的 **"15分钟文化阅读圈"**，并以此推动全民阅读和学习型社会建设。
 
 This data journalism project interactively explores the "Heluo Book Garden" urban study room initiative in Luoyang, Henan, China. By leveraging data visualization and narrative analysis, it documents the development trajectory, spatial distribution, operational status, cost structure, citizen feedback, and socio-cultural impact of over 200 study rooms. The project delves into how Luoyang successfully established a convenient "15-minute reading circle," fostering city-wide reading habits and contributing to a learning-oriented society.
 
@@ -35,16 +35,10 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
   * [Chart.js](https://www.chartjs.org/)
   * [Plotly.js](https://plotly.com/javascript/)
 * **地图服务 (Mapping Services):**
-  * 高德地图、天地图 API (用于底图、地理编码和服务)
+  * 高德地图 API (用于底图、地理编码和服务)
   * Mapbox API (用于精确等时圈渲染)
-* **后端服务 (Backend Services):**
-  * Flask (用于Mapbox代理服务)
-* **部署工具 (Deployment):**
-  * Shell脚本自动化部署 (`deploy_static_site.sh`)
-* **SEO优化 (SEO Optimization):**
-  * sitemap.xml
-  * robots.txt
-  * BingSiteAuth.xml
+
+
 
 ## 📁 项目结构 (Project Structure)
 
@@ -90,12 +84,14 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
    ```bash
    # 克隆仓库
    git clone https://github.com/xinyuanblue/xinyuanblue.github.io.git
-   
-   
+
    # 使用Python的简易HTTP服务器启动项目
    # 在项目根目录下运行：
    python -m http.server 8000
    ```
+   然后访问此网址
+
+   http://localhost:8000/
 
 ##  制作团队 (Team)
 

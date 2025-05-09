@@ -1544,6 +1544,7 @@
              <div class="credits">
                 <div><h3>指导老师</h3><p>万鹏</p></div>
                 <div><h3>网页制作</h3><p>李心愿</p></div>
+                <div><h3>出品单位</h3><p>平顶山学院新闻与传播学院</p></div>
             </div>
         </div>
 
@@ -1598,99 +1599,30 @@
 
    <!-- Footer with Inline Styles -->
    <footer style="margin-top: 3rem; padding-top: 1.5rem; padding-bottom: 1.5rem; background-color: #f8f9fa;">
-    <div style="max-width: 1140px; margin-left: auto; margin-right: auto; padding-left: 15px; padding-right: 15px;">
-        <div style="display: flex; flex-wrap: wrap; justify-content: center;">
-            <div style="flex: 0 0 auto; width: 100%; text-align: center;">
-                <h5 style="margin-bottom: 1.5rem; color: #6c757d;">友情链接</h5>
-                <style>
-                    /* Footer Links Container */
-                    .footer-links {
-                        display: flex;
-                        justify-content: center;
-                        flex-wrap: wrap;
-                        gap: 1rem; /* Space between links */
-                        padding: 20px 0;
-                    }
+   
 
-                    /* Individual Link Styling (Button-like) */
-                    .footer-link {
-                        display: inline-flex; /* Use inline-flex for icon alignment */
-                        align-items: center; /* Vertically center icon and text */
-                        justify-content: center; /* Center content horizontally */
-                        font-weight: 500;
-                        line-height: 1.5;
-                        color: #2c3e50;
-                        text-align: center;
-                        text-decoration: none;
-                        cursor: pointer;
-                        user-select: none;
-                        background-color: #f8f9fa;
-                        border: 1px solid #dee2e6;
-                        padding: 0.7rem 1.5rem; /* Adjusted padding slightly */
-                        font-size: 0.95rem;
-                        border-radius: 6px;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                        margin: 0.5rem;
-                        transition: all 0.3s ease;
-                        position: relative;
-                        overflow: hidden;
-                    }
-
-                    /* Link Hover Effect */
-                    .footer-link:hover {
-                        transform: translateY(-2px);
-                        background-color: #fff;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                        color: #3498db;
-                        border-color: #3498db;
-                    }
-
-                    /* Link Active State */
-                    .footer-link:active {
-                        transform: translateY(0);
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                    }
-
-                    /* Icon Base Styling (using ::before pseudo-element) */
-                    .footer-link::before {
-                        font-family: "Font Awesome 5 Free"; /* Ensure FA5 Free is loaded */
-                        font-weight: 900; /* Use Solid style icons */
-                        margin-right: 8px; /* Space between icon and text */
-                        /* Removed opacity: 0.7; for full visibility */
-                        line-height: 1; /* Helps with vertical alignment in some cases */
-                    }
-
-                    /* Specific Icon Assignment using href attribute */
-                 
-
-                    .footer-link[href*="lyslib"]::before {
-                        content: "\f02d"; /* Book icon (fas fa-book) */
-                    }
-
-                    .footer-link[href*="wzlib"]::before {
-                        content: "\f0c0"; /* Users icon (fas fa-users) */
-                    }
-
-                    /* Targetting IP address is less robust, consider adding a class */
-                    .footer-link[href*="111.7.82.66"]::before {
-                        content: "\f03e"; /* Image icon (fas fa-image) */
-                    }
-                    </style>
-
-                    <div class="footer-links">
-                        <a href="https://github.com/xinyuanblue/xinyuanblue.github.io" target="_blank" class="footer-link">
-                            GitHub项目主页
-                        </a>
-                        <a href="http://www.lyslib.cn/" target="_blank" class="footer-link">
-                            洛阳市图书馆
-                        </a>
-                        <a href="https://www.wzlib.cn/gxjz/" target="_blank" class="footer-link">
-                            全国城市书房合作共享机制
-                        </a>
-                        <a href="http://111.7.82.66:8090/#/" target="_blank" class="footer-link">
-                            洛阳市文旅公益图库
-                        </a>
-                    </div>
+    <div class="footer-links-section">
+        <h3 class="footer-section-title">友情链接</h3>
+        <div class="footer-links-container">
+            <div class="footer-links-row">
+                <a href="https://github.com/xinyuanblue/xinyuanblue.github.io" target="_blank" class="footer-link">
+                    <i class="fab fa-github"></i> GitHub项目主页
+                </a>
+                <a href="http://www.lyslib.cn/" target="_blank" class="footer-link">
+                    <i class="fas fa-book"></i> 洛阳市图书馆
+                </a>
+                <a href="https://www.wzlib.cn/gxjz/" target="_blank" class="footer-link">
+                    <i class="fas fa-share-alt"></i> 全国城市书房合作共享机制
+                </a>
+            </div>
+            <div class="footer-links-row">
+                <a href="http://111.7.82.66:8090/#/" target="_blank" class="footer-link">
+                    <i class="fas fa-image"></i> 洛阳市文旅公益图库
+                </a>
+                <a href="https://xwycbxy.pdsu.edu.cn/" target="_blank" class="footer-link">
+                    <i class="fas fa-university"></i> 平顶山学院新闻与传播学院
+                </a>
+                <!-- 可预留位置给未来可能添加的链接 -->
             </div>
         </div>
     </div>
