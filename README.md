@@ -1,6 +1,7 @@
-# 河洛书苑生长笔记：百座书房画出十五分钟阅读圈 📖🏙️
+# 数据新闻《河洛书苑生长笔记：百座书房画出十五分钟阅读圈》 📖🏙️
 
-**Luoyang Heluo Book Garden Growth Notes: How 100+ Urban Study Rooms Painted a 15-Minute Reading Circle**
+**Data Journalism: "Growing Notes of HeluoShuyuan: Mapping 15-Minute Reading Circles Around Over 200 Reading Rooms"
+**
 
 [![Status](https://img.shields.io/badge/Status-In%20Development-orange)](https://github.com/xinyuanblue/xinyuanblue.github.io)
 
