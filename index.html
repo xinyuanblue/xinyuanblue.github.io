@@ -8,28 +8,31 @@
     <meta name="baidu-site-verification" content="codeva-6ruBzPj1CN" />
     <title>河洛书苑生长笔记：百座书房画出十五分钟阅读圈</title>
     <link rel="canonical" href="https://heluoshuyuan.cn/">
-    <script src="static/js/echarts.min.js"></script>
-    <script src="static/vendor/plotly/plotly-2.27.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.1/dist/plotly.min.js"></script>
     <!-- Favicon Links -->
+     <!-- 预连接CDN服务器，提前建立连接 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="icon" href="static/favicon.png" type="image/png">
     <link rel="shortcut icon" href="static/favicon.ico">
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="static/vendor/fontawesome/css/all.min.css"> <!-- Keep FontAwesome if used -->
-    <link rel="stylesheet" href="style.css"> <!-- Your main stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"><!-- Keep FontAwesome if used -->
+    <link rel="stylesheet" href="style.min.css"> <!-- Your main stylesheet -->
     <link rel="stylesheet" href="static/css/comparison-styles.css"> <!-- Add this line -->
     <link rel="stylesheet" href="static/css/timeline-dynamic.css">
     <link rel="stylesheet" href="static/css/timeline-preview-modal.css">
-    <link rel="stylesheet" href="static/css/timeline-dynamic.css">
-    <link rel="stylesheet" href="static/css/timeline-preview-modal.css">
+    <script src="script.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     
 
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="static/vendor/fontawesome/css/all.min.css">
+    
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+
+ 
 
 </head>
 <body>
@@ -571,7 +574,7 @@
         <!-- 案例一: 历史文脉融合型 -->
         <div class="showcase-item library-card" data-library-id="shangyang" style="flex: 1 1 300px; /* Flex basis 300px, allow grow/shrink */ max-width: 350px; background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; display: flex; flex-direction: column;">
             <div class="library-image" style="height: 220px; overflow: hidden;">
-                <img src="static/picture/shangyang-library.jpg" alt="上阳宫城市书房" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
+                <img src="static/picture/shangyang-library.webp" alt="上阳宫城市书房" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
             </div>
             <div class="library-caption" style="padding: 18px 15px; text-align: center; background-color: #f8f9fa; border-top: 1px solid #eee; flex-grow: 1;">
                 <h5 style="margin: 0 0 8px 0; font-size: 1.1em; color: #333;" data-i18n="shangyang_library_type">历史文脉型: 上阳宫书房</h5>
@@ -582,7 +585,7 @@
         <!-- 案例二: 空间改造共建型 -->
         <div class="showcase-item library-card" data-library-id="yirenfang" style="flex: 1 1 300px; max-width: 350px; background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; display: flex; flex-direction: column;">
             <div class="library-image" style="height: 220px; overflow: hidden;">
-                <img src="static/picture/yiren-library.jpg" alt="宜人坊城市书房" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
+                <img src="static/picture/yiren-library.webp" alt="宜人坊城市书房" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
             </div>
              <div class="library-caption" style="padding: 18px 15px; text-align: center; background-color: #f8f9fa; border-top: 1px solid #eee; flex-grow: 1;">
                 <h5 style="margin: 0 0 8px 0; font-size: 1.1em; color: #333;" data-i18n="yirenfang_library_type">空间改造共建型: 宜人坊书房</h5>
@@ -593,7 +596,7 @@
         <!-- 案例三: 社区嵌入小微型 -->
         <div class="showcase-item library-card" data-library-id="community_park" style="flex: 1 1 300px; max-width: 350px; background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; display: flex; flex-direction: column;">
             <div class="library-image" style="height: 220px; overflow: hidden;">
-                <img src="static/picture/yichuan-library.jpg" alt="伊川县西山植物园城市书房" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
+                <img src="static/picture/yichuan-library.webp" alt="伊川县西山植物园城市书房" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;">
             </div>
              <div class="library-caption" style="padding: 18px 15px; text-align: center; background-color: #f8f9fa; border-top: 1px solid #eee; flex-grow: 1;">
                 <h5 style="margin: 0 0 8px 0; font-size: 1.1em; color: #333;" data-i18n="community_library_type">社区嵌入型: 西山植物园书房</h5>
@@ -1642,12 +1645,12 @@
 
     <!-- Vendor JS (Order matters!) -->
     <script src="static/js/translations.js"></script>
-    <script src="static/vendor/plotly/plotly-2.27.1.min.js"></script>
-    <script src="static/js/echarts.min.js"></script>
-    <script src="static/vendor/chartjs/chart.min.js"></script>
+  
+   
+
 
     <!-- Custom JS -->
-    <script src="script.js"></script>
+  
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
