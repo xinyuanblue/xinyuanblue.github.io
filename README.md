@@ -116,6 +116,23 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 
 This project is primarily for educational purposes (graduation design). Some data is based on publicly available information and may involve estimations or necessary adjustments. Code and public datasets are planned to be shared on the author's GitHub upon completion.
 
+
+## 📄 授权协议 (License)
+
+本作品采用 [知识共享署名-非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）](https://creativecommons.org/licenses/by-nc/4.0/deed.zh) 进行许可。根据此协议，您可以：
+
+* **共享** — 在任何媒介以任何形式复制、发行本作品
+* **演绎** — 修改、转换或以本作品为基础进行创作
+
+但您必须遵循以下条件：
+
+* **署名** — 使用本作品时必须保留完整署名信息，包括：
+  * 指导老师：万鹏
+  * 网页制作与数据分析：李心愿
+  * 出品单位：平顶山学院新闻与传播学院
+* **非商业性使用** — 您不得将本作品用于商业目的。
+
+数据部分、可视化代码、分析方法均受此协议保护。第三方库、工具和数据源应遵循其各自的许可协议。
 ---
 
 *如有任何问题或建议，欢迎联系 邮箱：211064078@e.pdsu.edu.cn*
