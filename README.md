@@ -35,12 +35,8 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
   * [Chart.js](https://www.chartjs.org/)
   * [Plotly.js](https://plotly.com/javascript/)
 * **地图服务 (Mapping Services):**
-  * 高德地图 API (用于底图、地理编码和服务)
+  * 高德地图 天地图API (用于底图、地理编码和服务)
   * Mapbox API (用于精确等时圈渲染)
-* **后端服务 (Backend Services):**
-  * Flask (用于Mapbox代理服务)
-* **部署工具 (Deployment):**
-  * Shell脚本自动化部署 (`deploy_static_site.sh`)
 * **SEO优化 (SEO Optimization):**
   * sitemap.xml
   * robots.txt
@@ -61,7 +57,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 ├── sitemap.xml                  # 网站地图
 ├── robots.txt                   # 搜索引擎爬虫规则
 ├── BingSiteAuth.xml            # Bing网站验证
-├── mapbox_proxy_flask/         # Mapbox代理服务
+├── flask/         # Mapbox
 └── static/
     ├── css/                    # CSS样式文件
     ├── js/                     # JavaScript文件
