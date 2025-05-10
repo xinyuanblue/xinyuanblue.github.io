@@ -9,10 +9,22 @@
     <title>河洛书苑生长笔记：百座书房画出十五分钟阅读圈</title>
     <link rel="canonical" href="https://heluoshuyuan.cn/">
     
-    <!-- 预连接CDN服务器，提前建立连接 -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    
+    <!-- 删除这两行预连接 -->
+<!-- <link rel="preconnect" href="https://cdn.jsdelivr.net"> -->
+<!-- <link rel="dns-prefetch" href="https://cdn.jsdelivr.net"> -->
+
+<!-- ... existing code ... -->
+
+<!-- 替换为本地FontAwesome文件 -->
+<link rel="stylesheet" href="static/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+
+<!-- ... existing code ... -->
+
+<!-- 替换为本地库文件 -->
+<!-- 替换为BootCDN库文件 -->
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js" defer></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/plotly.js/2.27.1/plotly.min.js" defer></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
     <!-- Favicon Links -->
     <link rel="icon" href="static/favicon.png" type="image/png">
     <link rel="shortcut icon" href="static/favicon.ico">

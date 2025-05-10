@@ -87,10 +87,7 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
    # 克隆仓库
    git clone https://github.com/xinyuanblue/xinyuanblue.github.io.git
    
-   # 启动Mapbox代理服务（如需要）
-   cd mapbox_proxy_flask
-   python app.py
-   
+
    # 使用Python的简易HTTP服务器启动项目
    # 在项目根目录下运行：
    python -m http.server 8000
