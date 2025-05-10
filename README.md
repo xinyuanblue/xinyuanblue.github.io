@@ -1,7 +1,6 @@
-# 数据新闻《河洛书苑生长笔记：百座书房画出十五分钟阅读圈》 📖🏙️
+# 河洛书苑生长笔记：百座书房画出十五分钟阅读圈 📖🏙️
 
-**Data Journalism: "Growing Notes of HeluoShuyuan: Mapping 15-Minute Reading Circles Around Over 200 Reading Rooms"
-**
+**Luoyang Heluo Book Garden Growth Notes: How 100+ Urban Study Rooms Painted a 15-Minute Reading Circle**
 
 [![Status](https://img.shields.io/badge/Status-In%20Development-orange)](https://github.com/xinyuanblue/xinyuanblue.github.io)
 
@@ -19,9 +18,9 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 
 * **数据驱动叙事 (Data-Driven Narrative):** 结合多源数据，讲述洛阳城市书房的"生长故事"，从萌芽到枝繁叶茂。
 * **交互式地图可视化 (Interactive Map Visualizations):**
-  * **15分钟阅读圈:** 基于步行时间的等时圈地图 
-  * **人口热力图:** 人口密度与书房位置叠加 
-  * **服务半径图:** 基于服务范围的覆盖分析
+  * **15分钟阅读圈:** 基于步行时间的等时圈地图 (`isochrone_map.html`, `isochrone_map_mapbox.html`)
+  * **人口热力图:** 人口密度与书房位置叠加 (`population_map.html`)
+  * **服务半径图:** 基于服务范围的覆盖分析 (`radius_map_amap.html`)
 * **多维图表分析 (Multi-dimensional Chart Analysis):**
   * 利用 **ECharts, Chart.js, Plotly** 生成多种交互图表
   * 涵盖书房**面积分布**、**区域资源对比**、**人均拥有量**、**客流时段与日期特征**、**图书借阅偏好**、**成本构成**、**市民反馈热度**与**分类统计**、**全国城市书房对比**等
@@ -36,10 +35,16 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
   * [Chart.js](https://www.chartjs.org/)
   * [Plotly.js](https://plotly.com/javascript/)
 * **地图服务 (Mapping Services):**
-  * 高德地图、天地图API (用于底图、地理编码和服务)
-  * Mapbox API (仅用于精确等时圈渲染)
-
-
+  * 高德地图 API (用于底图、地理编码和服务)
+  * Mapbox API (用于精确等时圈渲染)
+* **后端服务 (Backend Services):**
+  * Flask (用于Mapbox代理服务)
+* **部署工具 (Deployment):**
+  * Shell脚本自动化部署 (`deploy_static_site.sh`)
+* **SEO优化 (SEO Optimization):**
+  * sitemap.xml
+  * robots.txt
+  * BingSiteAuth.xml
 
 ## 📁 项目结构 (Project Structure)
 
@@ -77,7 +82,6 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 4. **人口与地理数据:** LandScan™ Global 2023, 第七次全国人口普查, 高德地图/Mapbox API
 5. **全国对比数据:** 全国城市书房合作共享机制官网 (截至2023年底)
 6. **新闻报道与政策文件:** 官方媒体报道及相关政策法规
-  ** 详细数据来源请查看数据新闻网页底部数据来源专栏**
 
 ## 🚀 如何运行 (Getting Started)
 
@@ -86,9 +90,12 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
    ```bash
    # 克隆仓库
    git clone https://github.com/xinyuanblue/xinyuanblue.github.io.git
-
+   
+   # 启动Mapbox代理服务（如需要）
+   cd mapbox_proxy_flask
+   python app.py
+   
    # 使用Python的简易HTTP服务器启动项目
-   cd xinyuanblue.github.io.git
    # 在项目根目录下运行：
    python -m http.server 8000
    ```
@@ -105,27 +112,10 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 
 ## 📝 声明 (Disclaimer)
 
-本项目用于教育目的（平顶山学院新闻与传播学院毕业设计）。部分数据基于公开信息整理、估算或进行了必要的调整。代码和公开数据集计划在项目完成后于GitHub共享。
+本项目主要用于教育目的（平顶山学院新闻与传播学院毕业设计）。部分数据基于公开信息整理、估算或进行了必要的调整。代码和公开数据集计划在项目完成后于GitHub共享。
 
 This project is primarily for educational purposes (graduation design). Some data is based on publicly available information and may involve estimations or necessary adjustments. Code and public datasets are planned to be shared on the author's GitHub upon completion.
 
 ---
-
-## 📄 授权协议 (License)
-
-本作品采用 [知识共享署名-非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）](https://creativecommons.org/licenses/by-nc/4.0/deed.zh) 进行许可。根据此协议，您可以：
-
-* **共享** — 在任何媒介以任何形式复制、发行本作品
-* **演绎** — 修改、转换或以本作品为基础进行创作
-
-但您必须遵循以下条件：
-
-* **署名** — 使用本作品时必须保留完整署名信息，包括：
-  * 指导老师：万鹏
-  * 网页制作与数据分析：李心愿
-  * 出品单位：平顶山学院新闻与传播学院
-* **非商业性使用** — 您不得将本作品用于商业目的。
-
-数据部分、可视化代码、分析方法均受此协议保护。第三方库、工具和数据源应遵循其各自的许可协议。
 
 *如有任何问题或建议，欢迎联系 邮箱：211064078@e.pdsu.edu.cn*

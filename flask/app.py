@@ -20,9 +20,15 @@ allowed_origins = [
     "http://10.7.84.168:8000",
     "http://192.168.31.47:8000",
     "http://192.168.0.40:8000",
-    "https://heluoshuyuan.xyz", # New domain added
     "https://xinyuanblue.github.io",
-    "http://52.220.32.192:8000"
+    "https://heluoshuyuan.xyz",
+    "http://47.93.76.128:8000", # Public IP address with port
+    "http://47.93.76.128",     # Public IP address without port
+    "https://47.93.76.128:8000",
+    "https://47.93.76.128",    # HTTPS version without port
+    "http://52.220.32.192:8000",
+    "http://52.220.32.192"     # Another IP without port
+
 ]
 CORS(app, origins=allowed_origins, supports_credentials=True) # Enable CORS for allowed origins
 
