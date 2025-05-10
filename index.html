@@ -8,95 +8,216 @@
     <meta name="baidu-site-verification" content="codeva-6ruBzPj1CN" />
     <title>河洛书苑生长笔记：百座书房画出十五分钟阅读圈</title>
     <link rel="canonical" href="https://heluoshuyuan.cn/">
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.1/dist/plotly.min.js"></script>
-    <!-- Favicon Links -->
-     <!-- 预连接CDN服务器，提前建立连接 -->
+    
+    <!-- 预连接CDN服务器，提前建立连接 -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- Favicon Links -->
     <link rel="icon" href="static/favicon.png" type="image/png">
     <link rel="shortcut icon" href="static/favicon.ico">
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"><!-- Keep FontAwesome if used -->
-    <link rel="stylesheet" href="style.min.css"> <!-- Your main stylesheet -->
-    <link rel="stylesheet" href="static/css/comparison-styles.css"> <!-- Add this line -->
-    <link rel="stylesheet" href="static/css/timeline-dynamic.css">
-    <link rel="stylesheet" href="static/css/timeline-preview-modal.css">
-    <script src="script.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     
-
-
-    <!-- Vendor CSS -->
-    
-
-    <!-- Custom CSS -->
-
- 
-
-</head>
-<body>
-
+    <!-- 内联首屏关键CSS样式 -->
     <style>
-        /* Basic Navigation Bar Styles */
-        .main-nav {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            z-index: 1000;
-            padding: 10px 0;
-            backdrop-filter: blur(5px); /* Optional: blur effect */
-        }
+      /* 基础重置样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      /* CSS变量定义 */
+      :root {
+        --primary-color: #2ecc71;
+        --text-color: #333;
+        --bg-color: #f5f5f5;
+        --navbar-bg: rgba(255, 255, 255, 0.9);
+        --navbar-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        --font-size-base: 16px;
+        --line-height-base: 1.6;
+      }
+      
+      /* 基础页面样式 */
+      body {
+        font-family: 'Microsoft YaHei', sans-serif;
+        background: var(--bg-color);
+        color: var(--text-color);
+        line-height: var(--line-height-base);
+        font-size: var(--font-size-base);
+        text-align: left;
+      }
+      
+      /* 导航栏样式 */
+      .main-nav {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 1000;
+        padding: 10px 0;
+        backdrop-filter: blur(5px);
+      }
+      
+      .main-nav .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px 20px;
+      }
+      
+      .main-nav a {
+        text-decoration: none;
+        color: #34495e;
+        padding: 8px 15px;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.95em;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      .main-nav a:hover,
+      .main-nav a.active {
+        background-color: #2ecc71;
+        color: #fff;
+      }
+      
+      /* 首屏内容样式 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      
+      .intro-section {
+        position: relative;
+        margin: 0;
+        min-height: auto;
+      }
+      
+      .main-title {
+        font-size: 2.8em;
+        margin-bottom: 40px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        color: #2c3e50;
+        text-align: center;
+      }
+      
+      .intro-text {
+        font-size: 1.2em;
+        line-height: 1.8;
+        text-align: left;
+        text-indent: 2em;
+        color: #34495e;
+        margin-bottom: 15px;
+      }
+      
+      /* 核心数据统计样式 */
+      .key-stats {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin: 40px auto;
+        text-align: center;
+      }
+      
+      .stat-item {
+        min-width: 150px;
+        text-align: center;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      }
+      
+      /* 辅助功能按钮样式 */
+      .accessibility-buttons {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: var(--navbar-bg);
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      
+      .accessibility-buttons button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--primary-color);
+        border-radius: 50%;
+        background: transparent;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      /* 响应式适配 */
+      @media (max-width: 768px) {
         .main-nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-            display: flex;
-            justify-content: center; /* Center nav items */
-            align-items: center;
-            flex-wrap: wrap; /* Allow wrapping on small screens */
-            gap: 10px 20px; /* Spacing between items */
+          justify-content: space-around;
         }
+        
         .main-nav a {
-            text-decoration: none;
-            color: #34495e; /* Dark grey text */
-            padding: 8px 15px;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease, color 0.3s ease;
+          font-size: 0.9em;
+          padding: 6px 10px;
         }
-        .main-nav a:hover,
-        .main-nav a.active { /* Style for active link */
-            background-color: #2ecc71; /* Primary green */
-            color: #fff;
+        
+        .accessibility-buttons {
+          bottom: 10px;
+          right: 10px;
+          flex-direction: row;
+          flex-wrap: wrap;
         }
-         /* Adjustments for smaller screens */
-         @media (max-width: 768px) {
-            .main-nav .container {
-                justify-content: space-around; /* Distribute items better */
-            }
-            .main-nav a {
-                font-size: 0.9em;
-                padding: 6px 10px;
-            }
-        }
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-        /* Offset for fixed header */
-        section[id] {
-           scroll-margin-top: 80px; /* Adjust based on nav height */
-        }
-
+      }
+      
+      /* 基础排版和平滑滚动 */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      section[id] {
+        scroll-margin-top: 80px;
+      }
     </style>
-
+    
+    <!-- 异步加载CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="preload" href="style.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="style.min.css"></noscript>
+    <link rel="preload" href="static/css/comparison-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="static/css/comparison-styles.css"></noscript>
+    <link rel="preload" href="static/css/timeline-dynamic.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="static/css/timeline-dynamic.css"></noscript>
+    <link rel="preload" href="static/css/timeline-preview-modal.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="static/css/timeline-preview-modal.css"></noscript>
+    
+    <!-- 异步加载非首屏JS -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js@2.27.1/dist/plotly.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" defer></script>
+    <script src="script.min.js" defer></script>
+    
+    <!-- 预加载工具函数 -->
+    <script>
+      // 用于处理异步CSS加载
+      !function(w){"use strict";var loadCSS=function(href,before,media,attributes){var doc=w.document;var ss=doc.createElement("link");var ref;if(before){ref=before}else{var refs=(doc.body||doc.getElementsByTagName("head")[0]).childNodes;ref=refs[refs.length-1]}var sheets=doc.styleSheets;if(attributes){for(var attributeName in attributes){if(attributes.hasOwnProperty(attributeName)){ss.setAttribute(attributeName,attributes[attributeName])}}}ss.rel="stylesheet";ss.href=href;ss.media="only x";function ready(cb){if(doc.body){return cb()}setTimeout(function(){ready(cb)})}ready(function(){ref.parentNode.insertBefore(ss,(before?ref:ref.nextSibling))});var onloadcssdefined=function(cb){var resolvedHref=ss.href;var i=sheets.length;while(i--){if(sheets[i].href===resolvedHref){return cb()}}setTimeout(function(){onloadcssdefined(cb)})};function loadCB(){if(ss.addEventListener){ss.removeEventListener("load",loadCB)}ss.media=media||"all"}if(ss.addEventListener){ss.addEventListener("load",loadCB)}ss.onloadcssdefined=onloadcssdefined;onloadcssdefined(loadCB);return ss};if(typeof exports!=="undefined"){exports.loadCSS=loadCSS}else{w.loadCSS=loadCSS}}(typeof global!=="undefined"?global:this);
+    </script>
 </head>
 <body>
-
     <!-- Navigation Bar -->
     <nav class="main-nav">
         <div class="container">
@@ -106,7 +227,6 @@
             <a href="#luoyang-model-reveal" data-i18n="nav_model">建设密码</a>
             <a href="#citizen-feedback-optimization" data-i18n="nav_feedback">市民心声</a>
             <a href="#spatial-decoding" data-i18n="nav_spatial">空间解码</a>
-            
             <a href="#final-conclusion-section" data-i18n="nav_conclusion">全国坐标</a>
         </div>
     </nav>
@@ -763,7 +883,7 @@
                        <!-- 故事预览区 (右侧) - Modified with Thumbnail -->
                        <div class="story-preview" style="border-left-color: #f39c12;" data-target-story="story-2017">
                            <!-- Thumbnail Added -->
-                           <div class="story-thumbnail" style="background-image: url('static/picture/2.webp');">
+                           <div class="story-thumbnail" style="background-image: none;" data-bg-src="static/picture/2.webp">
                                <div class="thumbnail-overlay">
                                     <i class="fas fa-eye"></i> <!-- Eye icon -->
                                     <span>查看完整故事</span>
@@ -804,7 +924,7 @@
 
                         <div class="story-preview" style="border-right-color: #3498db; text-align: left;" data-target-story="story-2018">
                             <!-- Thumbnail Added -->
-                            <div class="story-thumbnail" style="background-image: url('static/picture/3.webp');">
+                            <div class="story-thumbnail" style="background-image: none;" data-bg-src="static/picture/3.webp">
                                <div class="thumbnail-overlay">
                                     <i class="fas fa-eye"></i>
                                     <span>查看完整故事</span>
@@ -847,7 +967,7 @@
                          <!-- 故事预览区 (右侧) - Modified with Thumbnail -->
                          <div class="story-preview" style="border-left-color: #27ae60;" data-target-story="story-2019-2020">
                              <!-- Thumbnail Added -->
-                             <div class="story-thumbnail" style="background-image: url('static/picture/4.webp');">
+                             <div class="story-thumbnail" style="background-image: none;" data-bg-src="static/picture/4.webp">
                                  <div class="thumbnail-overlay">
                                      <i class="fas fa-eye"></i>
                                      <span>查看完整故事</span>
@@ -888,7 +1008,7 @@
                          </div>
                          <div class="story-preview" style="border-right-color: #9b59b6; text-align: left;" data-target-story="story-2021-2024">
                             <!-- Thumbnail Added -->
-                            <div class="story-thumbnail" style="background-image: url('static/picture/5.webp');">
+                            <div class="story-thumbnail" style="background-image: none;" data-bg-src="static/picture/5.webp">
                                 <div class="thumbnail-overlay">
                                     <i class="fas fa-eye"></i>
                                     <span>查看完整故事</span>
@@ -1717,6 +1837,126 @@
             }
         });
     </script>
+
+<script>
+    // 背景图片懒加载
+    document.addEventListener("DOMContentLoaded", function() {
+      // 获取所有使用背景图片的元素(除了首屏元素)
+      const lazyBackgrounds = [].slice.call(
+        document.querySelectorAll(".story-thumbnail")
+      );
+      
+      if ("IntersectionObserver" in window) {
+        let lazyBackgroundObserver = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              const lazyBackground = entry.target;
+              const dataSrc = lazyBackground.getAttribute("data-bg-src");
+              if (dataSrc) {
+                lazyBackground.style.backgroundImage = `url('${dataSrc}')`;
+                lazyBackground.removeAttribute("data-bg-src");
+              }
+              lazyBackgroundObserver.unobserve(lazyBackground);
+            }
+          });
+        });
+    
+        lazyBackgrounds.forEach(function(lazyBackground) {
+          // 获取原始背景图片URL
+          const originalBgImage = lazyBackground.style.backgroundImage;
+          if (originalBgImage && originalBgImage.includes('url')) {
+            // 提取URL
+            const bgUrl = originalBgImage.match(/url\(['"]?(.*?)['"]?\)/)[1];
+            // 设置data-bg-src属性并移除原始背景
+            lazyBackground.setAttribute("data-bg-src", bgUrl);
+            lazyBackground.style.backgroundImage = "none";
+            // 观察元素
+            lazyBackgroundObserver.observe(lazyBackground);
+          }
+        });
+      }
+    });
+    </script>
+    <script>
+        // 时间轴故事预览图缩略图懒加载实现
+        document.addEventListener("DOMContentLoaded", function() {
+            // 首先定义一个观察器创建函数
+            function createThumbnailObserver() {
+                // 使用 IntersectionObserver 监视缩略图元素
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const thumbnail = entry.target;
+                            const bgSrc = thumbnail.getAttribute('data-bg-src');
+                            
+                            if (bgSrc) {
+                                // 如果图片可见并且有背景图片URL，加载背景图片
+                                thumbnail.style.backgroundImage = `url('${bgSrc}')`;
+                                thumbnail.style.backgroundSize = 'cover';
+                                thumbnail.style.backgroundPosition = 'center';
+                                // 加载后不再需要观察此元素
+                                observer.unobserve(thumbnail);
+                            }
+                        }
+                    });
+                }, {
+                    rootMargin: '100px', // 向可视区域外扩展100px，提前加载
+                    threshold: 0.1       // 当10%的元素进入可视区域时触发
+                });
+                
+                return observer;
+            }
+            
+            // 创建观察器
+            const thumbnailObserver = createThumbnailObserver();
+            
+            // 获取所有缩略图容器
+            const thumbnails = document.querySelectorAll('.story-thumbnail');
+            
+            // 开始观察所有缩略图
+            thumbnails.forEach(thumbnail => {
+                thumbnailObserver.observe(thumbnail);
+            });
+            
+            // 当时间轴项目变为可见时，也加载其缩略图
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            // 创建一个观察器来监视时间轴项目
+            const timelineObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // 为可见的时间轴项目添加可见类
+                        entry.target.classList.add('is-visible');
+                        
+                        // 查找此项目内的缩略图
+                        const thumbnail = entry.target.querySelector('.story-thumbnail');
+                        if (thumbnail) {
+                            const bgSrc = thumbnail.getAttribute('data-bg-src');
+                            if (bgSrc) {
+                                // 稍微延迟加载，与动画效果配合
+                                setTimeout(() => {
+                                    thumbnail.style.backgroundImage = `url('${bgSrc}')`;
+                                    thumbnail.style.backgroundSize = 'cover';
+                                    thumbnail.style.backgroundPosition = 'center';
+                                }, 500);
+                            }
+                        }
+                        
+                        // 观察过的项目不再需要观察
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+            
+            // 开始观察时间轴项目
+            timelineItems.forEach(item => {
+                timelineObserver.observe(item);
+            });
+        });
+        </script>
     <script src="static/js/timeline-preview-modal.js"></script>
     
     <script src="static/js/comparison-animation.js"></script>
