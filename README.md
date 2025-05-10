@@ -75,14 +75,18 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 1. **洛阳市图书馆 & 河洛书苑官方:** 书房基础信息 (位置、面积、藏书量等)，运营样本数据
 2. **洛阳网"百姓呼声"平台:** 市民反馈文本及元数据 (2017-2025)
 3. **洛阳市政府采购网:** 相关项目招投标及合同公告 (2017-2025)
-4. **人口与地理数据:** LandScan™ Global 2023, 第七次全国人口普查, 高德地图/Mapbox API
+4. **人口与地理数据:** LandScan™ Global 2023, 第七次全国人口普查, 高德地图、天地图
 5. **全国对比数据:** 全国城市书房合作共享机制官网 (截至2023年底)
 6. **新闻报道与政策文件:** 官方媒体报道及相关政策法规
 
 ## 🚀 如何运行 (Getting Started)
 
 1. **在线访问:** https://heluoshuyuan.cn/
-2. **本地运行:**
+网站正在申请备案中
+临时访问域名： https://heluoshuyuan.xyz/
+seo优化调整 备案期间 暂停主域名 访问 迁移至临时域名
+完成备案后再调整回来
+3. **本地运行:**
    ```bash
    # 克隆仓库
    git clone https://github.com/xinyuanblue/xinyuanblue.github.io.git
