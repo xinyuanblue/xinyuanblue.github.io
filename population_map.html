@@ -301,22 +301,7 @@
             display: none;
         }
 
-        /* 返回按钮样式 */
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: #fff;
-            padding: 8px 15px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
+   
 
         .back-button:hover {
             background: #f5f5f5;
@@ -442,21 +427,281 @@
                 transform: translate(-50%, -50%);
             }
         }
+
+        /* 全屏按钮样式 */
+        .fullscreen-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-btn:hover {
+            background: #f5f5f5;
+            transform: scale(1.05);
+        }
+
+        /* 全屏状态样式 */
+        #map-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 999;
+        }
+
+        /* 确保控件在全屏模式下依然可见 */
+        .input-card, .legend, .map-info, .back-button, .initial-tip {
+            z-index: 1000;
+        }
+
+        /* 调整全屏模式下控件位置 */
+        #map-container.fullscreen .input-card,
+        #map-container.fullscreen .legend,
+        #map-container.fullscreen .map-info {
+            position: fixed;
+        }
+
+        /* 调整控件位置，避免与全屏按钮重叠 */
+        .input-card {
+            top: 60px; /* 原来是20px，下移避开全屏按钮 */
+        }
+
+        /* 地图容器样式 */
+        #map-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        
+        #population-map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* 全屏模式下的样式 */
+        #map-container.fullscreen {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+        }
+        
+        /* 关键修改：取消fixed定位，使控件与map-container一起移动 */
+        .input-card, .legend, .map-info {
+            position: absolute;
+            z-index: 10000 !important;
+        }
+        
+        /* 保持返回按钮在页面固定位置 */
+        .back-button {
+            position: fixed;
+            z-index: 10000 !important;
+        }
+        
+        /* 控件在map-container内的位置 */
+        .input-card {
+            top: 60px;
+            right: 15px;
+        }
+        
+        .legend {
+            top: 270px;
+            right: 15px;
+        }
+        
+        .map-info {
+            bottom: 20px;
+            right: 15px;
+        }
+        
+        /* 为全屏状态下的控件添加独立样式 */
+        body:-webkit-full-screen .input-card,
+        body:-moz-full-screen .input-card,
+        body:-ms-fullscreen .input-card,
+        body:fullscreen .input-card {
+            position: fixed !important;
+            top: 60px !important;
+            right: 15px !important;
+        }
+        
+        body:-webkit-full-screen .legend,
+        body:-moz-full-screen .legend,
+        body:-ms-fullscreen .legend,
+        body:fullscreen .legend {
+            position: fixed !important;
+            top: 270px !important;
+            right: 15px !important;
+        }
+        
+        body:-webkit-full-screen .map-info,
+        body:-moz-full-screen .map-info,
+        body:-ms-fullscreen .map-info,
+        body:fullscreen .map-info {
+            position: fixed !important;
+            bottom: 20px !important;
+            right: 15px !important;
+        }
+        
+        body:-webkit-full-screen .fullscreen-btn,
+        body:-moz-full-screen .fullscreen-btn,
+        body:-ms-fullscreen .fullscreen-btn,
+        body:fullscreen .fullscreen-btn {
+            position: fixed !important;
+            top: 10px !important;
+            right: 10px !important;
+        }
     </style>
 </head>
 <body>
-    <a href="index.html#populationMapPreview" class="back-button" title="返回主页">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        <span>返回主页</span>
-    </a>
-    <div id="population-map"></div>
+
+    
+    <div id="map-container">
+        <div id="population-map"></div>
+        
+        <button class="fullscreen-btn" id="fullscreen-toggle" title="切换全屏">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+        </button>
+        
+        <div class="input-card">
+            <div class="btn-group">
+                <button class="btn" onclick="toggleHeatmap()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v18M3 12h18"/>
+                    </svg>
+                    显示/隐藏热力图
+                </button>
+                <button class="btn" onclick="toggleLibraries()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                    显示/隐藏服务范围
+                </button>
+            </div>
+            <div class="divider"></div>
+            <div class="btn-group">
+                <button class="btn btn-danger" onclick="toggleBlindArea()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    显示/隐藏盲点
+                </button>
+                <button class="btn btn-danger" onclick="toggleBlindAreaPolygon()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M3 12h18M3 18h18"/>
+                    </svg>
+                    显示/隐藏盲区
+                </button>
+            </div>
+        </div>
+        
+        <div class="legend" id="legend" style="display: none;">
+            <div class="legend-item">
+                <div class="legend-color" style="background: rgba(0, 139, 139, 0.25)"></div>
+                <span>单一覆盖区域</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: rgba(0, 139, 139, 0.4)"></div>
+                <span>2-3个重叠区域</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: rgba(0, 139, 139, 0.6)"></div>
+                <span>多个重叠区域</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: rgba(255, 69, 0, 0.6)"></div>
+                <span>服务盲点</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: rgba(255, 0, 0, 0.4)"></div>
+                <span>服务盲区</span>
+            </div>
+        </div>
+        
+        <div class="map-info">
+            <div class="map-info-title">地图图例说明</div>
+            
+            <div class="map-legend-group">
+                <div class="map-legend-subtitle">人口热力分布</div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgb(0,0,255)"></div>
+                    <span>人口密度较低</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgb(117,211,248)"></div>
+                    <span>人口密度中等</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgb(0,255,0)"></div>
+                    <span>人口密度较高</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgb(255,240,0)"></div>
+                    <span>人口密度高</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgb(255,0,0)"></div>
+                    <span>人口密度极高</span>
+                </div>
+            </div>
+
+            <div class="map-legend-group">
+                <div class="map-legend-subtitle">服务覆盖范围</div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgba(0, 139, 139, 0.25)"></div>
+                    <span>单一覆盖区域</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgba(0, 139, 139, 0.4)"></div>
+                    <span>2-3个重叠区域</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgba(0, 139, 139, 0.6)"></div>
+                    <span>多个重叠区域</span>
+                </div>
+            </div>
+
+            <div class="map-legend-group">
+                <div class="map-legend-subtitle">服务盲区</div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgba(255, 69, 0, 0.6)"></div>
+                    <span>人口密集盲点</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-color" style="background: rgba(255, 0, 0, 0.4)"></div>
+                    <span>服务盲区</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="initial-tip" id="initialTip">
         <div class="initial-tip-title">使用说明</div>
         <div class="initial-tip-content">
             • 点击右上角全屏按钮获得最佳体验<br>
-            • 点击左上角可返回主页<br>
             • 右上角按钮可切换显示热力图和服务范围<br>
             • 点击城市书房服务范围可查看详细信息<br>
             • 红色区域表示服务盲区，点击可查看建议<br>
@@ -464,116 +709,6 @@
         </div>
         <button class="initial-tip-btn" onclick="closeInitialTip()">我知道了</button>
     </div>
-    <div class="input-card">
-        <div class="btn-group">
-            <button class="btn" onclick="toggleHeatmap()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 3v18M3 12h18"/>
-                </svg>
-                显示/隐藏热力图
-            </button>
-            <button class="btn" onclick="toggleLibraries()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                </svg>
-                显示/隐藏服务范围
-            </button>
-        
-        </div>
-        <div class="divider"></div>
-        <div class="btn-group">
-            <button class="btn btn-danger" onclick="toggleBlindArea()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-                显示/隐藏盲点
-            </button>
-            <button class="btn btn-danger" onclick="toggleBlindAreaPolygon()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M3 12h18M3 18h18"/>
-                </svg>
-                显示/隐藏盲区
-            </button>
-        </div>
-    </div>
-    <div class="legend" id="legend" style="display: none;">
-        <div class="legend-item">
-            <div class="legend-color" style="background: rgba(0, 139, 139, 0.25)"></div>
-            <span>单一覆盖区域</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: rgba(0, 139, 139, 0.4)"></div>
-            <span>2-3个重叠区域</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: rgba(0, 139, 139, 0.6)"></div>
-            <span>多个重叠区域</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: rgba(255, 69, 0, 0.6)"></div>
-            <span>服务盲点</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: rgba(255, 0, 0, 0.4)"></div>
-            <span>服务盲区</span>
-        </div>
-    </div>
-    <div class="map-info">
-        <div class="map-info-title">地图图例说明</div>
-        
-        <div class="map-legend-group">
-            <div class="map-legend-subtitle">人口热力分布</div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgb(0,0,255)"></div>
-                <span>人口密度较低</span>
-            </div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgb(117,211,248)"></div>
-                <span>人口密度中等</span>
-            </div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgb(0,255,0)"></div>
-                <span>人口密度较高</span>
-            </div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgb(255,240,0)"></div>
-                <span>人口密度高</span>
-            </div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgb(255,0,0)"></div>
-                <span>人口密度极高</span>
-            </div>
-        </div>
-
-        <div class="map-legend-group">
-            <div class="map-legend-subtitle">服务覆盖范围</div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgba(0, 139, 139, 0.25)"></div>
-                <span>单一覆盖区域</span>
-            </div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgba(0, 139, 139, 0.4)"></div>
-                <span>2-3个重叠区域</span>
-            </div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgba(0, 139, 139, 0.6)"></div>
-                <span>多个重叠区域</span>
-            </div>
-        </div>
-
-        <div class="map-legend-group">
-            <div class="map-legend-subtitle">服务盲区</div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgba(255, 69, 0, 0.6)"></div>
-                <span>人口密集盲点</span>
-            </div>
-            <div class="map-legend-item">
-                <div class="map-legend-color" style="background: rgba(255, 0, 0, 0.4)"></div>
-                <span>服务盲区</span>
-            </div>
-        </div>
-    </div>
-
 
 <script type="text/javascript" src="static/js/heatmapData.js"></script>
 <script type="text/javascript" src="static/js/libraryData.js"></script>
@@ -589,6 +724,7 @@
     var blindAreaMergedPolygons = [];
     var isOverlapStyle = false;
     var currentInfoWindow = null;
+    let isFullscreen = false;
 
     // 初始化地图
     function initMap() {
@@ -637,6 +773,12 @@
             map.add(libraryLayer);
             isLibraryVisible = true;
         });
+
+        // 添加全屏切换事件
+        document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
+        
+        // 监听全屏变化事件
+        document.addEventListener('fullscreenchange', onFullscreenChange);
     }
 
     // 判断浏览器是否支持canvas
@@ -1286,6 +1428,69 @@
         setTimeout(() => {
             tip.style.display = 'none';
         }, 500);
+    }
+
+    // 切换全屏状态
+    function toggleFullscreen() {
+        const mapContainer = document.getElementById('map-container');
+        
+        if (!document.fullscreenElement) {
+            mapContainer.requestFullscreen().catch(err => {
+                console.error(`全屏请求失败: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+        
+        // 更新地图大小
+        setTimeout(() => {
+            if (map) {
+                map.resize();
+            }
+        }, 100);
+    }
+
+    // 全屏状态变化处理
+    function onFullscreenChange() {
+        const mapContainer = document.getElementById('map-container');
+        
+        if (document.fullscreenElement === mapContainer) {
+            // 进入全屏
+            mapContainer.classList.add('fullscreen');
+            isFullscreen = true;
+            
+            // 确保控件显示在地图上方
+            document.querySelector('.input-card').style.position = 'fixed';
+            document.querySelector('.legend').style.position = 'fixed';
+            document.querySelector('.map-info').style.position = 'fixed';
+            document.querySelector('.fullscreen-btn').style.position = 'fixed';
+            
+            // 确保控件在全屏模式下依然可见
+            setTimeout(() => {
+                // 在地图完全全屏后再次确认控件位置
+                document.querySelector('.input-card').style.zIndex = '10000';
+                document.querySelector('.legend').style.zIndex = '10000';
+                document.querySelector('.map-info').style.zIndex = '10000';
+                document.querySelector('.fullscreen-btn').style.zIndex = '10000';
+            }, 100);
+        } else {
+            // 退出全屏
+            mapContainer.classList.remove('fullscreen');
+            isFullscreen = false;
+            
+            // 恢复控件原始样式
+            document.querySelector('.input-card').style.position = '';
+            document.querySelector('.legend').style.position = '';
+            document.querySelector('.map-info').style.position = '';
+            document.querySelector('.fullscreen-btn').style.position = '';
+        }
+        
+        // 更新地图大小
+        if (map) {
+            setTimeout(() => {
+                map.resize();
+            }, 100);
+        }
     }
 
     // 初始化地图

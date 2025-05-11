@@ -1540,10 +1540,7 @@
             </p>
             <div class="map-preview-container" style="margin: 0 auto; max-width: 100%; background: #eee; /*...*/ position: relative;">
                 <iframe id="populationMapPreview" src="population_map.html?preview=true" width="100%" height="500px" frameborder="0" style="border: none; display: block;" title="洛阳市人口热力分布与书房位置叠加图" allowfullscreen></iframe>
-                <a href="population_map.html" target="_blank" class="fullscreen-button" style="position: absolute; top: 10px; right: 10px; background: rgba(255, 255, 255, 0.9); padding: 8px 12px; border-radius: 4px; text-decoration: none; color: #333; font-size: 14px; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1000;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" fill="currentColor"/></svg>
-                    <span>全屏查看</span>
-                </a>
+              
                 <!-- Fullscreen link/button removed here, added in paragraph above -->
             </div>
 
@@ -1553,13 +1550,13 @@
              <div class="analysis-content" style="margin-top: 25px; display: flex; flex-wrap: wrap; gap: 25px; justify-content: space-around;">
                 <div class="analysis-card coverage-analysis" style="/*...*/ border-left: 4px solid #3498db;">
                     <h5 style="color: #2980b9; /*...*/"><i class="fas fa-check-circle"></i>初步结论：布局紧随人流</h5>
-                    <p style="/*...*/">热力图印证了之前的猜想：书房（红点/服务圈）确实高度集中在人口稠密的<strong style="color:#3498db">核心区域</strong>，显示出布局优先服务人群的策略。</p>
+                    <p style="/*...*/">热力图印证了之前的猜想：书房确实高度集中在人口稠密的<strong style="color:#3498db">核心区域</strong>，显示出布局优先服务人群的策略。</p>
                 </div>
                 <div class="analysis-card improvement-suggestions" style="/*...*/ border-left: 4px solid #f39c12;">
                      <h5 style="color: #d35400; /*...*/"><i class="fas fa-search"></i>待观察：边缘与空白</h5>
                     <p style="/*...*/">但也注意到，<strong style="color:#f39c12">城市边缘、县域</strong>等人流相对稀疏处，书房覆盖也明显不足，提示了均等化服务的提升空间。</p>
                 </div>
-           </div>
+             </div>
        </div>
 
         <!-- 4. 过渡 & 引入第三个证据：气泡图分析人均资源 -->
@@ -1675,14 +1672,51 @@
             </div>
         </div>
 
-        <!-- Footer Info -->
-        <div class="footer-info">
-             <div class="credits">
-                <div><h3>指导老师</h3><p>万鹏</p></div>
-                <div><h3>网页制作</h3><p>李心愿</p></div>
-                <div><h3>出品单位</h3><p>平顶山学院新闻与传播学院</p></div>
+        <style>
+            /* 基本样式 */
+            .footer-info {
+              /* 原有样式保持不变 */
+            }
+            
+            .credits {
+              display: flex;
+              justify-content: center;
+              flex-wrap: wrap;
+              gap: 50px; /* 增加间距，原来是20px */
+            }
+            
+            .credits div {
+              text-align: center;
+              padding: 0 25px; /* 增加内部间距，原来是15px */
+            }
+            
+            /* 移动设备适配 */
+            @media screen and (max-width: 768px) {
+              .credits {
+                flex-direction: column; /* 改为纵向排列 */
+                align-items: center;
+                gap: 10px; /* 移动端可以减小垂直间距 */
+              }
+              
+              .credits div {
+                width: 100%;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+              }
+              
+              .credits div:last-child {
+                border-bottom: none;
+              }
+            }
+          </style>
+          
+          <div class="footer-info">
+            <div class="credits">
+              <div><h3>指导老师</h3><p>万鹏</p></div>
+              <div><h3>网页制作</h3><p>李心愿</p></div>
+              <div><h3>出品单位</h3><p>平顶山学院新闻与传播学院</p></div>
             </div>
-        </div>
+          </div>
 
         <!-- Data Methodology Section -->
         <div class="data-methodology-section" style="max-width: 900px; margin: 40px auto; padding: 25px; background: #f8f9fa; border-radius: 12px; text-align: left; box-shadow: 0 3px 15px rgba(0,0,0,0.06);">
