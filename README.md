@@ -82,10 +82,10 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 ## 🚀 如何运行 (Getting Started)
 
 1. **在线访问:** https://heluoshuyuan.cn/
-网站正在申请备案中
-临时访问域名： https://heluoshuyuan.xyz/
-seo优化调整 备案期间 暂停主域名 访问 迁移至临时域名
-完成备案后再调整回来
+**网站正在申请备案中**
+**临时访问域名： https://heluoshuyuan.xyz/**
+**seo优化调整 备案期间 暂停主域名 访问 迁移至临时域名**
+**完成备案后会恢复主域名访问**
 3. **本地运行:**
    ```bash
    # 克隆仓库
