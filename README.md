@@ -82,10 +82,10 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 ## 🚀 如何运行 (Getting Started)
 
 1. **在线访问:** https://heluoshuyuan.cn/
-**网站正在申请备案中**
-**临时访问域名： https://heluoshuyuan.xyz/**
-**备案期间可能暂停主域名 访问 迁移至临时域名**
-**完成备案后会恢复主域名访问**
+网站正在申请备案中
+临时访问域名： https://heluoshuyuan.xyz/
+seo优化调整 备案期间 暂停主域名 访问 迁移至临时域名
+完成备案后再调整回来
 3. **本地运行:**
    ```bash
    # 克隆仓库
@@ -125,7 +125,7 @@ This project is primarily for educational purposes (graduation design). Some dat
 
 * **署名** — 使用本作品时必须保留完整署名信息，包括：
   * 指导老师：万鹏
-  * 网页制作：李心愿
+  * 网页制作与数据分析：李心愿
   * 出品单位：平顶山学院新闻与传播学院
 * **非商业性使用** — 您不得将本作品用于商业目的。
 数据部分、可视化代码、分析方法均受此协议保护。第三方库、工具和数据源应遵循其各自的许可协议。
