@@ -9,8 +9,8 @@
 # You can optionally define FLASK_RUN_PORT here, e.g., FLASK_RUN_PORT=5001
 # Or set the FLASK_APP variable if needed: FLASK_APP=app.py
 
-screen
-
+pkill screen
+screen 
 python3 app.py
 
 ctrl shirf A D
