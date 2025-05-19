@@ -83,7 +83,8 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
 
 1. **在线访问:** https://heluoshuyuan.cn/
 **网站正在尝试进行备案申请**
-**目前服务器部署于aws**
+
+**目前服务器部署于aws新加坡ec2服务器上**
 
 
 
