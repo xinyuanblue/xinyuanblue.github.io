@@ -97,12 +97,12 @@ This data journalism project interactively explores the "Heluo Book Garden" urba
     ```
     然后访问此网址: <http://localhost:8000/>
 
-##  制作团队 (Team)
+## 制作团队 (Team)
 
-**指导老师 (Advisor):** 万鹏
-**网页制作与数据分析 (Web Dev & Data Analysis):** 李心愿
-**数据支持 (Data Support):** 洛阳市图书馆, 洛阳市文化广电和旅游局, 及其他公开数据平台
-**出品单位 (Production Unit):** 平顶山学院新闻与传播学院
+*   **指导老师 (Advisor):** 万鹏
+*   **网页制作与数据分析 (Web Dev & Data Analysis):** 李心愿
+*   **数据支持 (Data Support):** 洛阳市图书馆, 洛阳市文化广电和旅游局, 及其他公开数据平台
+*   **出品单位 (Production Unit):** 平顶山学院新闻与传播学院
 
 ## 📝 声明 (Disclaimer)
 
