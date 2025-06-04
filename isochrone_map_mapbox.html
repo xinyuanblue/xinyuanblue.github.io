@@ -2398,19 +2398,22 @@
                         // 内网部署（请替换为实际的内网IP）
                         LAN: 'http://127.0.0.1:5002',
                         
-                        // 公网部署（请替换为实际的公网IP或域名）
+                        // 公网部署（直连Flask，可能被HTTPS页面阻止）
                         PUBLIC_IP: 'http://18.138.2.177:5002',
+                        
+                        // Nginx反向代理（推荐用于生产环境）
+                        NGINX_PROXY: 'http://18.138.2.177:8002',
                         
                         // 域名部署（HTTPS）
                         DOMAIN: 'https://heluoshuyuan.cn',
                         
                         // 自定义配置
-                        CUSTOM: 'http://your-server-ip:5002'
+                        CUSTOM: 'http://your-server-ip:8002'
                     };
                     
                     // === 当前使用的代理配置 ===
                     // 修改此变量来切换不同的代理配置
-                    const CURRENT_PROXY = PROXY_CONFIGS.PUBLIC_IP; // 当前使用公网IP配置
+                    const CURRENT_PROXY = PROXY_CONFIGS.NGINX_PROXY; // 当前使用Nginx代理配置
                     
                     // 构建代理URL
                     const proxyUrl = `${CURRENT_PROXY}/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
