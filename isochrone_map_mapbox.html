@@ -2389,37 +2389,14 @@
                 tooltip.style.display = 'block';
 
                 try {
-                    // === 代理配置选项 ===
-                    // 可根据部署环境选择合适的代理配置
-                    const PROXY_CONFIGS = {
-                        // 本地开发环境
-                        LOCAL: 'http://localhost:5002',
-                        
-                        // 内网部署（请替换为实际的内网IP）
-                        LAN: 'http://127.0.0.1:5002',
-                        
-                        // 公网部署（直连Flask，可能被HTTPS页面阻止）
-                        PUBLIC_IP: 'http://18.138.2.177:5002',
-                        
-                        // Nginx反向代理（推荐用于生产环境）
-                        NGINX_PROXY: 'https://18.138.2.177:8003',
-                        
-                        // 域名部署（HTTPS）
-                        DOMAIN: 'https://heluoshuyuan.cn',
-                        
-                        // 自定义配置
-                        CUSTOM: 'http://your-server-ip:8002'
-                    };
-                    
-                    // === 当前使用的代理配置 ===
-                    // 修改此变量来切换不同的代理配置
-                    const CURRENT_PROXY = PROXY_CONFIGS.NGINX_PROXY; // 当前使用Nginx代理配置
-                    
-                    // 构建代理URL
-                    const proxyUrl = `${CURRENT_PROXY}/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
+                    // === NEW: 指向Flask后端代理 ===
+                    // 默认Flask端口是5000，如果在.env/命令行中设置了则为5001
+                    const proxyBaseUrl = 'https://heluoshuyuan.cn'; // <<< 已更新为局域网IP地址
+                    // === END NEW ===
+
+                    const proxyUrl = `${proxyBaseUrl}/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
 
                     console.log(`向 Flask 代理请求: ${proxyUrl}`);
-                    console.log(`当前代理配置: ${CURRENT_PROXY}`);
 
                     const response = await fetch(proxyUrl);
 
