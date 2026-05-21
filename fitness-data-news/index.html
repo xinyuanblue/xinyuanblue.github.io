@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>从“有场地”到“会运动”：我国全民健身发展图景与区域差异观察</title>
+  <meta name="description" content="基于国家体育总局、国家统计局及各地体育场地统计数据制作的数据新闻网页，观察我国全民健身设施、参与、赛事与消费的发展态势。" />
+  <style>
+    :root {
+      --ink: #17211c;
+      --muted: #5d6a62;
+      --paper: #fbfaf4;
+      --band: #f1f4eb;
+      --line: #d8dfd1;
+      --green: #27845f;
+      --deep-green: #0e513c;
+      --blue: #2777a9;
+      --coral: #d75f42;
+      --gold: #c7942d;
+      --violet: #7767b0;
+      --white: #ffffff;
+      --shadow: 0 18px 48px rgba(28, 45, 38, 0.12);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.7;
+    }
+
+    a { color: var(--deep-green); }
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 20;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, var(--green), var(--blue), var(--coral));
+    }
+
+    header {
+      min-height: 96vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(39, 132, 95, 0.16), transparent 28%),
+        radial-gradient(circle at 78% 18%, rgba(39, 119, 169, 0.14), transparent 26%),
+        linear-gradient(180deg, #fbfaf4 0%, #eef4ec 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-grid {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 44px;
+      align-items: center;
+      padding: 76px 0 54px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--deep-green);
+      font-weight: 700;
+      letter-spacing: 0;
+      margin-bottom: 18px;
+    }
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 3px;
+      background: var(--coral);
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: clamp(38px, 6.2vw, 74px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      margin: 0 0 24px;
+    }
+
+    .subtitle {
+      font-size: clamp(18px, 2vw, 24px);
+      color: #35443d;
+      max-width: 780px;
+      margin: 0 0 30px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .meta span {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.58);
+      padding: 7px 10px;
+      border-radius: 999px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 520px;
+      border: 1px solid rgba(39, 132, 95, 0.18);
+      background:
+        linear-gradient(90deg, rgba(39, 132, 95, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(39, 132, 95, 0.08) 1px, transparent 1px),
+        #ffffff;
+      background-size: 36px 36px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .track {
+      position: absolute;
+      inset: 44px;
+      border: 18px solid rgba(39, 132, 95, 0.22);
+      border-radius: 180px;
+    }
+    .track::before {
+      content: "";
+      position: absolute;
+      inset: 30px;
+      border: 2px dashed rgba(39, 119, 169, 0.36);
+      border-radius: 150px;
+    }
+    .field-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--coral);
+      box-shadow: 0 0 0 8px rgba(215, 95, 66, 0.14);
+      animation: pulse 2.8s ease-in-out infinite;
+    }
+    .dot-a { top: 102px; left: 122px; }
+    .dot-b { top: 236px; right: 92px; animation-delay: 0.5s; background: var(--blue); }
+    .dot-c { bottom: 84px; left: 45%; animation-delay: 0.9s; background: var(--gold); }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .hero-number {
+      position: absolute;
+      left: 42px;
+      bottom: 38px;
+      width: calc(100% - 84px);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .hero-stat {
+      background: rgba(255,255,255,0.86);
+      border: 1px solid var(--line);
+      padding: 18px;
+      border-radius: var(--radius);
+      backdrop-filter: blur(6px);
+    }
+    .hero-stat strong {
+      display: block;
+      font-size: clamp(26px, 3vw, 40px);
+      line-height: 1;
+      color: var(--deep-green);
+      margin-bottom: 8px;
+    }
+    .hero-stat span { color: var(--muted); font-size: 13px; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 12;
+      background: rgba(251, 250, 244, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      min-height: 58px;
+      overflow-x: auto;
+    }
+    .brand { font-weight: 800; white-space: nowrap; }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { background: var(--band); color: var(--ink); }
+
+    main { overflow: hidden; }
+    section {
+      padding: 84px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .band { background: var(--band); }
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(260px, 0.45fr);
+      gap: 44px;
+      align-items: end;
+      margin-bottom: 36px;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+    .section-head p, .lead {
+      color: var(--muted);
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .insight-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 36px 0 0;
+    }
+    .insight {
+      background: var(--white);
+      padding: 22px;
+    }
+    .insight strong {
+      display: block;
+      font-size: 30px;
+      color: var(--deep-green);
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .insight span { color: var(--muted); font-size: 14px; }
+
+    .viz-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 10px 28px rgba(28, 45, 38, 0.06);
+    }
+    .panel h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+    .panel-note {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .chart {
+      min-height: 320px;
+      width: 100%;
+    }
+    svg { max-width: 100%; display: block; }
+    .axis { stroke: #aeb9af; stroke-width: 1; }
+    .grid-line { stroke: #e9eee6; stroke-width: 1; }
+    .chart-label { fill: var(--muted); font-size: 12px; }
+    .chart-value { fill: var(--ink); font-size: 13px; font-weight: 700; }
+
+    .toggle-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    button, select {
+      font: inherit;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+    }
+    button {
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+    button.active, button:hover {
+      color: white;
+      background: var(--deep-green);
+      border-color: var(--deep-green);
+    }
+
+    .callout {
+      border-left: 4px solid var(--coral);
+      padding: 12px 0 12px 18px;
+      color: #35443d;
+      margin: 18px 0 0;
+      font-size: 16px;
+    }
+    .callout strong { color: var(--ink); }
+
+    .rank-tools {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .legend i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      margin-right: 5px;
+    }
+    .rank-list {
+      display: grid;
+      gap: 8px;
+      max-height: 620px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+    .rank-row {
+      display: grid;
+      grid-template-columns: 92px 1fr 54px;
+      gap: 12px;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eef2eb;
+      cursor: pointer;
+    }
+    .rank-row:hover .bar { filter: brightness(0.92); }
+    .bar-track {
+      height: 14px;
+      background: #edf2ed;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      min-width: 4px;
+      border-radius: 999px;
+      background: var(--green);
+    }
+    .row-name { font-weight: 700; }
+    .row-value { font-variant-numeric: tabular-nums; text-align: right; color: var(--muted); }
+
+    .detail-box {
+      background: #f8faf6;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-top: 18px;
+    }
+    .detail-box strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .detail-box dl {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0;
+    }
+    .detail-box dt { color: var(--muted); font-size: 12px; }
+    .detail-box dd { margin: 0; font-weight: 800; font-size: 18px; }
+
+    .story-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .step {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-height: 240px;
+    }
+    .step small {
+      color: var(--coral);
+      font-weight: 800;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .step strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .step p { margin: 0; color: var(--muted); }
+
+    .composition {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .comp-row {
+      display: grid;
+      grid-template-columns: 132px 1fr 92px;
+      gap: 14px;
+      align-items: center;
+    }
+    .comp-track {
+      height: 18px;
+      background: #edf2ed;
+      overflow: hidden;
+      border-radius: 999px;
+    }
+    .comp-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green), var(--blue));
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 15px;
+    }
+    .compare-table th, .compare-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 8px;
+      text-align: left;
+    }
+    .compare-table th { color: var(--muted); font-weight: 700; }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 28px;
+    }
+    .source-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .source-list li {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    footer {
+      background: #16231d;
+      color: #dfe8df;
+      padding: 34px 0;
+      font-size: 14px;
+    }
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+    footer a { color: #b7dfcc; }
+
+    @media (max-width: 920px) {
+      .hero-grid, .section-head, .viz-grid, .method-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-visual { min-height: 430px; }
+      .insight-strip { grid-template-columns: repeat(2, 1fr); }
+      .story-steps { grid-template-columns: 1fr; }
+      .detail-box dl { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      header { min-height: auto; }
+      .hero-grid { padding: 48px 0 32px; }
+      .hero-number { grid-template-columns: 1fr; left: 18px; bottom: 18px; width: calc(100% - 36px); }
+      .track { inset: 28px; border-width: 12px; }
+      .insight-strip { grid-template-columns: 1fr; }
+      section { padding: 58px 0; }
+      .rank-row { grid-template-columns: 76px 1fr 48px; gap: 8px; font-size: 13px; }
+      .comp-row { grid-template-columns: 94px 1fr 76px; font-size: 13px; }
+      .nav-inner { align-items: flex-start; flex-direction: column; padding: 10px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header>
+    <div class="hero-grid">
+      <div>
+        <div class="kicker">数据新闻 · 全民健身观察</div>
+        <h1>从“有场地”到“会运动”</h1>
+        <p class="subtitle">2025 年，全国人均体育场地面积升至 3.11 平方米。数字向上，但不同省份、不同人群、不同消费场景之间的差异，决定了全民健身下一步如何从设施供给走向公共服务。</p>
+        <div class="meta">
+          <span>数据口径：截至 2026-05-21 可核验公开资料</span>
+          <span>主题：人民生命健康 · 体育新闻传播</span>
+          <span>制作：平顶山学院新闻与传播学院方向作品</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="体育场地和数据指标视觉图">
+        <div class="track"></div>
+        <span class="field-dot dot-a"></span>
+        <span class="field-dot dot-b"></span>
+        <span class="field-dot dot-c"></span>
+        <div class="hero-number">
+          <div class="hero-stat"><strong>500.37万</strong><span>2025 年全国体育场地数量</span></div>
+          <div class="hero-stat"><strong>3.11㎡</strong><span>2025 年全国人均体育场地面积</span></div>
+          <div class="hero-stat"><strong>38.52%</strong><span>经常参加体育锻炼人数比例</span></div>
+          <div class="hero-stat"><strong>90.4%</strong><span>19 岁及以上居民身边有“15 分钟健身圈”</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="brand">全民健身数据新闻</div>
+      <div class="nav-links">
+        <a href="#trend">全国趋势</a>
+        <a href="#region">区域差异</a>
+        <a href="#daily">生活转化</a>
+        <a href="#structure">项目结构</a>
+        <a href="#method">来源方法</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>核心发现：空间在增加，均衡与服务成为新命题</h2>
+            <p>全民健身的主要矛盾正在变化。前一阶段的关键词是“补短板、建场地”；进入人均 3 平方米之后，更需要回答三件事：场地是否在身边，活动是否能持续，指导与消费是否能让运动成为日常。</p>
+          </div>
+          <p>本页面将体育场地、人均运动空间、健身人口、群众赛事、运动消费放在同一叙事链条中观察：设施供给只是起点，真正的目标是让更多人更稳定地动起来。</p>
+        </div>
+        <div class="insight-strip" id="insightStrip"></div>
+      </div>
+    </section>
+
+    <section id="trend" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>六年间，全国运动空间从 2.08㎡ 迈向 3.11㎡</h2>
+            <p>2019 年，人均体育场地面积首次突破 2 平方米；2024 年突破 3 平方米；2025 年继续升至 3.11 平方米。增长背后是体育公园、健身步道、球类场地和社区设施的持续扩容。</p>
+          </div>
+          <p>但“平均值”不能直接等同于每个人的体验。对于高密度城区、老旧社区、乡村与边远地区，场地的可达性、开放时间和服务质量仍然决定实际获得感。</p>
+        </div>
+
+        <div class="viz-grid">
+          <div class="panel">
+            <h3>全国体育场地统计趋势</h3>
+            <p class="panel-note">点击切换指标。面积单位为亿平方米，场地数量单位为万个。</p>
+            <div class="toggle-row" id="metricButtons"></div>
+            <div class="chart" id="trendChart"></div>
+          </div>
+          <div class="panel">
+            <h3>从规划目标看进度</h3>
+            <p class="panel-note">《全民健身计划（2021-2025年）》提出到 2025 年人均体育场地面积达到 2.6 平方米、经常参加体育锻炼人数比例达到 38.5%。</p>
+            <table class="compare-table">
+              <thead><tr><th>指标</th><th>2025 目标</th><th>最新公开结果</th></tr></thead>
+              <tbody>
+                <tr><td>人均体育场地面积</td><td>2.6㎡</td><td>3.11㎡</td></tr>
+                <tr><td>经常参加体育锻炼比例</td><td>38.5%</td><td>38.52%</td></tr>
+                <tr><td>15 分钟健身圈可达</td><td>三级设施和社区覆盖</td><td>19 岁及以上居民 90.4% 反馈可达</td></tr>
+              </tbody>
+            </table>
+            <p class="callout"><strong>判断：</strong>总量目标已经基本达成，下一步评价应更强调区域均衡、设施开放、科学指导和群众赛事组织能力。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="region">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>区域差异：同样是“3 平方米”，各地并不站在同一起跑线</h2>
+            <p>2024 年省级数据呈现明显梯度。江苏、海南、宁夏等地人均体育场地面积较高；西藏、甘肃、吉林、黑龙江等地低于全国平均线。高人均不只由总面积决定，也与人口密度、用地结构、公共设施布局有关。</p>
+          </div>
+          <p>下方榜单按人均体育场地面积排序，散点图同时显示场地总面积和人均面积。点击任一省份可查看摘要。</p>
+        </div>
+
+        <div class="viz-grid">
+          <div class="panel">
+            <div class="rank-tools">
+              <div>
+                <h3>2024 年省级人均体育场地面积排行</h3>
+                <p class="panel-note">单位：平方米/人。数据来自各地体育场地统计公告及中国体育用品业联合会整理。</p>
+              </div>
+              <select id="regionFilter" aria-label="按区域筛选">
+                <option value="all">全部区域</option>
+                <option value="东部">东部</option>
+                <option value="中部">中部</option>
+                <option value="西部">西部</option>
+                <option value="东北">东北</option>
+              </select>
+            </div>
+            <div class="legend">
+              <span><i style="background:var(--green)"></i>高于 3.0㎡</span>
+              <span><i style="background:var(--gold)"></i>2.6 至 3.0㎡</span>
+              <span><i style="background:var(--coral)"></i>低于 2.6㎡</span>
+            </div>
+            <div class="rank-list" id="rankList"></div>
+          </div>
+          <div class="panel">
+            <h3>总面积与人均面积的错位</h3>
+            <p class="panel-note">横轴为体育场地面积，纵轴为人均体育场地面积。气泡仅用于定位，不代表行政区实际地理位置。</p>
+            <div class="chart" id="scatterChart"></div>
+            <div class="detail-box" id="provinceDetail"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="daily" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>从“建起来”到“用起来”：全民健身的生活转化</h2>
+            <p>设施供给增长之后，参与率、赛事活动、消费结构开始成为观察全民健身质量的关键指标。2025 年调查显示，公共体育服务均等化持续推进，群众赛事和服务型体育消费正在把运动嵌入日常生活。</p>
+          </div>
+          <p>这一段使用《2025年全民健身活动状况调查公报》公开结果，聚焦群众是否能找到场地、是否参加组织和赛事、是否愿意为体育服务消费。</p>
+        </div>
+        <div class="story-steps">
+          <div class="step">
+            <small>01 可达性</small>
+            <strong>90.4%</strong>
+            <p>19 岁及以上居民反映，在步行或骑车 15 分钟范围内有体育场地设施，较 2020 年提高 9.7 个百分点。</p>
+          </div>
+          <div class="step">
+            <small>02 组织与赛事</small>
+            <strong>45.1%</strong>
+            <p>19 岁及以上居民参加过群众体育赛事活动，较 2020 年提高 9.3 个百分点。赛事开始从“大赛观看”转向“身边参与”。</p>
+          </div>
+          <div class="step">
+            <small>03 运动消费</small>
+            <strong>2428元</strong>
+            <p>19 至 59 岁居民人均体育消费达到 2428 元，服务型体育消费占比升至 48.5%，消费重心从装备购买向体验和服务延伸。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="structure">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>场地结构：球类仍是主体，步道和健身路径连接日常</h2>
+            <p>2025 年，全国球类运动场地 314.85 万个。其中“三大球”场地 153.96 万个，乒乓球和羽毛球场地 145.71 万个。与此同时，全民健身路径、健身房和健身步道共同构成“家门口运动网络”。</p>
+          </div>
+          <p>这组数据说明，场地建设不只是标准体育场馆，还包括社区器械、城市绿道、乡村球场和可复用公共空间。</p>
+        </div>
+
+        <div class="viz-grid">
+          <div class="panel">
+            <h3>2025 年主要运动场地数量</h3>
+            <p class="panel-note">单位：万个；冰雪场地因数量级不同，单独展示为 2626 个。</p>
+            <div class="composition" id="composition"></div>
+          </div>
+          <div class="panel">
+            <h3>三个继续追问的问题</h3>
+            <p class="callout"><strong>谁能用：</strong>学校、机关、企事业单位场地开放程度，仍影响社区居民真实可及性。</p>
+            <p class="callout"><strong>何时用：</strong>工作日夜间、周末和假期是群众运动高峰，管理和照明服务需要匹配。</p>
+            <p class="callout"><strong>怎么用：</strong>有场地不等于会锻炼，科学健身指导、基层体育组织和赛事活动决定长期参与。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>数据来源与方法说明</h2>
+            <p>本作品坚持公开数据、来源可追溯和口径说明。全国趋势采用国家体育总局体育场地统计调查数据；区域差异采用 2024 年各省级体育场地统计公告及汇总；参与、赛事、消费采用 2025 年全民健身活动状况调查公报。</p>
+          </div>
+          <p>AI 主要用于资料检索线索、网页代码辅助、交互优化和文案初稿；数据判断、来源核验、页面结构和最终表述由人工完成。</p>
+        </div>
+
+        <div class="method-grid">
+          <div class="panel">
+            <h3>处理口径</h3>
+            <p class="panel-note">不同来源对“体育场地面积”有万平方米、亿平方米等单位。页面统一换算：省级总面积以“万平方米”入库，人均面积保留两位公开数值；全国趋势按照公开发布单位展示。</p>
+            <p class="panel-note">部分省份未在汇总文章中出现时，补充使用该省体育局公告。区域划分仅用于观察，不作为政策评价排名。</p>
+          </div>
+          <div>
+            <ul class="source-list">
+              <li><a href="https://www.sport.gov.cn/jjs/n5043/c29462896/content.html" target="_blank" rel="noreferrer">国家体育总局体育经济司：《2025年全国体育场地统计调查数据》</a></li>
+              <li><a href="https://www.sport.gov.cn/n20001280/n20745751/c29327174/content.html" target="_blank" rel="noreferrer">国家体育总局：《2025年全民健身活动状况调查公报》</a></li>
+              <li><a href="https://cn.csgf.org.cn/xhzx/xhsj/9684.html" target="_blank" rel="noreferrer">中国体育用品业联合会：2024年各省市体育场地数据汇总</a></li>
+              <li><a href="https://tyj.gxzf.gov.cn/gkxxgl/sjfb/t19950983.shtml" target="_blank" rel="noreferrer">广西壮族自治区体育局：2024年广西体育场地调查数据公告</a></li>
+              <li><a href="https://www.stats.gov.cn/sj/zxfb/202512/t20251231_1962228.html" target="_blank" rel="noreferrer">国家统计局、国家体育总局：2024年全国体育产业总规模与增加值数据公告</a></li>
+              <li><a href="https://heluoshuyuan.cn/" target="_blank" rel="noreferrer">参考样式：河洛书苑生长笔记，长篇数据新闻叙事结构</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>我国全民健身发展图景与区域差异观察</span>
+      <span>数据新闻网页 · 公开数据可追溯 · 最后核验日期：2026-05-21</span>
+    </div>
+  </footer>
+
+  <script>
+    const national = [
+      { year: 2019, venues: 354.44, area: 29.17, per: 2.08 },
+      { year: 2020, venues: 371.34, area: 30.99, per: 2.20 },
+      { year: 2021, venues: 397.14, area: 34.11, per: 2.41 },
+      { year: 2022, venues: 422.68, area: 37.02, per: 2.62 },
+      { year: 2023, venues: 459.27, area: 40.71, per: 2.89 },
+      { year: 2024, venues: 484.17, area: 42.30, per: 3.00 },
+      { year: 2025, venues: 500.37, area: 43.72, per: 3.11 }
+    ];
+
+    const provinces = [
+      { name: "北京", region: "东部", area: 7115.81, per: 3.26, venues: 4.88 },
+      { name: "天津", region: "东部", area: 4115.78, per: 3.02, venues: 3.44 },
+      { name: "河北", region: "东部", area: 22827.90, per: 3.09, venues: 21.96 },
+      { name: "山西", region: "中部", area: 9356.83, per: 2.72, venues: 12.26 },
+      { name: "内蒙古", region: "西部", area: 6997.01, per: 2.93, venues: 7.31 },
+      { name: "辽宁", region: "东北", area: 11600.00, per: 2.78, venues: 9.26 },
+      { name: "吉林", region: "东北", area: 5974.36, per: 2.58, venues: 4.61 },
+      { name: "黑龙江", region: "东北", area: 7812.50, per: 2.58, venues: 5.34 },
+      { name: "上海", region: "东部", area: 6567.30, per: 2.65, venues: 6.15 },
+      { name: "江苏", region: "东部", area: 38000.00, per: 4.46, venues: 36.37 },
+      { name: "浙江", region: "东部", area: 21100.00, per: 3.17, venues: 24.40 },
+      { name: "安徽", region: "中部", area: 18500.00, per: 3.03, venues: 25.31 },
+      { name: "福建", region: "东部", area: 12805.94, per: 3.05, venues: 14.34 },
+      { name: "江西", region: "中部", area: 13059.11, per: 2.90, venues: 20.63 },
+      { name: "山东", region: "东部", area: 30000.00, per: 2.97, venues: 29.86 },
+      { name: "河南", region: "中部", area: 27077.40, per: 2.77, venues: 34.48 },
+      { name: "湖北", region: "中部", area: 18600.00, per: 3.19, venues: 21.13 },
+      { name: "湖南", region: "中部", area: 19013.63, per: 2.88, venues: 21.10 },
+      { name: "广东", region: "东部", area: 37200.00, per: 2.91, venues: 35.30 },
+      { name: "广西", region: "西部", area: 14400.00, per: 2.86, venues: 21.21 },
+      { name: "海南", region: "东部", area: 4377.20, per: 4.18, venues: 3.90 },
+      { name: "重庆", region: "西部", area: 10226.77, per: 3.21, venues: 19.06 },
+      { name: "四川", region: "西部", area: 24200.00, per: 2.89, venues: 32.67 },
+      { name: "贵州", region: "西部", area: 10279.91, per: 2.66, venues: 12.60 },
+      { name: "云南", region: "西部", area: 13400.00, per: 2.86, venues: 16.22 },
+      { name: "西藏", region: "西部", area: 724.00, per: 1.96, venues: 0.92 },
+      { name: "陕西", region: "西部", area: 10375.40, per: 2.62, venues: 14.75 },
+      { name: "甘肃", region: "西部", area: 5998.70, per: 2.44, venues: 10.02 },
+      { name: "青海", region: "西部", area: 1756.88, per: 2.96, venues: 2.22 },
+      { name: "宁夏", region: "西部", area: 2559.47, per: 3.51, venues: 4.13 },
+      { name: "新疆", region: "西部", area: 7560.15, per: 2.88, venues: 8.88 }
+    ];
+
+    const composition = [
+      { name: "全民健身路径", value: 113.29, color: "var(--green)" },
+      { name: "篮球场地", value: 125.27, color: "var(--blue)" },
+      { name: "乒乓球场地", value: 114.07, color: "var(--gold)" },
+      { name: "羽毛球场地", value: 31.64, color: "var(--violet)" },
+      { name: "健身步道", value: 18.20, color: "var(--coral)" },
+      { name: "足球场地", value: 16.58, color: "var(--deep-green)" },
+      { name: "健身房", value: 15.63, color: "#5d6a62" },
+      { name: "排球场地", value: 12.10, color: "#9a6b42" }
+    ];
+
+    const metrics = {
+      per: { label: "人均面积", unit: "㎡/人", color: "var(--green)" },
+      venues: { label: "场地数量", unit: "万个", color: "var(--blue)" },
+      area: { label: "场地面积", unit: "亿㎡", color: "var(--coral)" }
+    };
+
+    function fmt(value, digits = 2) {
+      return Number(value).toLocaleString("zh-CN", { maximumFractionDigits: digits, minimumFractionDigits: digits });
+    }
+
+    function colorForPer(per) {
+      if (per >= 3) return "var(--green)";
+      if (per >= 2.6) return "var(--gold)";
+      return "var(--coral)";
+    }
+
+    function renderInsights() {
+      const top = [...provinces].sort((a, b) => b.per - a.per)[0];
+      const bottom = [...provinces].sort((a, b) => a.per - b.per)[0];
+      const html = [
+        ["3.11㎡", "2025 年全国人均体育场地面积，较 2024 年增加 0.11㎡"],
+        ["2.50倍", `2024 年省级最高值 ${top.name} ${top.per}㎡ 与最低值 ${bottom.name} ${bottom.per}㎡ 的差距`],
+        ["45.1%", "19 岁及以上居民参加过群众体育赛事活动"],
+        ["48.5%", "服务型体育消费占比，消费从买装备转向买体验"]
+      ].map(item => `<div class="insight"><strong>${item[0]}</strong><span>${item[1]}</span></div>`).join("");
+      document.getElementById("insightStrip").innerHTML = html;
+    }
+
+    function renderMetricButtons() {
+      const box = document.getElementById("metricButtons");
+      box.innerHTML = Object.entries(metrics).map(([key, item], index) =>
+        `<button type="button" class="${index === 0 ? "active" : ""}" data-metric="${key}">${item.label}</button>`
+      ).join("");
+      box.addEventListener("click", event => {
+        const btn = event.target.closest("button");
+        if (!btn) return;
+        box.querySelectorAll("button").forEach(node => node.classList.remove("active"));
+        btn.classList.add("active");
+        renderTrend(btn.dataset.metric);
+      });
+    }
+
+    function renderTrend(metric = "per") {
+      const cfg = metrics[metric];
+      const width = 760;
+      const height = 340;
+      const pad = { left: 52, right: 24, top: 26, bottom: 44 };
+      const values = national.map(d => d[metric]);
+      const min = Math.min(...values) * 0.94;
+      const max = Math.max(...values) * 1.04;
+      const x = i => pad.left + i * ((width - pad.left - pad.right) / (national.length - 1));
+      const y = v => height - pad.bottom - ((v - min) / (max - min)) * (height - pad.top - pad.bottom);
+      const path = national.map((d, i) => `${i === 0 ? "M" : "L"} ${x(i)} ${y(d[metric])}`).join(" ");
+      const areaPath = `${path} L ${x(national.length - 1)} ${height - pad.bottom} L ${x(0)} ${height - pad.bottom} Z`;
+      const ticks = [min, min + (max - min) / 2, max];
+      document.getElementById("trendChart").innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="全国体育场地趋势折线图">
+          <defs>
+            <linearGradient id="trendFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="rgba(39,132,95,0.22)"></stop>
+              <stop offset="100%" stop-color="rgba(39,132,95,0.02)"></stop>
+            </linearGradient>
+          </defs>
+          ${ticks.map(t => `<line class="grid-line" x1="${pad.left}" x2="${width - pad.right}" y1="${y(t)}" y2="${y(t)}"></line><text class="chart-label" x="8" y="${y(t) + 4}">${fmt(t, metric === "venues" ? 0 : 2)}</text>`).join("")}
+          <line class="axis" x1="${pad.left}" x2="${width - pad.right}" y1="${height - pad.bottom}" y2="${height - pad.bottom}"></line>
+          <path d="${areaPath}" fill="url(#trendFill)"></path>
+          <path d="${path}" fill="none" stroke="${cfg.color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+          ${national.map((d, i) => `
+            <circle cx="${x(i)}" cy="${y(d[metric])}" r="6" fill="${cfg.color}" stroke="#fff" stroke-width="2"></circle>
+            <text class="chart-label" x="${x(i)}" y="${height - 14}" text-anchor="middle">${d.year}</text>
+            <text class="chart-value" x="${x(i)}" y="${y(d[metric]) - 12}" text-anchor="middle">${fmt(d[metric], metric === "venues" ? 0 : 2)}${metric === "per" ? "" : ""}</text>
+          `).join("")}
+          <text class="chart-label" x="${width - 160}" y="24">${cfg.label}（${cfg.unit}）</text>
+        </svg>
+      `;
+    }
+
+    function renderRanks() {
+      const selected = document.getElementById("regionFilter").value;
+      const list = selected === "all" ? provinces : provinces.filter(d => d.region === selected);
+      const max = Math.max(...provinces.map(d => d.per));
+      document.getElementById("rankList").innerHTML = [...list]
+        .sort((a, b) => b.per - a.per)
+        .map(d => `
+          <div class="rank-row" data-name="${d.name}">
+            <span class="row-name">${d.name}</span>
+            <span class="bar-track"><span class="bar" style="width:${d.per / max * 100}%; background:${colorForPer(d.per)}"></span></span>
+            <span class="row-value">${d.per.toFixed(2)}</span>
+          </div>
+        `).join("");
+    }
+
+    function renderScatter() {
+      const width = 560;
+      const height = 340;
+      const pad = { left: 52, right: 24, top: 24, bottom: 48 };
+      const maxArea = Math.max(...provinces.map(d => d.area));
+      const minPer = 1.8;
+      const maxPer = 4.7;
+      const x = v => pad.left + (v / maxArea) * (width - pad.left - pad.right);
+      const y = v => height - pad.bottom - ((v - minPer) / (maxPer - minPer)) * (height - pad.top - pad.bottom);
+      const regionColor = { "东部": "var(--green)", "中部": "var(--blue)", "西部": "var(--gold)", "东北": "var(--coral)" };
+      document.getElementById("scatterChart").innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="省级体育场地总面积与人均面积散点图">
+          ${[2, 3, 4].map(t => `<line class="grid-line" x1="${pad.left}" x2="${width - pad.right}" y1="${y(t)}" y2="${y(t)}"></line><text class="chart-label" x="18" y="${y(t)+4}">${t}㎡</text>`).join("")}
+          ${[10000, 20000, 30000, 40000].map(t => `<line class="grid-line" x1="${x(t)}" x2="${x(t)}" y1="${pad.top}" y2="${height - pad.bottom}"></line><text class="chart-label" x="${x(t)}" y="${height - 16}" text-anchor="middle">${t/10000}亿</text>`).join("")}
+          <line class="axis" x1="${pad.left}" x2="${width - pad.right}" y1="${height - pad.bottom}" y2="${height - pad.bottom}"></line>
+          <line class="axis" x1="${pad.left}" x2="${pad.left}" y1="${pad.top}" y2="${height - pad.bottom}"></line>
+          ${provinces.map(d => `
+            <g class="scatter-point" data-name="${d.name}" style="cursor:pointer">
+              <circle cx="${x(d.area)}" cy="${y(d.per)}" r="${Math.max(4, Math.min(14, Math.sqrt(d.venues) * 2.3))}" fill="${regionColor[d.region]}" fill-opacity="0.74" stroke="#fff" stroke-width="1.5"></circle>
+              ${d.per >= 3.45 || d.per < 2.5 ? `<text class="chart-label" x="${x(d.area) + 10}" y="${y(d.per) - 8}">${d.name}</text>` : ""}
+            </g>
+          `).join("")}
+        </svg>
+      `;
+    }
+
+    function showProvince(name) {
+      const d = provinces.find(item => item.name === name) || [...provinces].sort((a, b) => b.per - a.per)[0];
+      const rank = [...provinces].sort((a, b) => b.per - a.per).findIndex(item => item.name === d.name) + 1;
+      document.getElementById("provinceDetail").innerHTML = `
+        <strong>${d.name}</strong>
+        <dl>
+          <div><dt>人均面积</dt><dd>${d.per.toFixed(2)}㎡</dd></div>
+          <div><dt>总面积</dt><dd>${(d.area / 10000).toFixed(2)}亿㎡</dd></div>
+          <div><dt>全国排序</dt><dd>第 ${rank}</dd></div>
+        </dl>
+        <p class="panel-note" style="margin-top:12px">区域：${d.region}。体育场地数量约 ${d.venues.toFixed(2)} 万个。排序仅基于已公开的 2024 省级人均体育场地面积。</p>
+      `;
+    }
+
+    function renderComposition() {
+      const max = Math.max(...composition.map(d => d.value));
+      document.getElementById("composition").innerHTML = composition.map(d => `
+        <div class="comp-row">
+          <strong>${d.name}</strong>
+          <div class="comp-track"><div class="comp-fill" style="width:${d.value / max * 100}%; background:${d.color}"></div></div>
+          <span>${d.value.toFixed(2)}万</span>
+        </div>
+      `).join("") + `<p class="panel-note">另：2025 年全国冰雪运动场地 2626 个，健身步道长度 43.03 万公里。</p>`;
+    }
+
+    document.addEventListener("click", event => {
+      const row = event.target.closest(".rank-row");
+      if (row) showProvince(row.dataset.name);
+      const point = event.target.closest(".scatter-point");
+      if (point) showProvince(point.dataset.name);
+    });
+
+    document.getElementById("regionFilter").addEventListener("change", renderRanks);
+
+    window.addEventListener("scroll", () => {
+      const doc = document.documentElement;
+      const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+      document.getElementById("progress").style.width = `${Math.max(0, Math.min(1, scrolled)) * 100}%`;
+    });
+
+    renderInsights();
+    renderMetricButtons();
+    renderTrend("per");
+    renderRanks();
+    renderScatter();
+    showProvince("江苏");
+    renderComposition();
+  </script>
+</body>
+</html>
