@@ -13,6 +13,8 @@
   --white: #fff;
   --shadow: 0 18px 46px rgba(32, 49, 40, 0.12);
   --radius: 8px;
+  --page-accent: var(--green);
+  --page-accent-2: var(--coral);
 }
 
 * { box-sizing: border-box; }
@@ -127,6 +129,43 @@ p { margin-top: 0; }
     #fff;
   background-size: 38px 38px;
 }
+
+.visual-photo {
+  background:
+    linear-gradient(90deg, rgba(10, 20, 16, 0.38), rgba(10, 20, 16, 0.03) 48%, rgba(10, 20, 16, 0.2)),
+    var(--hero-img) center/cover no-repeat;
+}
+
+.visual-photo::before {
+  inset: 0;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 38%),
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.22), transparent 28%);
+}
+
+.visual-photo::after {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58%;
+  border: 0;
+  border-radius: 0;
+  transform: none;
+  background: linear-gradient(180deg, transparent, rgba(10, 20, 16, 0.62));
+}
+
+.visual-photo .moving-dot { display: none; }
+
+.visual-photo .hero-stats { z-index: 3; }
+.visual-photo .stat {
+  color: #f7fff7;
+  background: rgba(8, 18, 14, 0.64);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.visual-photo .stat strong { color: #fff; }
+.visual-photo .stat span { color: rgba(255, 255, 255, 0.8); }
 
 .hero-visual::before {
   content: "";
@@ -252,6 +291,13 @@ section {
 }
 .card, .topic-card { padding: 22px; }
 .topic-card { min-height: 260px; display: flex; flex-direction: column; }
+.topic-card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 2px);
+  margin-bottom: 14px;
+}
 .topic-card small, .card small {
   color: var(--coral);
   font-weight: 850;
@@ -302,6 +348,78 @@ section {
 .fill.coral { background: var(--coral); }
 .fill.gold { background: var(--gold); }
 .fill.violet { background: var(--violet); }
+
+.story-board {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--white);
+}
+
+.story-step {
+  padding: 22px;
+  border-right: 1px solid var(--line);
+}
+.story-step:last-child { border-right: 0; }
+.story-step b {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--page-accent) 16%, white);
+  color: var(--deep);
+  margin-bottom: 14px;
+}
+.story-step h3 { font-size: 19px; }
+.story-step p { color: var(--muted); margin-bottom: 0; font-size: 15px; }
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 18px;
+}
+
+.evidence-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.evidence-card strong {
+  display: block;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--page-accent);
+  margin-bottom: 10px;
+}
+
+.evidence-card p { color: var(--muted); margin-bottom: 0; }
+
+.question-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.question-list li {
+  padding: 14px 16px;
+  border-left: 4px solid var(--page-accent-2);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.topic-fitness { --page-accent: #247a55; --page-accent-2: #d86445; }
+.topic-media { --page-accent: #2676a8; --page-accent-2: #d86445; }
+.topic-mobility { --page-accent: #c79632; --page-accent-2: #247a55; }
+.topic-development { --page-accent: #1e8a73; --page-accent-2: #c79632; }
+.topic-china { --page-accent: #2676a8; --page-accent-2: #d86445; }
 
 .chart { min-height: 310px; }
 .axis { stroke: #aab7ac; stroke-width: 1; }
@@ -357,6 +475,9 @@ footer a { color: #fff; }
   .hero-grid, .section-head, .grid, .method { grid-template-columns: 1fr; }
   .cards { grid-template-columns: 1fr; }
   .insights { grid-template-columns: repeat(2, 1fr); }
+  .story-board, .evidence-grid { grid-template-columns: 1fr; }
+  .story-step { border-right: 0; border-bottom: 1px solid var(--line); }
+  .story-step:last-child { border-bottom: 0; }
 }
 
 @media (max-width: 640px) {
@@ -368,4 +489,5 @@ footer a { color: #fff; }
   .bar-row { grid-template-columns: 108px 1fr 66px; font-size: 13px; }
   section { padding: 58px 0; }
   .nav-inner { flex-direction: column; align-items: flex-start; padding: 10px 0; }
+  .nav-links { flex-wrap: wrap; width: 100%; }
 }
