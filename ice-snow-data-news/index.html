@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>冰雪运动南展西扩东进：从2.92亿人参与到1875亿元消费</title>
+  <meta name="description" content="基于国家体育总局冬季运动管理中心《大众冰雪消费市场研究报告（2024—2025冰雪季）》制作的冰雪运动数据新闻网页。" />
+  <style>
+    :root {
+      --ink: #16202a;
+      --muted: #607080;
+      --paper: #f7fbfd;
+      --ice: #e8f4f8;
+      --line: #d4e5eb;
+      --blue: #2479a8;
+      --deep: #0b4969;
+      --cyan: #34a6b8;
+      --orange: #d46b45;
+      --gold: #c89a31;
+      --violet: #6d6ab7;
+      --white: #fff;
+      --radius: 8px;
+      --shadow: 0 18px 48px rgba(24, 60, 82, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.75;
+    }
+    a { color: var(--deep); }
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, var(--cyan), var(--blue), var(--orange));
+      z-index: 30;
+    }
+    header {
+      min-height: 94vh;
+      display: grid;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(36,121,168,0.10), transparent 35%),
+        linear-gradient(225deg, rgba(52,166,184,0.14), transparent 35%),
+        #f7fbfd;
+      overflow: hidden;
+    }
+    .hero {
+      width: min(1180px, calc(100% - 34px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 46px;
+      align-items: center;
+      padding: 72px 0 50px;
+    }
+    .kicker {
+      color: var(--deep);
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .kicker:before {
+      content: "";
+      width: 34px;
+      height: 3px;
+      background: var(--orange);
+      display: block;
+    }
+    h1 {
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      margin: 0 0 24px;
+    }
+    .subtitle {
+      font-size: clamp(18px, 2vw, 23px);
+      color: #314453;
+      margin: 0 0 26px;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .meta span {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.68);
+      border-radius: 999px;
+      padding: 7px 10px;
+    }
+    .mountain-card {
+      position: relative;
+      min-height: 520px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #ffffff, #edf7fa);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .mountain {
+      position: absolute;
+      left: -5%;
+      right: -5%;
+      bottom: 90px;
+      height: 260px;
+      background:
+        linear-gradient(135deg, transparent 47%, #dceff5 48%, #dceff5 52%, transparent 53%) 0 0 / 220px 220px,
+        linear-gradient(155deg, transparent 44%, #b8dbe8 45%, #b8dbe8 54%, transparent 55%) 20px 40px / 300px 260px;
+      opacity: 0.9;
+    }
+    .slope {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      bottom: 70px;
+      height: 150px;
+      border-bottom: 18px solid rgba(36,121,168,0.22);
+      transform: skewY(-7deg);
+      border-radius: 0 0 120px 120px;
+    }
+    .skier {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--orange);
+      top: 190px;
+      left: 115px;
+      box-shadow: 0 0 0 9px rgba(212,107,69,0.14);
+      animation: glide 4.5s ease-in-out infinite;
+    }
+    .skier:after {
+      content: "";
+      position: absolute;
+      width: 54px;
+      height: 3px;
+      background: var(--deep);
+      left: -6px;
+      top: 24px;
+      transform: rotate(13deg);
+      border-radius: 999px;
+    }
+    @keyframes glide {
+      0%, 100% { transform: translate(0,0); }
+      50% { transform: translate(210px,88px); }
+    }
+    .hero-stats {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      bottom: 28px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      backdrop-filter: blur(6px);
+    }
+    .stat strong {
+      display: block;
+      font-size: clamp(25px, 3vw, 38px);
+      color: var(--deep);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat span { color: var(--muted); font-size: 13px; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247,251,253,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner, .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 58px;
+      gap: 20px;
+      overflow-x: auto;
+    }
+    .brand { font-weight: 850; white-space: nowrap; }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--ink); background: var(--ice); }
+    section {
+      padding: 82px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .band { background: var(--ice); }
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.82fr 0.48fr;
+      gap: 44px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+    h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.16;
+      margin: 0 0 12px;
+      letter-spacing: 0;
+    }
+    .section-head p { color: var(--muted); margin: 0; font-size: 17px; }
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      border: 1px solid var(--line);
+      background: var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .insight {
+      background: var(--white);
+      padding: 22px;
+    }
+    .insight strong {
+      display: block;
+      font-size: 30px;
+      color: var(--deep);
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .insight span { color: var(--muted); font-size: 14px; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 10px 28px rgba(24,60,82,0.06);
+    }
+    .panel h3 { margin: 0 0 8px; font-size: 22px; }
+    .note { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+    .chart { min-height: 330px; }
+    svg { display: block; max-width: 100%; }
+    .axis { stroke: #9fb7c1; stroke-width: 1; }
+    .grid-line { stroke: #e6f0f3; stroke-width: 1; }
+    .label { fill: var(--muted); font-size: 12px; }
+    .value { fill: var(--ink); font-size: 13px; font-weight: 800; }
+    .toggle {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    button {
+      font: inherit;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    button.active, button:hover { background: var(--deep); border-color: var(--deep); color: white; }
+    .callout {
+      border-left: 4px solid var(--orange);
+      padding: 10px 0 10px 16px;
+      color: #344958;
+      margin: 14px 0 0;
+    }
+    .bar-list { display: grid; gap: 13px; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 92px;
+      gap: 14px;
+      align-items: center;
+    }
+    .track {
+      height: 18px;
+      background: #edf5f7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .fill { height: 100%; border-radius: 999px; background: var(--blue); }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-height: 230px;
+    }
+    .card small { color: var(--orange); font-weight: 800; display: block; margin-bottom: 10px; }
+    .card strong { display: block; font-size: 28px; line-height: 1.15; margin-bottom: 12px; color: var(--deep); }
+    .card p { margin: 0; color: var(--muted); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+    th, td { border-bottom: 1px solid var(--line); padding: 12px 8px; text-align: left; }
+    th { color: var(--muted); }
+    .source-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .source-list li {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    footer {
+      padding: 34px 0;
+      background: #132330;
+      color: #dceaf0;
+      font-size: 14px;
+    }
+    footer .wrap { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    @media (max-width: 920px) {
+      .hero, .section-head, .grid { grid-template-columns: 1fr; }
+      .insights { grid-template-columns: repeat(2, 1fr); }
+      .cards { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      header { min-height: auto; }
+      .hero { padding: 48px 0 32px; }
+      .mountain-card { min-height: 440px; }
+      .hero-stats { grid-template-columns: 1fr; left: 18px; right: 18px; bottom: 18px; }
+      .insights { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 108px 1fr 72px; font-size: 13px; }
+      section { padding: 58px 0; }
+      .nav-inner { flex-direction: column; align-items: flex-start; padding: 10px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header>
+    <div class="hero">
+      <div>
+        <div class="kicker">数据新闻 · 冰雪运动观察</div>
+        <h1>冰雪热，正在从“北方季节”变成全国消费场景</h1>
+        <p class="subtitle">2024—2025 冰雪季，全国居民冰雪运动参与人数达到 2.92 亿，带动消费规模超过 1875 亿元。后冬奥时代，冰雪运动的关键词不再只是“上冰上雪”，而是南方室内滑雪、北上旅游、赛事经济与本地化参与共同扩张。</p>
+        <div class="meta">
+          <span>数据口径：2024 年 11 月至 2025 年 3 月冰雪季</span>
+          <span>来源：国家体育总局冬季运动管理中心等公开资料</span>
+          <span>子页面：ice-snow-data-news</span>
+        </div>
+      </div>
+      <div class="mountain-card" aria-label="冰雪运动视觉图">
+        <div class="mountain"></div>
+        <div class="slope"></div>
+        <div class="skier"></div>
+        <div class="hero-stats">
+          <div class="stat"><strong>2.92亿</strong><span>全国居民冰雪运动参与人数</span></div>
+          <div class="stat"><strong>20.61%</strong><span>冰雪运动参与率</span></div>
+          <div class="stat"><strong>1875亿+</strong><span>居民参与冰雪运动及带动消费规模</span></div>
+          <div class="stat"><strong>865个</strong><span>截至 2025 年 4 月正常营业滑雪场</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="brand">冰雪运动数据新闻</div>
+      <div class="nav-links">
+        <a href="#people">谁在参与</a>
+        <a href="#space">哪里承载</a>
+        <a href="#money">如何消费</a>
+        <a href="#market">产业主体</a>
+        <a href="#method">来源方法</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>核心发现：冰雪的增长，来自“场景扩容”而不只来自“滑雪人数”</h2>
+            <p>冰雪运动项目参与人数增长很快，但民俗冰雪活动、观赏体验和陆地冰雪运动同样构成了冰雪参与人口。换句话说，冰雪经济的入口正在变宽：不会滑雪的人，也可能通过冰雪节、赛事观赏、亲子体验和城市室内雪场进入消费链条。</p>
+          </div>
+          <p>本页把“人、空间、消费、企业”放在同一条链路上观察：参与人口扩大，场地从北方户外雪场向室内雪场延伸，消费从门票扩展到交通、餐饮、住宿、装备和赛事带动。</p>
+        </div>
+        <div class="insights" id="insights"></div>
+      </div>
+    </section>
+
+    <section id="people" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>2.92 亿人参与：增长最快的是“冰雪运动项目”</h2>
+            <p>2024—2025 冰雪季，居民冰雪运动参与人数比上一冰雪季增加约 2744 万人；参与率从 18.68% 提高到 20.61%。其中冰雪运动项目参与人数从 0.57 亿升至 0.81 亿，增长 42%。</p>
+          </div>
+          <p>冰雪参与并不等同于滑雪。报告口径包括冰雪运动项目、民俗冰雪运动、冰雪观赏体验类活动、陆地冰雪运动等。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>冰雪季参与人数与参与率</h3>
+            <p class="note">点击切换总参与和运动项目参与。</p>
+            <div class="toggle" id="trendToggle"></div>
+            <div class="chart" id="trendChart"></div>
+          </div>
+          <div class="panel">
+            <h3>参与类型的四个入口</h3>
+            <p class="note">单位：亿人。民俗活动和观赏体验显示出低门槛冰雪参与的基础。</p>
+            <div class="bar-list" id="typeBars"></div>
+            <p class="callout"><strong>判断：</strong>后冬奥时代，“参与冰雪”已经不只是竞技或专业运动，更像是一组文旅、亲子、赛事和城市休闲场景。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="space">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>空间扩容：室内雪场让南方市场更接近冰雪</h2>
+            <p>截至 2025 年 4 月，全国正常营业滑雪场 865 个。其中室外滑雪场 786 个，室内真雪滑雪场 79 个。虽然室内场数量不大，但较上一冰雪季增长 33.9%，并仍有 16 个在建。</p>
+          </div>
+          <p>国家体育场地统计口径下，2024 年全国冰雪运动场地 2678 个，其中滑冰场地 1764 个、滑雪场地 914 个。经营性滑雪场与体育场地统计口径不同，页面分别说明。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>2025 年正常营业滑雪场结构</h3>
+            <div class="chart" id="facilityChart"></div>
+          </div>
+          <div class="panel">
+            <h3>“南客北上”与省内参与并存</h3>
+            <table>
+              <thead><tr><th>观察点</th><th>数据</th><th>含义</th></tr></thead>
+              <tbody>
+                <tr><td>省内参与</td><td>85.99%</td><td>就近参与成为主流</td></tr>
+                <tr><td>南方居民北上</td><td>24.02%</td><td>北方冰雪资源仍具吸引力</td></tr>
+                <tr><td>江浙沪粤居民北上</td><td>42.01%</td><td>高消费地区释放冰雪旅游需求</td></tr>
+                <tr><td>最具吸引力地区</td><td>黑龙江、吉林、新疆</td><td>东北和西北资源优势突出</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="money" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>1875 亿元消费：门票只是入口，交通餐饮住宿共同放大</h2>
+            <p>2024—2025 冰雪季，居民参与冰雪运动及带动消费规模超过 1875 亿元，同比增长超过 25%。全国滑雪场消费金额 786.13 亿元，同比增长 12.88%；滑雪场周边两公里消费金额增长 27.97%。</p>
+          </div>
+          <p>这说明冰雪消费具有明显外溢效应：一次滑雪或冰雪节体验，往往同时带动交通、餐饮、住宿、装备和娱乐休闲。</p>
+        </div>
+        <div class="cards">
+          <div class="card"><small>消费规模</small><strong>1875亿元+</strong><p>居民参与冰雪运动项目以及由此带动的消费规模。</p></div>
+          <div class="card"><small>滑雪场消费</small><strong>786.13亿元</strong><p>全国滑雪场消费金额，同比增长 12.88%。</p></div>
+          <div class="card"><small>周边外溢</small><strong>+27.97%</strong><p>滑雪场周边两公里消费金额增长，体现对零售、交通等行业的拉动。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="market">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>产业主体：河北、北京、黑龙江位居企业数量前三</h2>
+            <p>2024—2025 冰雪季，我国冰雪运动产业相关企业数量达到 18492 家。河北、北京、黑龙江分列前三，反映出京津冀冬奥遗产、首都消费市场和东北冰雪资源的共同作用。</p>
+          </div>
+          <p>企业数量不是产业质量的唯一指标，但能观察冰雪运动从赛事、场馆、培训、装备到旅游服务的市场化活跃度。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>冰雪运动产业相关企业 Top 3</h3>
+            <div class="bar-list" id="companyBars"></div>
+          </div>
+          <div class="panel">
+            <h3>赛事经济的局部放大器</h3>
+            <p class="callout"><strong>哈尔滨亚冬会案例：</strong>赛事期间，哈尔滨市消费金额同比增长超过 30.33%，较赛前环比增长 26.40%。境外游客消费金额同比增长 289.33%。</p>
+            <p class="callout"><strong>启示：</strong>大型赛事不只是竞技传播，也能把城市冰雪资源转化为跨区域客流、住宿零售消费和城市品牌。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>数据来源与方法说明</h2>
+            <p>核心数据来自国家体育总局冬季运动管理中心专项统计调查及其公开报告。页面将不同口径分开处理：冰雪运动参与和消费使用“冰雪季”调查口径，滑雪场使用正常营业滑雪场口径，体育场地使用全国体育场地统计调查口径。</p>
+          </div>
+          <p>AI 用于资料检索线索、页面代码辅助和交互优化；数据筛选、口径判断、事实核验和最终叙事由人工完成。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>口径提醒</h3>
+            <p class="note">“参与人数”包括冰雪运动项目、民俗冰雪运动、冰雪观赏体验类活动、陆地冰雪运动等；统计周期为 2024 年 11 月至 2025 年 3 月。</p>
+            <p class="note">“消费规模”指居民参与冰雪运动项目以及由此带动的消费规模，并非冰雪经济全产业链总规模。</p>
+          </div>
+          <ul class="source-list">
+            <li><a href="https://www.sport.gov.cn/n20001280/n20067608/n20067635/c28962644/content.html" target="_blank" rel="noreferrer">国家体育总局：2.92亿人参与 1875亿元消费 冰雪经济创新驱动全产业链高质量发展</a></li>
+            <li><a href="https://www.sport.gov.cn/dyzx/n5169/c28945556/part/28945646.pdf" target="_blank" rel="noreferrer">国家体育总局冬季运动管理中心：《大众冰雪消费市场研究报告（2024—2025冰雪季）》</a></li>
+            <li><a href="https://www.sport.org.cn/shouye/jd/2025/0318/644545.html" target="_blank" rel="noreferrer">中华全国体育总会：全国体育场地进入“3.0”时代</a></li>
+            <li><a href="https://www.sport.gov.cn/n20001280/n20745751/c29327174/content.html" target="_blank" rel="noreferrer">国家体育总局：《2025年全民健身活动状况调查公报》</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>冰雪运动南展西扩东进：从2.92亿人参与到1875亿元消费</span>
+      <span>最后核验日期：2026-05-21</span>
+    </div>
+  </footer>
+
+  <script>
+    const summary = [
+      ["2.92亿", "2024—2025 冰雪季全国居民冰雪运动参与人数"],
+      ["2744万+", "较上一冰雪季增加的参与人数"],
+      ["1875亿+", "居民参与冰雪运动及带动消费规模"],
+      ["18492家", "冰雪运动产业相关企业数量"]
+    ];
+    const trend = {
+      all: {
+        label: "冰雪运动总参与",
+        rows: [
+          { season: "2023—2024", people: 2.64, rate: 18.68 },
+          { season: "2024—2025", people: 2.92, rate: 20.61 }
+        ],
+        color: "var(--blue)"
+      },
+      sport: {
+        label: "冰雪运动项目参与",
+        rows: [
+          { season: "2023—2024", people: 0.57, rate: 5.12 },
+          { season: "2024—2025", people: 0.81, rate: 7.28 }
+        ],
+        color: "var(--orange)"
+      }
+    };
+    const types = [
+      { name: "民俗冰雪活动", value: 1.44, rate: 12.87, color: "var(--blue)" },
+      { name: "观赏体验类活动", value: 1.12, rate: 10.02, color: "var(--cyan)" },
+      { name: "冰雪运动项目", value: 0.81, rate: 7.28, color: "var(--orange)" },
+      { name: "陆地冰雪运动", value: 0.41, rate: 3.62, color: "var(--violet)" }
+    ];
+    const facilities = [
+      { name: "室外滑雪场", value: 786, color: "var(--blue)" },
+      { name: "室内真雪滑雪场", value: 79, color: "var(--orange)" }
+    ];
+    const companies = [
+      { name: "河北", value: 1746, color: "var(--blue)" },
+      { name: "北京", value: 1568, color: "var(--cyan)" },
+      { name: "黑龙江", value: 1480, color: "var(--orange)" }
+    ];
+    function renderInsights() {
+      document.getElementById("insights").innerHTML = summary.map(item => `<div class="insight"><strong>${item[0]}</strong><span>${item[1]}</span></div>`).join("");
+    }
+    function renderTrendToggle() {
+      const box = document.getElementById("trendToggle");
+      box.innerHTML = Object.entries(trend).map(([key, cfg], index) => `<button class="${index === 0 ? "active" : ""}" data-key="${key}">${cfg.label}</button>`).join("");
+      box.addEventListener("click", event => {
+        const btn = event.target.closest("button");
+        if (!btn) return;
+        box.querySelectorAll("button").forEach(item => item.classList.remove("active"));
+        btn.classList.add("active");
+        renderTrend(btn.dataset.key);
+      });
+    }
+    function renderTrend(key = "all") {
+      const cfg = trend[key];
+      const width = 720, height = 340, pad = { left: 54, right: 30, top: 26, bottom: 58 };
+      const max = Math.max(...cfg.rows.map(d => d.people)) * 1.25;
+      const x = i => pad.left + i * ((width - pad.left - pad.right) / (cfg.rows.length - 1));
+      const y = v => height - pad.bottom - (v / max) * (height - pad.top - pad.bottom);
+      const points = cfg.rows.map((d, i) => `${x(i)},${y(d.people)}`).join(" ");
+      document.getElementById("trendChart").innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${cfg.label}趋势图">
+          ${[0, max/2, max].map(t => `<line class="grid-line" x1="${pad.left}" x2="${width-pad.right}" y1="${y(t)}" y2="${y(t)}"></line><text class="label" x="12" y="${y(t)+4}">${t.toFixed(2)}亿</text>`).join("")}
+          <line class="axis" x1="${pad.left}" x2="${width-pad.right}" y1="${height-pad.bottom}" y2="${height-pad.bottom}"></line>
+          <polyline points="${points}" fill="none" stroke="${cfg.color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+          ${cfg.rows.map((d, i) => `
+            <circle cx="${x(i)}" cy="${y(d.people)}" r="7" fill="${cfg.color}" stroke="#fff" stroke-width="2"></circle>
+            <text class="value" x="${x(i)}" y="${y(d.people)-14}" text-anchor="middle">${d.people.toFixed(2)}亿</text>
+            <text class="label" x="${x(i)}" y="${height-28}" text-anchor="middle">${d.season}</text>
+            <text class="label" x="${x(i)}" y="${height-10}" text-anchor="middle">参与率 ${d.rate}%</text>
+          `).join("")}
+        </svg>
+      `;
+    }
+    function renderBars(id, data, suffix = "亿人") {
+      const max = Math.max(...data.map(d => d.value));
+      document.getElementById(id).innerHTML = data.map(d => `
+        <div class="bar-row">
+          <strong>${d.name}</strong>
+          <span class="track"><span class="fill" style="width:${d.value / max * 100}%; background:${d.color}"></span></span>
+          <span>${d.value}${suffix}</span>
+        </div>
+      `).join("");
+    }
+    function renderFacilityChart() {
+      const width = 560, height = 330;
+      const total = facilities.reduce((sum, d) => sum + d.value, 0);
+      let start = -90;
+      const slices = facilities.map(d => {
+        const angle = d.value / total * 360;
+        const end = start + angle;
+        const large = angle > 180 ? 1 : 0;
+        const r = 112, cx = 180, cy = 165;
+        const x1 = cx + r * Math.cos(Math.PI * start / 180);
+        const y1 = cy + r * Math.sin(Math.PI * start / 180);
+        const x2 = cx + r * Math.cos(Math.PI * end / 180);
+        const y2 = cy + r * Math.sin(Math.PI * end / 180);
+        const path = `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`;
+        start = end;
+        return `<path d="${path}" fill="${d.color}"></path>`;
+      }).join("");
+      document.getElementById("facilityChart").innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="滑雪场结构饼图">
+          ${slices}
+          <circle cx="180" cy="165" r="62" fill="#fff"></circle>
+          <text x="180" y="158" text-anchor="middle" class="value" style="font-size:28px">865</text>
+          <text x="180" y="182" text-anchor="middle" class="label">正常营业滑雪场</text>
+          ${facilities.map((d, i) => `
+            <rect x="340" y="${112 + i*46}" width="14" height="14" fill="${d.color}" rx="2"></rect>
+            <text x="364" y="${124 + i*46}" class="label">${d.name}</text>
+            <text x="500" y="${124 + i*46}" class="value" text-anchor="end">${d.value}个</text>
+          `).join("")}
+          <text x="340" y="224" class="label">室内真雪滑雪场同比增长 33.9%，另有 16 个在建。</text>
+        </svg>
+      `;
+    }
+    window.addEventListener("scroll", () => {
+      const doc = document.documentElement;
+      const rate = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+      document.getElementById("progress").style.width = `${Math.max(0, Math.min(1, rate)) * 100}%`;
+    });
+    renderInsights();
+    renderTrendToggle();
+    renderTrend("all");
+    renderBars("typeBars", types, "亿");
+    renderFacilityChart();
+    renderBars("companyBars", companies, "家");
+  </script>
+</body>
+</html>
