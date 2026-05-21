@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>4亿人走向山水之间：户外运动如何打开体育消费新场景</title>
+  <meta name="description" content="基于中国户外运动产业发展报告、国家发展改革委和国家体育总局政策文件制作的户外运动数据新闻网页。" />
+  <style>
+    :root {
+      --ink:#1d241d;
+      --muted:#647063;
+      --paper:#fbfbf4;
+      --leaf:#eef4e7;
+      --line:#d9e2d0;
+      --green:#2b7d52;
+      --deep:#184d35;
+      --blue:#2d77a0;
+      --orange:#d56f3f;
+      --gold:#c49a32;
+      --red:#bd514c;
+      --white:#fff;
+      --radius:8px;
+      --shadow:0 18px 48px rgba(34,60,42,.12);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+      color:var(--ink);
+      background:var(--paper);
+      line-height:1.72;
+    }
+    a{color:var(--deep)}
+    .progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--green),var(--blue),var(--orange));z-index:30}
+    header{
+      min-height:94vh;
+      display:grid;
+      align-items:center;
+      border-bottom:1px solid var(--line);
+      background:
+        linear-gradient(135deg,rgba(43,125,82,.14),transparent 34%),
+        linear-gradient(225deg,rgba(213,111,63,.12),transparent 32%),
+        #fbfbf4;
+      overflow:hidden;
+    }
+    .hero{
+      width:min(1180px,calc(100% - 34px));
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:44px;
+      align-items:center;
+      padding:72px 0 52px;
+    }
+    .kicker{display:inline-flex;align-items:center;gap:10px;color:var(--deep);font-weight:850;margin-bottom:16px}
+    .kicker:before{content:"";width:34px;height:3px;background:var(--orange);display:block}
+    h1{font-size:clamp(38px,6vw,72px);line-height:1.08;letter-spacing:0;margin:0 0 24px}
+    .subtitle{font-size:clamp(18px,2vw,23px);color:#344234;margin:0 0 26px}
+    .meta{display:flex;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:14px}
+    .meta span{border:1px solid var(--line);background:rgba(255,255,255,.68);border-radius:999px;padding:7px 10px}
+    .landscape{
+      position:relative;
+      min-height:520px;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      background:
+        linear-gradient(180deg,#f7fbf4 0%,#e8f2e2 62%,#dcead5 100%);
+    }
+    .sun{position:absolute;right:70px;top:58px;width:78px;height:78px;border-radius:50%;background:#f0c85c;box-shadow:0 0 0 18px rgba(240,200,92,.16)}
+    .hill{position:absolute;left:-8%;right:-8%;bottom:128px;height:260px;background:linear-gradient(140deg,transparent 38%,#c9dfc3 39%,#c9dfc3 58%,transparent 59%) 0 0/310px 240px,linear-gradient(135deg,transparent 42%,#9cc792 43%,#9cc792 57%,transparent 58%) 80px 42px/330px 250px}
+    .river{position:absolute;left:-20px;right:-20px;bottom:90px;height:72px;background:linear-gradient(100deg,transparent 0 18%,rgba(45,119,160,.34) 19% 42%,transparent 43% 100%);filter:blur(.2px)}
+    .route{position:absolute;left:52px;right:52px;bottom:104px;height:158px;border-bottom:9px dashed rgba(24,77,53,.45);border-radius:0 0 50% 50%;transform:skewY(-9deg)}
+    .rider{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--red);left:100px;top:224px;box-shadow:0 0 0 8px rgba(189,81,76,.14);animation:ride 4.8s ease-in-out infinite}
+    .rider:after{content:"";position:absolute;left:-18px;top:22px;width:58px;height:4px;background:var(--deep);border-radius:999px;transform:rotate(-8deg)}
+    @keyframes ride{0%,100%{transform:translate(0,0)}50%{transform:translate(260px,76px)}}
+    .hero-stats{position:absolute;left:34px;right:34px;bottom:28px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .stat{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:var(--radius);padding:16px;backdrop-filter:blur(6px)}
+    .stat strong{display:block;font-size:clamp(25px,3vw,38px);color:var(--deep);line-height:1;margin-bottom:8px}
+    .stat span{color:var(--muted);font-size:13px}
+    nav{position:sticky;top:0;z-index:20;background:rgba(251,251,244,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .nav-inner,.wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;min-height:58px;gap:18px;overflow-x:auto}
+    .brand{font-weight:850;white-space:nowrap}
+    .nav-links{display:flex;gap:8px}
+    .nav-links a{text-decoration:none;color:var(--muted);padding:7px 10px;border-radius:999px;font-size:14px;white-space:nowrap}
+    .nav-links a:hover{color:var(--ink);background:var(--leaf)}
+    section{padding:82px 0;border-bottom:1px solid var(--line)}
+    .band{background:var(--leaf)}
+    .section-head{display:grid;grid-template-columns:.84fr .48fr;gap:44px;align-items:end;margin-bottom:34px}
+    h2{font-size:clamp(28px,4vw,48px);line-height:1.16;letter-spacing:0;margin:0 0 12px}
+    .section-head p{margin:0;color:var(--muted);font-size:17px}
+    .insights{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+    .insight{background:var(--white);padding:22px}
+    .insight strong{display:block;font-size:30px;color:var(--deep);line-height:1.05;margin-bottom:8px}
+    .insight span{color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:stretch}
+    .panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:0 10px 28px rgba(34,60,42,.06)}
+    .panel h3{margin:0 0 8px;font-size:22px}
+    .note{color:var(--muted);font-size:14px;margin:0 0 16px}
+    .chart{min-height:330px}
+    svg{display:block;max-width:100%}
+    .axis{stroke:#a9b8a4;stroke-width:1}
+    .grid-line{stroke:#e9efe4;stroke-width:1}
+    .label{fill:var(--muted);font-size:12px}
+    .value{fill:var(--ink);font-size:13px;font-weight:850}
+    .bar-list{display:grid;gap:13px}
+    .bar-row{display:grid;grid-template-columns:138px 1fr 92px;gap:14px;align-items:center}
+    .track{height:18px;background:#edf3e9;border-radius:999px;overflow:hidden}
+    .fill{height:100%;border-radius:999px;background:var(--green)}
+    .callout{border-left:4px solid var(--orange);padding:10px 0 10px 16px;color:#354234;margin:14px 0 0}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:24px;min-height:220px}
+    .card small{color:var(--orange);font-weight:850;display:block;margin-bottom:10px}
+    .card strong{display:block;font-size:28px;line-height:1.15;color:var(--deep);margin-bottom:12px}
+    .card p{margin:0;color:var(--muted)}
+    table{width:100%;border-collapse:collapse;font-size:15px}
+    th,td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left}
+    th{color:var(--muted)}
+    .source-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    .source-list li{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+    footer{padding:34px 0;background:#17261b;color:#dfe9dd;font-size:14px}
+    footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    @media(max-width:920px){.hero,.section-head,.grid{grid-template-columns:1fr}.insights{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}}
+    @media(max-width:620px){header{min-height:auto}.hero{padding:48px 0 32px}.landscape{min-height:440px}.hero-stats{grid-template-columns:1fr;left:18px;right:18px;bottom:18px}.insights{grid-template-columns:1fr}.bar-row{grid-template-columns:100px 1fr 72px;font-size:13px}section{padding:58px 0}.nav-inner{flex-direction:column;align-items:flex-start;padding:10px 0}}
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+
+  <header>
+    <div class="hero">
+      <div>
+        <div class="kicker">数据新闻 · 户外运动观察</div>
+        <h1>4亿人走向山水之间</h1>
+        <p class="subtitle">截至 2025 年 4 月初，我国户外运动参与人数突破 4 亿。骑行、徒步、露营、冰雪、水上运动不只是健身方式，也正在把自然资源、城市消费和地方产业连接成新的体育经济链条。</p>
+        <div class="meta">
+          <span>数据口径：截至 2026-05-21 可核验公开资料</span>
+          <span>主题：全民健身 · 体育消费 · 绿色发展</span>
+          <span>子页面：outdoor-sports-data-news</span>
+        </div>
+      </div>
+      <div class="landscape" aria-label="户外运动山水场景视觉图">
+        <div class="sun"></div>
+        <div class="hill"></div>
+        <div class="river"></div>
+        <div class="route"></div>
+        <div class="rider"></div>
+        <div class="hero-stats">
+          <div class="stat"><strong>4亿+</strong><span>户外运动参与人数</span></div>
+          <div class="stat"><strong>3万亿</strong><span>2025 年产业规模目标</span></div>
+          <div class="stat"><strong>33.5万</strong><span>户外运动相关企业</span></div>
+          <div class="stat"><strong>1.2亿+</strong><span>2024 年水上运动参与人数</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="brand">户外运动数据新闻</div>
+      <div class="nav-links">
+        <a href="#growth">增长</a>
+        <a href="#projects">项目</a>
+        <a href="#space">设施</a>
+        <a href="#market">市场</a>
+        <a href="#method">来源方法</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>核心发现：户外运动从“小众爱好”进入“大众生活方式”</h2>
+            <p>参与人数突破 4 亿后，户外运动的公共意义发生变化：它既是人民生命健康议题，也是体育消费、文旅融合、绿色空间治理和地方产业转型议题。</p>
+          </div>
+          <p>本页把参与人口、项目热度、设施政策和企业数量放在一条叙事链上观察：为什么更多人走向户外，消费和公共服务又在哪里放大。</p>
+        </div>
+        <div class="insights" id="insights"></div>
+      </div>
+    </section>
+
+    <section id="growth" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>参与者与市场主体同步扩张</h2>
+            <p>2022—2023 报告显示，全国户外运动相关企业达 20.4 万家；到 2025 年 6 月底，相关企业已达 33.5 万家。两年多时间里，户外运动从“人多”进一步走向“供给多”。</p>
+          </div>
+          <p>企业增长背后，是装备、培训、赛事、营地、旅游服务和数字体验等多环节共同扩容。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>户外运动相关企业增长</h3>
+            <p class="note">单位：万家。2025 年数据截至 6 月底。</p>
+            <div class="chart" id="companyChart"></div>
+          </div>
+          <div class="panel">
+            <h3>政策目标给出的产业坐标</h3>
+            <table>
+              <thead><tr><th>目标/行动</th><th>数据</th><th>含义</th></tr></thead>
+              <tbody>
+                <tr><td>产业规模</td><td>2025 年超过 3 万亿元</td><td>户外运动成为体育消费增长点</td></tr>
+                <tr><td>营地建设</td><td>建设各类户外运动营地 10000 个</td><td>空间供给从自然资源走向服务网络</td></tr>
+                <tr><td>设施提升</td><td>2023—2025 行动方案</td><td>补齐步道、水上、山地、露营等场景</td></tr>
+                <tr><td>安全服务</td><td>救援、标准、人才体系</td><td>从“能玩”走向“安全、专业、可持续”</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>项目热度：冰雪、水上、山地共同构成主场景</h2>
+            <p>2024—2025 报告显示，冰雪、山地、水上项目参与度较高；马拉松、骑行、铁人三项、滑雪、漂流等项目关注度较高。数据中最明确的两个量级是冰雪和水上：2024 年冰雪运动产业总规模达 9700 亿元，水上运动产业规模达 4386 亿元。</p>
+          </div>
+          <p>新业态也在扩展边界：VR 虚拟登山、虚拟骑行、潜水体验，以及夜间徒步、荧光骑行、星空露营等，把户外运动与城市夜经济连接起来。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>两个高热项目的产业规模</h3>
+            <p class="note">单位：亿元，2024 年。</p>
+            <div class="bar-list" id="projectBars"></div>
+          </div>
+          <div class="panel">
+            <h3>水上与冰雪的人流信号</h3>
+            <div class="cards" style="grid-template-columns:1fr;gap:12px">
+              <div class="card"><small>冰雪</small><strong>2.56亿人次</strong><p>2024—2025 冰雪季，全国滑雪场累计接待客流量。</p></div>
+              <div class="card"><small>水上</small><strong>1.2亿+</strong><p>2024 年全国水上运动参与人数突破 1.2 亿。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="space" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>空间问题：户外运动既需要山水，也需要公共服务</h2>
+            <p>户外运动依托自然资源，但不能只靠“有山有水”。行动方案提出建设体育公园、国家步道体系、冰雪设施、山地户外设施、水上设施、露营地、汽车自驾营地和航空飞行营地。</p>
+          </div>
+          <p>这意味着户外运动治理的核心，是在生态保护优先的前提下，把可达性、安全救援、标准化管理和赛事活动组织起来。</p>
+        </div>
+        <div class="cards">
+          <div class="card"><small>绿色发展</small><strong>生态保护优先</strong><p>自然资源是户外运动的基础，也是政策红线。合理布局比单纯扩张更关键。</p></div>
+          <div class="card"><small>公共服务</small><strong>设施与救援</strong><p>步道标识、营地供给、应急救援和风险提示决定参与者真实体验。</p></div>
+          <div class="card"><small>地方产业</small><strong>赛事与旅游</strong><p>户外运动赛事能把客流转化为住宿、餐饮、装备和交通消费。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="market">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>人群画像：25—34 岁成为主要消费群体</h2>
+            <p>报告显示，中青年群体成为户外运动主要消费者，其中 25—34 岁群体占比最高。一线和新一线城市领跑，二线城市加速跟进，形成以华东地区为中心、向华北和西南辐射的发展格局。</p>
+          </div>
+          <p>户外运动的扩张，一方面依赖年轻消费群体，另一方面也要求产品供给兼顾大众化、轻量化和全龄化。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>从人群到消费的转化链</h3>
+            <div class="chart" id="chainChart"></div>
+          </div>
+          <div class="panel">
+            <h3>下一步观察</h3>
+            <p class="callout"><strong>价格：</strong>装备和课程是否会把户外运动重新推向小众化？</p>
+            <p class="callout"><strong>安全：</strong>高强度项目扩张后，救援、保险、专业指导是否跟得上？</p>
+            <p class="callout"><strong>均衡：</strong>三四线城市和县域能否把自然资源转化为可持续公共服务和产业收入？</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>数据来源与方法说明</h2>
+            <p>页面使用公开报道和政策文件中可核验的定量信息。由于《中国户外运动产业发展报告（2024—2025）》全文未在公开网页完整披露，本页只采用政府网、人民日报/人民网等公开转述中的明确数字，不自行补全未披露指标。</p>
+          </div>
+          <p>AI 用于资料线索、页面代码辅助和交互优化；选题判断、数据取舍、口径说明和最终表述由人工完成。</p>
+        </div>
+        <div class="grid">
+          <div class="panel">
+            <h3>口径提醒</h3>
+            <p class="note">“参与人数突破 4 亿”来自 2024—2025 报告公开报道，时间点为 2025 年 4 月初。</p>
+            <p class="note">“企业 33.5 万家”时间点为 2025 年 6 月底；“20.4 万家”来自 2022—2023 报告公开报道，口径均为户外运动相关企业。</p>
+          </div>
+          <ul class="source-list">
+            <li><a href="https://www.gov.cn/lianbo/bumen/202510/content_7045618.htm" target="_blank" rel="noreferrer">中国政府网/新华社：国家体育总局称我国户外运动参与人数超4亿人</a></li>
+            <li><a href="https://www.sport.gov.cn/n20001280/n20745751/c24894094/content.html" target="_blank" rel="noreferrer">国家体育总局：《户外运动产业发展规划（2022—2025年）》发布</a></li>
+            <li><a href="https://www.ndrc.gov.cn/xwdt/tzgg/202311/t20231106_1361787.html" target="_blank" rel="noreferrer">国家发展改革委：《促进户外运动设施建设与服务提升行动方案（2023—2025年）》</a></li>
+            <li><a href="https://www.sport.gov.cn/n20001280/n20067608/n20067635/c26855035/content.html" target="_blank" rel="noreferrer">国家体育总局：《中国户外运动产业发展报告（2022—2023）》发布</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>4亿人走向山水之间：户外运动如何打开体育消费新场景</span>
+      <span>最后核验日期：2026-05-21</span>
+    </div>
+  </footer>
+
+  <script>
+    const insights = [
+      ["4亿+", "截至 2025 年 4 月初，户外运动参与人数"],
+      ["33.5万", "截至 2025 年 6 月底，户外运动相关企业"],
+      ["3万亿", "2025 年户外运动产业总规模目标"],
+      ["10000个", "规划建设各类户外运动营地"]
+    ];
+    const companies = [
+      { year:"2023 Q1", value:20.4, color:"var(--blue)" },
+      { year:"2025 H1", value:33.5, color:"var(--green)" }
+    ];
+    const projects = [
+      { name:"冰雪运动产业", value:9700, color:"var(--blue)" },
+      { name:"水上运动产业", value:4386, color:"var(--green)" }
+    ];
+    const chain = [
+      { label:"参与人口", value:"4亿+", color:"var(--green)" },
+      { label:"项目场景", value:"冰雪/水上/山地", color:"var(--blue)" },
+      { label:"服务供给", value:"33.5万企业", color:"var(--gold)" },
+      { label:"消费外溢", value:"文旅交通装备", color:"var(--orange)" }
+    ];
+    function renderInsights(){
+      document.getElementById("insights").innerHTML=insights.map(d=>`<div class="insight"><strong>${d[0]}</strong><span>${d[1]}</span></div>`).join("");
+    }
+    function renderCompanyChart(){
+      const w=720,h=330,p={l:58,r:30,t:28,b:54};
+      const max=36;
+      const bw=120;
+      const gap=(w-p.l-p.r-bw*companies.length)/(companies.length+1);
+      const y=v=>h-p.b-v/max*(h-p.t-p.b);
+      document.getElementById("companyChart").innerHTML=`
+        <svg viewBox="0 0 ${w} ${h}" role="img" aria-label="户外运动相关企业增长柱状图">
+          ${[0,12,24,36].map(t=>`<line class="grid-line" x1="${p.l}" x2="${w-p.r}" y1="${y(t)}" y2="${y(t)}"></line><text class="label" x="14" y="${y(t)+4}">${t}万</text>`).join("")}
+          <line class="axis" x1="${p.l}" x2="${w-p.r}" y1="${h-p.b}" y2="${h-p.b}"></line>
+          ${companies.map((d,i)=>{
+            const x=p.l+gap+i*(bw+gap);
+            const barH=h-p.b-y(d.value);
+            return `<rect x="${x}" y="${y(d.value)}" width="${bw}" height="${barH}" rx="8" fill="${d.color}"></rect>
+              <text class="value" x="${x+bw/2}" y="${y(d.value)-12}" text-anchor="middle">${d.value}万家</text>
+              <text class="label" x="${x+bw/2}" y="${h-20}" text-anchor="middle">${d.year}</text>`;
+          }).join("")}
+        </svg>`;
+    }
+    function renderBars(){
+      const max=Math.max(...projects.map(d=>d.value));
+      document.getElementById("projectBars").innerHTML=projects.map(d=>`
+        <div class="bar-row">
+          <strong>${d.name}</strong>
+          <span class="track"><span class="fill" style="width:${d.value/max*100}%;background:${d.color}"></span></span>
+          <span>${d.value}亿</span>
+        </div>`).join("");
+    }
+    function renderChain(){
+      const w=560,h=330;
+      document.getElementById("chainChart").innerHTML=`
+        <svg viewBox="0 0 ${w} ${h}" role="img" aria-label="户外运动消费转化链条">
+          ${chain.map((d,i)=>{
+            const x=66+i*126;
+            return `<circle cx="${x}" cy="150" r="46" fill="${d.color}" fill-opacity=".86"></circle>
+              <text x="${x}" y="145" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">${d.label}</text>
+              <text x="${x}" y="166" text-anchor="middle" fill="#fff" font-size="12">${d.value}</text>
+              ${i<chain.length-1?`<path d="M ${x+50} 150 L ${x+76} 150" stroke="#9fb49b" stroke-width="3" marker-end="url(#arrow)"></path>`:""}`;
+          }).join("")}
+          <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#9fb49b"></path></marker></defs>
+          <text class="label" x="34" y="252">链条不是线性因果，而是观察户外运动如何从健身行为转化为服务消费的框架。</text>
+        </svg>`;
+    }
+    window.addEventListener("scroll",()=>{
+      const doc=document.documentElement;
+      const rate=doc.scrollTop/(doc.scrollHeight-doc.clientHeight);
+      document.getElementById("progress").style.width=`${Math.max(0,Math.min(1,rate))*100}%`;
+    });
+    renderInsights();
+    renderCompanyChart();
+    renderBars();
+    renderChain();
+  </script>
+</body>
+</html>
