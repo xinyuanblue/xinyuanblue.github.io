@@ -2396,12 +2396,8 @@
                 tooltip.style.display = 'block';
 
                 try {
-                    // === NEW: 指向Flask后端代理 ===
-                    // 默认Flask端口是5000，如果在.env/命令行中设置了则为5001
-                    const proxyBaseUrl = 'https://heluoshuyuan.cn'; // <<< 已更新为局域网IP地址
-                    // === END NEW ===
-
-                    const proxyUrl = `${proxyBaseUrl}/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
+                    // 使用同源代理，避免 www 与根域名之间的重定向触发 CORS 拦截。
+                    const proxyUrl = `/api/isochrone?lng=${coordinates[0]}&lat=${coordinates[1]}&minutes=15&profile=walking`;
 
                     console.log(`向 Flask 代理请求: ${proxyUrl}`);
 
