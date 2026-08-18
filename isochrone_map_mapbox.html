@@ -15,14 +15,14 @@
     -->
     <title>城市书房等时圈地图 - 基于天地图底图</title>
     <link rel="stylesheet" href="./static/css/isochrone-map.css">
-    <link href="https://cdn.bootcdn.net/ajax/libs/mapbox-gl/2.15.0/mapbox-gl.css" rel='stylesheet' />
+    <link href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" rel="stylesheet" />
     
     <!-- 预览模式样式 -->
     <style>
         body { margin: 0; padding: 0; }
         .mobile-note { display: none; } 
         .map-container { width: 100vw; height: 100vh; position: relative; }
-        .mapboxgl-map, .amap-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .maplibregl-map, .amap-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         .panel-container { position: absolute; z-index: 100; bottom: 20px; left: 50%; transform: translateX(-50%); }
         .legend { font-size: 12px; }
         /* 预览模式顶部覆盖 */
@@ -82,7 +82,23 @@
             left: 0;
         }
         
-        #mapbox-container { display: none; }
+        /*
+         * 两个地图容器始终保留完整尺寸，仅用 visibility 切换。
+         * AMap 在 display:none 下初始化会产生 Pixel(NaN, NaN)，并连带中断书房标记创建。
+         */
+        #amap-container {
+            display: block;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #mapbox-container {
+            display: block;
+            visibility: visible;
+            pointer-events: auto;
+            z-index: 1;
+        }
         
         /* 主控制按钮组 */
         .map-controls {
@@ -217,7 +233,7 @@
         }
 
         /* 导航控件调整 */
-        .mapboxgl-ctrl-top-right {
+        .maplibregl-ctrl-top-right {
             top: 10px !important;
             right: 10px !important;
         }
@@ -515,9 +531,9 @@
         }
 
         /* 全局隐藏Mapbox标志 */
-        .mapboxgl-ctrl-logo,
-        .mapboxgl-ctrl-attrib-inner, 
-        .mapboxgl-ctrl-attrib-button {
+        .maplibregl-ctrl-logo,
+        .maplibregl-ctrl-attrib-inner,
+        .maplibregl-ctrl-attrib-button {
             display: none !important;
         }
     </style>
@@ -527,8 +543,8 @@
  
         
         <div id="map-container" class="map-container">
-            <div id="amap-container" style="display: none;"></div>
-            <div id="mapbox-container" style="display: block;"></div>
+            <div id="amap-container"></div>
+            <div id="mapbox-container"></div>
             
             <div class="map-controls">
                 <button id="toggle-view-range">切换全市视角</button>
@@ -619,7 +635,7 @@
                 </div>
                 <div class="legend-item">
                     <div style="width: 20px; height: 3px; background-color: #667; margin-right: 10px;"></div>
-                    <span>实际道路网络</span>
+                    <span>天地图道路网络</span>
                 </div>
             </div>
             
@@ -630,7 +646,7 @@
 
     <!-- 地图相关脚本 -->
 <!-- 地图相关脚本 -->
-<script src="https://cdn.bootcdn.net/ajax/libs/mapbox-gl/2.15.0/mapbox-gl.js"></script>
+<script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
 <script src="./static/js/index.min.js"></script>
 <script src="https://webapi.amap.com/maps?v=2.0&key=8c0f2606de763666d42b04bb5ec5b0e3"></script>
 <script src="https://webapi.amap.com/loca?v=2.0.0&key=8c0f2606de763666d42b04bb5ec5b0e3"></script>
@@ -776,8 +792,6 @@
             }
 
             initMapbox() {
-                mapboxgl.accessToken = 'pk.eyJ1IjoieGlueXVhbmJsdWUiLCJhIjoiY203cHhybnp3MHYxZzJscHJyYnYwMHMzZyJ9.9Be1af0pb9DVIlt5PJ8COQ';
-
                 // 创建一个空样式对象作为基础
                 const emptyStyle = {
                     version: 8,
@@ -785,7 +799,7 @@
                     layers: []
                 };
 
-                this.mapbox = new mapboxgl.Map({
+                this.mapbox = new maplibregl.Map({
                     container: 'mapbox-container',
                     style: emptyStyle,
                     center: CONFIG.MAP_CENTER,
@@ -802,7 +816,7 @@
                 });
 
                 // 添加导航控件
-                const nav = new mapboxgl.NavigationControl({
+                const nav = new maplibregl.NavigationControl({
                     visualizePitch: true // 显示倾斜控制
                 });
                 this.mapbox.addControl(nav, 'top-right');
@@ -816,9 +830,14 @@
                             // 请将下面的"您的天地图密钥"替换为自己申请的天地图密钥
                             // 申请网址：https://www.tianditu.gov.cn/
                             // 创建应用类型请选择"浏览器端"
-                            'https://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b'
+                            'https://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b',
+                            'https://t1.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b',
+                            'https://t2.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b',
+                            'https://t3.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b'
                         ],
-                        'tileSize': 256
+                        'tileSize': 256,
+                        'maxzoom': 18,
+                        'attribution': '天地图 © 国家基础地理信息中心'
                     });
                     
                     // 添加天地图矢量注记
@@ -826,9 +845,13 @@
                         'type': 'raster',
                         'tiles': [
                             // 请使用与上面相同的天地图密钥
-                            'https://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b'
+                            'https://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b',
+                            'https://t1.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b',
+                            'https://t2.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b',
+                            'https://t3.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=8d6aff6712e97fa989a33c0e0530607b'
                         ],
-                        'tileSize': 256
+                        'tileSize': 256,
+                        'maxzoom': 18
                     });
                     
                     // 添加天地图矢量底图图层
@@ -872,34 +895,7 @@
                             this.mapbox.removeSource('streets');
                         }
 
-                        // 添加道路图层
-                        this.mapbox.addSource('streets', {
-                            type: 'vector',
-                            url: 'mapbox://mapbox.mapbox-streets-v8'
-                        });
-
-                        this.mapbox.addLayer({
-                            'id': 'streets-layer',
-                            'type': 'line',
-                            'source': 'streets',
-                            'source-layer': 'road',
-                            'layout': {
-                                'line-join': 'round',
-                                'line-cap': 'round'
-                            },
-                            'paint': {
-                                'line-color': '#667',
-                                'line-width': [
-                                    'interpolate',
-                                    ['linear'],
-                                    ['zoom'],
-                                    12, 0.5,
-                                    15, 1,
-                                    18, 2
-                                ],
-                                'line-opacity': 0.5
-                            }
-                        });
+                        // 底图只使用天地图；仅清理旧版可能残留的 Mapbox 道路数据源。
 
                         // 对书房数据进行去重处理
                         const uniqueLocations = new Map();
@@ -922,12 +918,12 @@
                                 ? this.createMultipleBookstoresPopupContent(locationBookstores)
                                 : this.createMapboxPopupContent(mainBookstore.details);
 
-                            const marker = new mapboxgl.Marker({
+                            const marker = new maplibregl.Marker({
                                 color: CONFIG.DISTRICT_COLORS[mainBookstore.district],
                                 scale: 0.8
                             })
                             .setLngLat([lng, lat])
-                            .setPopup(new mapboxgl.Popup({
+                            .setPopup(new maplibregl.Popup({
                                 closeButton: false,
                                 closeOnClick: true,
                                 maxWidth: '300px'
@@ -1019,26 +1015,42 @@
             }
 
             switchToAMap() {
-                document.getElementById('amap-container').style.display = 'block';
-                document.getElementById('mapbox-container').style.display = 'none';
+                const amapContainer = document.getElementById('amap-container');
+                const mapboxContainer = document.getElementById('mapbox-container');
+                amapContainer.style.visibility = 'visible';
+                amapContainer.style.pointerEvents = 'auto';
+                amapContainer.style.zIndex = '1';
+                mapboxContainer.style.visibility = 'hidden';
+                mapboxContainer.style.pointerEvents = 'none';
+                mapboxContainer.style.zIndex = '0';
                 document.getElementById('switch-amap').classList.add('active');
                 document.getElementById('switch-mapbox').classList.remove('active');
                 document.getElementById('radius-legend').style.display = 'block';
                 document.getElementById('isochrone-legend').style.display = 'none';
                 document.getElementById('mapbox-click-tooltip').style.display = 'none';
+                requestAnimationFrame(() => this.amap.resize());
                 
                 // 显示圆半径模式的提示
                 this.showTooltip('点击彩色圆点查看书房详情，使用右侧控件切换显示模式和视角');
             }
 
             switchToMapbox() {
-                document.getElementById('amap-container').style.display = 'none';
-                document.getElementById('mapbox-container').style.display = 'block';
+                const amapContainer = document.getElementById('amap-container');
+                const mapboxContainer = document.getElementById('mapbox-container');
+                amapContainer.style.visibility = 'hidden';
+                amapContainer.style.pointerEvents = 'none';
+                amapContainer.style.zIndex = '0';
+                mapboxContainer.style.visibility = 'visible';
+                mapboxContainer.style.pointerEvents = 'auto';
+                mapboxContainer.style.zIndex = '1';
                 document.getElementById('switch-amap').classList.remove('active');
                 document.getElementById('switch-mapbox').classList.add('active');
                 document.getElementById('radius-legend').style.display = 'none';
                 document.getElementById('isochrone-legend').style.display = 'block';
-                this.mapbox.resize();
+                requestAnimationFrame(() => {
+                    this.amap.resize();
+                    this.mapbox.resize();
+                });
                 
                 // 重新初始化图层和标记点
                 const dataLoader = new DataLoader(this);
@@ -1182,12 +1194,12 @@
                                         ? this.createMultipleBookstoresPopupContent(locationBookstores)
                                         : this.createMapboxPopupContent(mainBookstore.details);
                                         
-                                    const marker = new mapboxgl.Marker({
+                                    const marker = new maplibregl.Marker({
                                         color: CONFIG.DISTRICT_COLORS[mainBookstore.district],
                                         scale: 0.8
                                     })
                                     .setLngLat([lng, lat])
-                                    .setPopup(new mapboxgl.Popup({
+                                    .setPopup(new maplibregl.Popup({
                                         closeButton: false,
                                         closeOnClick: true,
                                         maxWidth: '300px'
@@ -1455,8 +1467,19 @@
                                 };
 
                                 allBookstores.push(bookstore);
-                                this.createAMapMarker({...processedLib}, lng, lat, ranges);
-                                this.createMapboxMarker({...processedLib}, lng, lat);
+
+                                // 精确等时圈标记与 AMap 标记独立创建，任一地图异常不再阻断另一个。
+                                try {
+                                    this.createMapboxMarker({...processedLib}, lng, lat);
+                                } catch (mapboxError) {
+                                    console.error('创建精确等时圈标记时出错:', mapboxError, lib);
+                                }
+
+                                try {
+                                    this.createAMapMarker({...processedLib}, lng, lat, ranges);
+                                } catch (amapError) {
+                                    console.error('创建圆形半径标记时出错:', amapError, lib);
+                                }
                             } catch (error) {
                                 console.error('处理单个书房数据时出错:', error, lib);
                             }
@@ -1594,12 +1617,12 @@
             }
 
             createMapboxMarker(lib, lng, lat) {
-                const marker = new mapboxgl.Marker({
+                const marker = new maplibregl.Marker({
                     color: CONFIG.DISTRICT_COLORS[lib.district],
                     draggable: false
                 })
                 .setLngLat([lng, lat])
-                .setPopup(new mapboxgl.Popup({
+                .setPopup(new maplibregl.Popup({
                     closeButton: false,
                     closeOnClick: true,
                     maxWidth: '300px'
@@ -1608,13 +1631,13 @@
                 // 添加点击事件监听器到标记元素
                 const markerElement = marker.getElement();
                 markerElement.addEventListener('click', () => {
-                    if (this.mapManager && typeof this.mapManager.hideTooltip === 'function') {
-                        this.mapManager.hideTooltip();
+                    if (typeof this.hideTooltip === 'function') {
+                        this.hideTooltip();
                     }
                 });
 
-                marker.addTo(this.mapManager.mapbox);
-                this.mapManager.mapboxMarkers.push(marker);
+                marker.addTo(this.mapbox);
+                this.mapboxMarkers.push(marker);
             }
 
             createMapboxPopupContent(lib) {
@@ -1951,34 +1974,7 @@
                             mapManager.mapbox.removeSource('streets');
                         }
 
-                        // 添加道路图层
-                        mapManager.mapbox.addSource('streets', {
-                            type: 'vector',
-                            url: 'mapbox://mapbox.mapbox-streets-v8'
-                        });
-
-                        mapManager.mapbox.addLayer({
-                            'id': 'streets-layer',
-                            'type': 'line',
-                            'source': 'streets',
-                            'source-layer': 'road',
-                            'layout': {
-                                'line-join': 'round',
-                                'line-cap': 'round'
-                            },
-                            'paint': {
-                                'line-color': '#667',
-                                'line-width': [
-                                    'interpolate',
-                                    ['linear'],
-                                    ['zoom'],
-                                    12, 0.5,
-                                    15, 1,
-                                    18, 2
-                                ],
-                                'line-opacity': 0.5
-                            }
-                        });
+                        // 底图只使用天地图；不再注册 Mapbox Streets 数据源。
 
                         // 对书房数据进行去重处理
                         const uniqueLocations = new Map();
@@ -2008,12 +2004,12 @@
                                 district: mainBookstore.district
                             });
 
-                            const marker = new mapboxgl.Marker({
+                            const marker = new maplibregl.Marker({
                                 color: CONFIG.DISTRICT_COLORS[mainBookstore.district],
                                 scale: 0.8
                             })
                             .setLngLat([lng, lat])
-                            .setPopup(new mapboxgl.Popup({
+                            .setPopup(new maplibregl.Popup({
                                 closeButton: false,
                                 closeOnClick: true,
                                 maxWidth: '300px'
@@ -2142,8 +2138,19 @@
                                 };
 
                                 allBookstores.push(bookstore);
-                                this.createAMapMarker({...processedLib}, lng, lat, ranges);
-                                this.createMapboxMarker({...processedLib}, lng, lat);
+
+                                // 先保证当前可见的精确等时圈标记完整，再独立创建 AMap 标记。
+                                try {
+                                    this.mapManager.createMapboxMarker({...processedLib}, lng, lat);
+                                } catch (mapboxError) {
+                                    console.error('创建精确等时圈标记时出错:', mapboxError, lib);
+                                }
+
+                                try {
+                                    this.createAMapMarker({...processedLib}, lng, lat, ranges);
+                                } catch (amapError) {
+                                    console.error('创建圆形半径标记时出错:', amapError, lib);
+                                }
                             } catch (error) {
                                 console.error('处理单个书房数据时出错:', error, lib);
                             }
@@ -2480,7 +2487,7 @@
                             
                             // 添加标记标签
                             const center = data.features[0].properties.center || coordinates;
-                            const marker = new mapboxgl.Marker({
+                            const marker = new maplibregl.Marker({
                                 element: Utils.createCustomMarker(`书房规划点${clickNumber}`),
                                 anchor: 'bottom'
                             })
